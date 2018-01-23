@@ -1,0 +1,55 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport"
+        content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+  <script src="js/jquery.js"></script>
+  <style>
+    *{
+      margin: 0;
+      padding: 0;
+    }
+  </style>
+</head>
+<body>
+<audio src="js/1231.m4a" controls id="audio1"></audio>
+<p></p>
+<!--<canvas id="myCanvas" width="1920" height="1080"></canvas>-->
+</body>
+<script>
+//  var c=document.getElementById("myCanvas");
+//  var ctx=c.getContext("2d");
+//  var canvasText = '我阿萨德啊圣诞节快乐安徽四大皆空爱仕达\n我阿萨德啊圣诞节快乐安徽四大皆空爱仕达\n我阿萨德啊圣诞节快乐安徽四大皆空爱仕达';
+//  var canvasTextArr = canvasText.split('\n');
+//  ctx.font="12px Arial";
+//  var textX = 100;
+//  var textY = 12;
+//  var lineHeight = 12*1.2;
+//  for(var j = 0;j<canvasTextArr.length;j++){
+//    textYP = textY+(lineHeight*j);
+//    ctx.fillText(canvasTextArr[j],textX,textYP);
+//  }
+
+var audio = document.getElementById('audio1');
+alert(1)
+audio.play();
+//audioStart();
+$(document).one("touchstart", function() {
+    audio.play()
+  audioStart();
+  })
+//});
+//function audioStart(){
+//  $('audio').on('canplaythrough',function(){
+//    console.log($("audio")[0].readyState)
+//    $('p').html($("audio")[0].readyState);
+//  })
+//}
+//console.log(audio)
+
+
+</script>
+</html>

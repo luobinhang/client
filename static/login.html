@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>登录</title>
+  <style>
+    *{
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    body,html{
+      width: 100%;
+      height: 100%;
+    }
+    input,select{
+      display: block;
+      height: 50px;
+      width: 300px;
+      margin-bottom: 20px;
+      padding: 0 15px;
+    }
+    button {
+      display: block;
+      margin-left: 100px;
+      width: 100px;
+      height: 50px;
+      cursor: pointer;
+    }
+    body{
+      display: flex;
+      justify-content: center;
+      align-items:center;
+    }
+  </style>
+  <script src="js/jquery.js"></script>
+  <script src="js/sha512.js"></script>
+</head>
+<body>
+<div class="form">
+  <input type="text" class="username" placeholder="用户名">
+  <input type="password" class="password" placeholder="密码">
+  <select class="rule">
+    <option value="teacher">老师</option>
+    <option value="student">学生</option>
+    <option value="monitor">监课</option>
+    <option value="cc">CC</option>
+    <option value="cr">CR</option>
+    <option value="ta">技术支持</option>
+  </select>
+  <button>登录</button>
+</div>
+</body>
+<script>
+  if(location.host == "frontend.onlyhi.cn" || location.host == "frontend.haiketang.net"){
+    var API = 'http://client.onlyhi.cn';
+  }else if(location.host == "frontendtest.haiketang.net"){
+    var API = 'http://clienttest.haiketang.net';
+  }else{
+    var API = 'http://clienttest.haiketang.net';
+  }
+
+
+  $(function () {
+    $('.username').val(localStorage.getItem('username'))
+    $('button').click(function () {
+      var rule = $('.rule').val();
+      if(rule == 'teacher'){
+        var url = '/client/user/login';
+        var id = 0;
+      }else if(rule == 'student'){
+        var url = '/client/user/login';
+        var id = 1;
+      }else if(rule == 'monitor'){
+        var url = '/client/emp/login'
+        var id = 2;
+      }else if(rule == 'cc'){
+        var url = '/client/emp/login'
+        var id = 3;
+      }else if(rule == 'cr'){
+        var url = '/client/emp/login'
+        var id = 4;
+      }else if(rule == 'ta'){
+        var url = '/client/emp/login'
+        var id = 5;
+      }
+      var pwd = sha512($('.username').val() + "&" + $('.password').val() + ":onlyhi");
+      pwd = sha512(pwd + new Date().getTime());
+      $.ajax({
+        type:'post',
+        url:API + url,
+        dataType:'json',
+        data:{
+          phone:$('.username').val(),
+          loginName:$('.username').val(),
+          password:pwd,
+          deviceType:'PC',
+          userType:$(".rule").val(),
+          timestamp:new Date().getTime(),
+          deviceId:'luobinhangtest',
+        },
+        success:function (res) {
+          if(res.code == 0){
+            var token = res.data.token;
+            localStorage.setItem('username',$('.username').val())
+            sessionStorage.setItem("token", token);
+            sessionStorage.setItem("id", id);
+            sessionStorage.setItem("user", '阿西');
+            sessionStorage.setItem("isFirst", 'false');
+            window.location.href = '/'
+          }else{
+            alert(res.message)
+          }
+        },
+        error:function(){
+          alert('网络有问题')
+        }
+      })
+    })
+    document.onkeyup = function (e) {
+      var code = e.charCode || e.keyCode;
+      if (code == 13) {
+        $('button').trigger('click')
+      }
+    }
+  })
+</script>
+</html>
