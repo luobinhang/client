@@ -495,7 +495,7 @@
   function pageLoad(){
     var pageWidth=$(window).width();
     var pageHeight=$(window).height();
-    var warpperHeight=pageHeight-37;
+    var warpperHeight=pageHeight-$(".player .buttons").height();
     $("#stage").width(pageWidth).height(pageHeight);
     $("#stage-inner").width(pageWidth).height(warpperHeight);
     var timeBar = $(".time");

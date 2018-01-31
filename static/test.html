@@ -15,41 +15,18 @@
   </style>
 </head>
 <body>
-<audio src="js/1231.m4a" controls id="audio1"></audio>
 <p></p>
-<!--<canvas id="myCanvas" width="1920" height="1080"></canvas>-->
 </body>
 <script>
-//  var c=document.getElementById("myCanvas");
-//  var ctx=c.getContext("2d");
-//  var canvasText = '我阿萨德啊圣诞节快乐安徽四大皆空爱仕达\n我阿萨德啊圣诞节快乐安徽四大皆空爱仕达\n我阿萨德啊圣诞节快乐安徽四大皆空爱仕达';
-//  var canvasTextArr = canvasText.split('\n');
-//  ctx.font="12px Arial";
-//  var textX = 100;
-//  var textY = 12;
-//  var lineHeight = 12*1.2;
-//  for(var j = 0;j<canvasTextArr.length;j++){
-//    textYP = textY+(lineHeight*j);
-//    ctx.fillText(canvasTextArr[j],textX,textYP);
-//  }
 
-var audio = document.getElementById('audio1');
-alert(1)
-audio.play();
-//audioStart();
-$(document).one("touchstart", function() {
-    audio.play()
-  audioStart();
+
+  $.ajax({
+    type:'get',
+    url:'http://192.168.0.16:8761/teacher/serverTime',
+    dataType:'json',
+    success:function (res) {
+      console.log(res)
+    }
   })
-//});
-//function audioStart(){
-//  $('audio').on('canplaythrough',function(){
-//    console.log($("audio")[0].readyState)
-//    $('p').html($("audio")[0].readyState);
-//  })
-//}
-//console.log(audio)
-
-
 </script>
 </html>

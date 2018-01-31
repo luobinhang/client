@@ -1,13 +1,13 @@
 <template>
   <div class="salary-content">
     <div class="salaryHeader">
-      <ul class="clearfix">
+      <ul>
         <li>薪资结算<!--<span>申诉</span>--></li>
         <li>*老师薪资通过工资卡发放，请到个人信息页面填写卡片信息</li>
       </ul>
     </div>
     <div class="salaryContainer">
-      <ul class="clearfix">
+      <ul>
         <li>
           <div class="card">
             <Carousel>
@@ -28,7 +28,7 @@
           <div class="card">
             <Table highlight-row :columns="columns1"  :data="data1" border></Table>
           </div>
-          <ul class="punishTitle clearfix">
+          <ul class="punishTitle">
             <li>奖惩</li>
             <!--<li @click="infoShow()">奖惩补录+</li>-->
             <li>
@@ -57,7 +57,7 @@
           <p>还可以输入<span>{{limit}}</span>字</p>
         </div>
         <div slot="footer">
-          <i-button @click="add">提交</i-button>
+          <Button type="primary" @click="add">提交</Button>
         </div>
       </Modal>
     </div>
@@ -156,21 +156,21 @@
     },
     mounted() {
       // 获取薪资
-      this.$axios.get(this.$store.state.resetpsd, {
-        params: {
-          name: 'asd'
-        }
-      }).then(res => {
+//      this.$axios.get(this.$store.state.resetpsd, {
+//        params: {
+//          name: 'asd'
+//        }
+//      }).then(res => {
 //        this.data1 = res.data.columns1;
-      })
-      //  获取奖惩
-      this.$axios.get(this.$store.state.resetpsd, {
-        params: {
-          name: 'asd'
-        }
-      }).then(res => {
+//      })
+//      //  获取奖惩
+//      this.$axios.get(this.$store.state.resetpsd, {
+//        params: {
+//          name: 'asd'
+//        }
+//      }).then(res => {
 //        this.data2 = res.data.columns2;
-      })
+//      })
     },
     created: function () {
 
@@ -178,8 +178,10 @@
     methods: {
 //      点击补录显示
       show(){
+        console.log(1);
         this.modal = true;
-        this.money = "", this.textarea = ""
+        this.money = "",
+          this.textarea = ""
       },
 //      字数限制
       limitLength(){

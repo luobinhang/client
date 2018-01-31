@@ -6,21 +6,11 @@
   height: 100%;
   position: relative;
   .schedule-title{
-    padding: 12px 40px 0 40px;
     .schedule-title-main{
-      display: -webkit-box;
-      display: -ms-flexbox;
-      display: flex;
-      justify-content: space-between;
-      border-bottom: 1px solid #eee;
       &>div{
         display: -webkit-box;
         display: -ms-flexbox;
         display: flex;
-        h2{
-          font-size: 18px;
-          color: #fc5c41;
-        }
         ul{
           display: -webkit-box;
           display: -ms-flexbox;
@@ -30,7 +20,6 @@
           margin-left: 48px;
           line-height: 24px;
           height: 26px;
-          margin-bottom: 9px;
           border: 1px solid @primary-color;
           color: @primary-color;
           li{
@@ -424,6 +413,9 @@
                     padding: 2px 2px 0 0;
                     line-height: 1;
                     min-height: 64px;
+                    &.gray{
+                      opacity: .3;
+                    }
                   }
                   .table-cell{
                     padding: 0 10px 0 5px;

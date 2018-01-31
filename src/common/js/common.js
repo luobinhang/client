@@ -57,7 +57,6 @@ const Axios = axios.create({
   headers: {
     "Content-Type": "application/json;charset=UTF-8"
   },
-  data:{},
 });
 
 //POST传参序列化(添加请求拦截器)
@@ -82,15 +81,13 @@ Axios.interceptors.request.use(
       //   config.method === "put" ||
       //   config.method === "delete"
       // ) {
-        // 序列化
-        // config.data = qs.stringify(config.data);
+      //   // 序列化
+      //   config.data = qs.stringify(config.data);
       // }
 
 
       // 若是有做鉴权token , 就给头部带上token
-      if (token) {
-        config.headers.token = token;
-      }
+      config.headers.token = sessionStorage.getItem('token');
 
     // }
     return config;

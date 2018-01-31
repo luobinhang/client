@@ -84,8 +84,9 @@
         var url = '/client/emp/login'
         var id = 5;
       }
+      let timestemp = new Date().getTime();
       var pwd = sha512($('.username').val() + "&" + $('.password').val() + ":onlyhi");
-      pwd = sha512(pwd + new Date().getTime());
+      pwd = sha512(pwd + timestemp);
       $.ajax({
         type:'post',
         url:API + url,
@@ -96,7 +97,7 @@
           password:pwd,
           deviceType:'PC',
           userType:$(".rule").val(),
-          timestamp:new Date().getTime(),
+          timestamp:timestemp,
           deviceId:'luobinhangtest',
         },
         success:function (res) {

@@ -6,22 +6,11 @@
   height: 100%;
   position: relative;
   .free-title{
-    padding: 12px 40px 0 40px;
     .free-title-main{
-      display: -webkit-box;
-      display: -ms-flexbox;
-      display: flex;
-      justify-content: space-between;
-      border-bottom: 1px solid #eee;
-      padding-bottom: 5px;
       &>div{
         display: -webkit-box;
         display: -ms-flexbox;
         display: flex;
-        h2{
-          font-size: 18px;
-          color: #fc5c41;
-        }
         button{
           color: #fff;
           background: #dadada;
@@ -162,8 +151,88 @@
         overflow: hidden;
         background: #fff !important;
         border: 1px solid #ecf4f7;
-        .free-table-detail{
+        .free-table-main{
+          position: relative;
+          z-index: 1;
+          height: 100%;
+          .free-table-header{
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            z-index: 2;
+            table{
+              width: 100%;
+              th{
+                font-weight: normal;
+                height: 43px;
+                background: #ebf6fb;
+                color: @mid-gray-color;
+                font-size: 12px;
+                border-right: 1px solid #dfebf1;
+                &:last-child{
+                  border: 0;
+                }
+                div{
+                  position: relative;
+                  display: flex;
+                  justify-content: center;
+                  align-items: center;
+                  flex-direction: column;
+                  .free-table-checkbox{
+                    position: absolute;
+                    right: 0;
+                    top: 0;
+                    width: 15px;
+                    height: 15px;
+                    border-radius: 2px;
+                    font-size: 10px;
+                    line-height: 15px;
+                    border: 1px solid @mid-gray-color;
+                    color: @mid-gray-color;
+                    cursor: pointer;
+                    &.selected{
+                      color: red;
+                    }
+                  }
+                }
+              }
+            }
+          }
+          .free-table-detail{
+            overflow-y: auto;
+            overflow-x: hidden;
+            padding-top: 43px;
+            height: 100%;
+            table{
+              width: 100%;
+              tr:nth-of-type(odd){
+                td{
+                  background: #ebf6fb;
+                }
+              }
+              td{
+                text-align: center;
+                height: 33px;
+                border-right: 1px solid #dfebf1;
+                background: #f7fbfd;
+                &:last-child{
+                  border: 0;
+                }
+                span{
+                  display: block;
+                  height: 33px;
+                  position: relative;
+                  line-height: 33px;
+                  color: #fff;
+                  &.selected{
+                    background: #bcddec;
 
+                  }
+                }
+              }
+            }
+          }
         }
       }
       .free-tip{

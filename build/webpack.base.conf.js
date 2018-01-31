@@ -33,6 +33,13 @@ module.exports = {
         options: vueLoaderConfig
       },
       {
+        test: /\.vue$/,
+        loader: 'iview-loader',
+        options: {
+          prefix: false
+        }
+      },
+      {
         test: /\.js$/,
         loader: 'babel-loader',
         include: [resolve('src'), resolve('test')]

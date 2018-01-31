@@ -1,7 +1,7 @@
 <template>
   <div class="schedule-content">
-    <div class="schedule-title">
-      <div class="schedule-title-main">
+    <div class="schedule-title commonTitle">
+      <div class="schedule-title-main commonTitleMain">
         <div>
           <h2>我的课表</h2>
           <ul>
@@ -64,7 +64,7 @@
         if($index == 0) {
           this.transitionName = 'vux-pop-in';
         } else {
-
+          this.transitionName = 'vux-pop-out';
         }
 
       },

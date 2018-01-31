@@ -6,6 +6,9 @@
 .salary-content ::-webkit-scrollbar {
   display: none;
 }
+.salary-content .card:before {
+  z-index: -1;
+}
 .salary-content .salaryHeader {
   padding: 20px 40px 0;
   background-color: #fff;
@@ -13,9 +16,10 @@
 }
 .salary-content .salaryHeader ul {
   border-bottom: 1px solid #eee;
+  display: flex;
+  justify-content: space-between;
 }
 .salary-content .salaryHeader li:first-child {
-  float: left;
   font-size: 18px;
   color: #fc5c41;
   margin-bottom: 4px;
@@ -26,7 +30,6 @@
   margin-left: 8px;
 }
 .salary-content .salaryHeader li:nth-child(2) {
-  float: right;
   color: #919aab;
   font-size: 12px;
   margin-top: 8px;
@@ -83,15 +86,13 @@
   width: 100%;
 }
 .salary-content .salaryContainer .punishTitle {
+  display: flex;
+  justify-content: space-between;
   margin: 25px 0 17px 0;
 }
 .salary-content .salaryContainer .punishTitle li:first-child {
-  float: left;
   color: #727a89;
   font-size: 14px;
-}
-.salary-content .salaryContainer .punishTitle li:nth-child(2) {
-  float: right;
 }
 .salary-content .salaryContainer .ivu-carousel-arrow.left {
   left: -4px;
@@ -139,36 +140,28 @@
 .salary-content .salaryContainer .publish .ivu-table tr td:first-child {
   font-size: 14px;
 }
-.ivu-modal-body {
-  padding: 0;
-  font-size: 14px;
-  line-height: 1.5;
-}
-.ivu-modal-body .infoBody {
-  padding: 5px 20px 0;
-}
-.ivu-modal-body .infoBody p {
+.infoBody p {
   font-size: 14px;
 }
-.ivu-modal-body .infoBody p:first-child {
+.infoBody p:first-child {
   position: relative;
 }
-.ivu-modal-body .infoBody p:first-child input {
+.infoBody p:first-child input {
   width: 110px;
   height: 28px;
   border: 1px solid #d0d0d0;
   margin-left: 4px;
   padding: 0 30px 0 10px;
 }
-.ivu-modal-body .infoBody p:first-child span {
+.infoBody p:first-child span {
   position: absolute;
   left: 134px;
   top: 3px;
 }
-.ivu-modal-body .infoBody p:nth-child(2) {
+.infoBody p:nth-child(2) {
   padding: 16px 0 6px;
 }
-.ivu-modal-body .infoBody textarea {
+.infoBody textarea {
   width: 318px;
   height: 52px;
   max-height: 52px;
@@ -177,12 +170,12 @@
   resize: none;
   font-size: 12px;
 }
-.ivu-modal-body .infoBody p:nth-child(4) {
+.infoBody p:nth-child(4) {
   text-align: right;
   font-size: 10px;
   margin-right: 8px;
 }
-.ivu-modal-body .infoBody p.submit {
+.infoBody p.submit {
   width: 132px;
   height: 36px;
   line-height: 36px;

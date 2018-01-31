@@ -16,6 +16,7 @@ html,
 }
 img {
   max-width: 100%;
+  border: 0;
 }
 a {
   color: inherit;
@@ -40,6 +41,38 @@ h6 {
   display: block;
   height: 0;
   clear: both;
+}
+.card {
+  background: #f4fafd;
+  border-radius: 4px;
+  box-shadow: 3px 3px 15px rgba(160, 131, 137, 0.35);
+  position: relative;
+}
+.card:before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  box-shadow: 3px 3px 15px rgba(255, 255, 255, 0.35);
+}
+.commonTitle {
+  padding: 13px 40px 0 40px;
+}
+.commonTitle .commonTitleMain {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: justify;
+  -ms-flex-pack: justify;
+  justify-content: space-between;
+  border-bottom: 1px solid #eee;
+  padding-bottom: 5px;
+}
+.commonTitle .commonTitleMain h2 {
+  font-size: 18px;
+  color: #fc5c41;
 }
 .warpper {
   max-width: 100%;
@@ -270,21 +303,6 @@ h6 {
   position: relative;
   width: 100%;
 }
-.warpper .container .section .content .card {
-  background: #f4fafd;
-  border-radius: 4px;
-  box-shadow: 3px 3px 7px rgba(160, 131, 137, 0.35);
-  position: relative;
-}
-.warpper .container .section .content .card:before {
-  content: '';
-  position: absolute;
-  left: 0;
-  top: 0;
-  width: 100%;
-  height: 100%;
-  box-shadow: 3px 3px 7px rgba(255, 255, 255, 0.35);
-}
 .clearfix:after {
   clear: both;
   content: ' ';
@@ -307,31 +325,28 @@ h6 {
 .ivu-modal .ivu-modal-content .ivu-modal-header {
   border: 0;
   padding: 0;
-  line-height: 38px;
 }
 .ivu-modal .ivu-modal-content .ivu-modal-header p {
   height: 38px;
   line-height: 38px;
+  display: block;
   background-color: #5e85c8;
   color: #fff;
 }
 .ivu-modal .ivu-modal-content .ivu-modal-header p span {
-  background-image: -webkit-gradient(linear, left 0, right 0, from(#623db6), to(#5e85c8));
-  width: 90px;
+  background-image: linear-gradient(to right, #623db6 0%, #5e85c8 30%);
+  width: 100%;
   height: 38px;
   padding-left: 20px;
   display: block;
   font-weight: normal;
-}
-.ivu-modal .ivu-modal-content .ivu-modal-close {
-  top: 12px;
 }
 .ivu-modal .ivu-modal-content .ivu-modal-footer {
   text-align: center;
   border: 0;
   padding: 6px 0 20px;
 }
-.ivu-modal .ivu-modal-content .ivu-modal-footer button {
+.ivu-modal .ivu-modal-content .ivu-modal-footer .ivu-btn-primary {
   width: 132px;
   height: 36px;
   line-height: 36px;
@@ -344,6 +359,30 @@ h6 {
   cursor: pointer;
   font-size: 14px;
   padding: 0;
+  border: 0;
+}
+.ivu-modal .ivu-modal-content .ivu-modal-footer .ivu-btn-primary:hover {
+  background-color: #7e9dd3;
+}
+.ivu-modal .ivu-modal-content .ivu-modal-footer .ivu-btn-primary:active {
+  background-color: #4b6aa0;
+}
+.ivu-modal .ivu-modal-content .ivu-modal-close {
+  top: 12px;
+}
+.ivu-modal .ivu-modal-content .ivu-modal-body {
+  padding: 15px 20px;
+  font-size: 14px;
+  line-height: 2;
+  background-color: #fff;
+}
+.vertical-center-modal {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.vertical-center-modal .ivu-modal {
+  top: 0;
 }
 .vux-pop-out-enter-active,
 .vux-pop-in-enter-active {

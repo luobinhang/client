@@ -49,12 +49,17 @@ store.state.socket = 'ws://'+ apiBase('webAPI') +':20027/ws'; //上传课件长�
 store.state.socket2 = 'ws://'+ apiBase('webAPI') +':20035/ws'; //上传课件长连接
 
 //公共API
+store.state.timestamp = '/teacher/serverTime'; //获取服务器时间戳
 store.state.getCourseRoom = '/client/course/iosGetCourseRoom'; //进入房间
 store.state.getUserPhone = '/client/user/getUserPhone'; //获取用户手机
 store.state.getAuthCode = '/client/user/sendAuthCode'; //获取验证码
 store.state.resetpsd = '/client/user/resetpsdByJson'; //重置密码
-//1.11
-store.state.timestamp = '/teacher/serverTime'; //获取服务器时间戳
+store.state.getAllProvince = '/common/getAllProvince'; //获取省
+store.state.getCity = '/common/getCitysByProvinceCode'; //获取市
+store.state.getArea = '/common/getDistrictsByCityCode'; //获取区
+store.state.getSchool = '/teacher/getAllSchool'; //获取学校
+store.state.getGrade = '/teacher/getAllGrade'; //获取年级
+store.state.getGradePreference = '/teacher/getAllGradePreference'; //获取年级偏好
 
 
 
@@ -80,6 +85,10 @@ store.state.teacherInfo = '/teacher/teacherInfo'; //教师日历获取上课列�
 store.state.todayNoEndCourseList = '/teacher/todayNoEndCourseList'; //教师今天课程提醒
 store.state.courseSchedule = '/teacher/courseSchedule'; //教师今天课程提醒
 store.state.getNoEndCourseList = '/teacher/getNoEndCourseList'; //教师待上课程
+store.state.freeTimeList = '/teacher/freeTimeList'; //获取空闲时间
+store.state.info = '/teacher/info'; //教师信息
+store.state.uploadFile = '/teacher/uploadFile'; //教师信息
+store.state.infoSave = '/teacher/infoSaveByJson'; //教师信息
 
 
 

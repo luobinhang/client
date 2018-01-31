@@ -5,25 +5,10 @@
   height: 100%;
   position: relative;
 }
-.free-content .free-title {
-  padding: 12px 40px 0 40px;
-}
-.free-content .free-title .free-title-main {
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: flex;
-  justify-content: space-between;
-  border-bottom: 1px solid #eee;
-  padding-bottom: 5px;
-}
 .free-content .free-title .free-title-main > div {
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
-}
-.free-content .free-title .free-title-main > div h2 {
-  font-size: 18px;
-  color: #fc5c41;
 }
 .free-content .free-title .free-title-main > div button {
   color: #fff;
@@ -155,6 +140,86 @@
   overflow: hidden;
   background: #fff !important;
   border: 1px solid #ecf4f7;
+}
+.free-content .free-main .free-table .card .free-table-main {
+  position: relative;
+  z-index: 1;
+  height: 100%;
+}
+.free-content .free-main .free-table .card .free-table-main .free-table-header {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  z-index: 2;
+}
+.free-content .free-main .free-table .card .free-table-main .free-table-header table {
+  width: 100%;
+}
+.free-content .free-main .free-table .card .free-table-main .free-table-header table th {
+  font-weight: normal;
+  height: 43px;
+  background: #ebf6fb;
+  color: #727a89;
+  font-size: 12px;
+  border-right: 1px solid #dfebf1;
+}
+.free-content .free-main .free-table .card .free-table-main .free-table-header table th:last-child {
+  border: 0;
+}
+.free-content .free-main .free-table .card .free-table-main .free-table-header table th div {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}
+.free-content .free-main .free-table .card .free-table-main .free-table-header table th div .free-table-checkbox {
+  position: absolute;
+  right: 0;
+  top: 0;
+  width: 15px;
+  height: 15px;
+  border-radius: 2px;
+  font-size: 10px;
+  line-height: 15px;
+  border: 1px solid #727a89;
+  color: #727a89;
+  cursor: pointer;
+}
+.free-content .free-main .free-table .card .free-table-main .free-table-header table th div .free-table-checkbox.selected {
+  color: red;
+}
+.free-content .free-main .free-table .card .free-table-main .free-table-detail {
+  overflow-y: auto;
+  overflow-x: hidden;
+  padding-top: 43px;
+  height: 100%;
+}
+.free-content .free-main .free-table .card .free-table-main .free-table-detail table {
+  width: 100%;
+}
+.free-content .free-main .free-table .card .free-table-main .free-table-detail table tr:nth-of-type(odd) td {
+  background: #ebf6fb;
+}
+.free-content .free-main .free-table .card .free-table-main .free-table-detail table td {
+  text-align: center;
+  height: 33px;
+  border-right: 1px solid #dfebf1;
+  background: #f7fbfd;
+}
+.free-content .free-main .free-table .card .free-table-main .free-table-detail table td:last-child {
+  border: 0;
+}
+.free-content .free-main .free-table .card .free-table-main .free-table-detail table td span {
+  display: block;
+  height: 33px;
+  position: relative;
+  line-height: 33px;
+  color: #fff;
+}
+.free-content .free-main .free-table .card .free-table-main .free-table-detail table td span.selected {
+  background: #bcddec;
 }
 .free-content .free-main .free-table .free-tip {
   color: #b5bdcb;

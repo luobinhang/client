@@ -26,7 +26,9 @@
               <tbody>
                 <tr v-for="(week,weekIndex) in scheduleData" :key="weekIndex">
                   <td v-for="(day,dayIndex) in week" :key="dayIndex">
-                    <div class="table-day">{{ moment(day.courseDate).format('D') }}</div>
+                    <div class="table-day"
+                      :class="{gray:month!=moment(day.courseDate).month()+1}"
+                    >{{ moment(day.courseDate).format('D') }}</div>
                     <div class="table-cell">
                       <div class="day-class-detail" v-if="day.courseScheduleList.length != 0">
                         <div class="day-class-total">

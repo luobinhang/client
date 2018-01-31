@@ -1,6 +1,10 @@
 <template>
   <div class="cwContainer">
-    <p class="cwHeader">待上课程</p>
+    <div class="commonTitle">
+      <div class="commonTitleMain">
+        <h2>待上课程</h2>
+      </div>
+    </div>
     <div class="cwBody">
       <div class="courseList" v-for="(cw,$index) in cwList">
         <p class="cwDate">{{ dayList[$index] }}<!--{{cw.list[0].courseDate}}--><span>（共{{cw.total}}节）</span></p>
@@ -69,7 +73,7 @@
         enterClass: false,
         dayList: ['今天', '明天', '后天'],
         cwList: [],
-//        cwList: this.$store.state.cwList,
+        cwList: this.$store.state.cwList,
         courseTip: "",//详情现实与隐藏
         bgColor: "#5e85c8",
         startClass: false,

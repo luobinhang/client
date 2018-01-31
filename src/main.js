@@ -5,12 +5,13 @@ import iView from 'iview';
 import './my-theme/index.less';
 import store from './store/store';
 import  './common/js/common';
-
+import 'vue-croppa/dist/vue-croppa.css';
+import Croppa from 'vue-croppa';
 
 
 
 Vue.use(iView);
-
+Vue.use(Croppa);
 
 
 new Vue({

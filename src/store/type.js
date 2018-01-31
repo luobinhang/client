@@ -423,7 +423,43 @@ export const CW_LIST = [
         "grade": "小三",
         "monthPoint": null,
         "termPoint": null,
-        "otherPoint": null
+        "otherPoint": null,
+        "imgUrl": "./src/assets/images/cBg.png",
+        "video": "1"
+      }, {
+        "courseUuid": "6046718e0b124270a494bfdd59ad6936",
+        "courseDate": "2018-01-22",
+        "startTime": "10:26",
+        "endTime": "23:30",
+        "subject": "化学",
+        "studentName": "战歌",
+        "courseType": 0,
+        "studentSex": 1,
+        "subjectVersion": "鲁教五四新版",
+        "studyStatus": "方法不佳，孩子目标定位很高，对自己要求也很高，给自己压力很大，成绩基本上排在年级前五名，近期几次语文模拟成绩，作为成绩不是很理想，想补习作文。",
+        "grade": "小三",
+        "monthPoint": null,
+        "termPoint": null,
+        "otherPoint": null,
+        "imgUrl": "./src/assets/images/cBg.png",
+        "video": "1"
+      }, {
+        "courseUuid": "6046718e0b124270a494bfdd59ad6936",
+        "courseDate": "2018-01-22",
+        "startTime": "10:26",
+        "endTime": "23:30",
+        "subject": "化学",
+        "studentName": "战歌",
+        "courseType": 0,
+        "studentSex": 1,
+        "subjectVersion": "鲁教五四新版",
+        "studyStatus": "方法不佳，孩子目标定位很高，对自己要求也很高，给自己压力很大，成绩基本上排在年级前五名，近期几次语文模拟成绩，作为成绩不是很理想，想补习作文。",
+        "grade": "小三",
+        "monthPoint": null,
+        "termPoint": null,
+        "otherPoint": null,
+        "imgUrl": "./src/assets/images/cBg.png",
+        "video": "1"
       },
       {
         "courseUuid": "406F54E4-B84A-4F18-97C0-7B987A3C3A7F",
@@ -436,7 +472,10 @@ export const CW_LIST = [
         "studentSex": 0,
         "subjectVersion": "浙教版",
         "studyStatus": "均衡,拔",
-        "grade": "初二"
+        "grade": "初二",
+
+        "imgUrl": "./src/assets/images/cBg.png",
+        "video": ""
       },
       {
         "courseUuid": "6046718e0b124270a494bfdd59ad6936",
@@ -503,7 +542,7 @@ export const CW_LIST = [
     "list": [
       {
         "courseUuid": "6046718e0b124270a494bfdd59ad6936",
-        "courseDate": "2018-01-20",
+        "courseDate": "2018-01-23",
         "startTime": "01:30",
         "endTime": "23:30",
         "subject": "化学",
@@ -582,7 +621,7 @@ export const CW_LIST = [
     "list": [
       {
         "courseUuid": "406F54E4-B84A-4F18-97C0-7B987A3C3A7F",
-        "courseDate": "2018-01-21",
+        "courseDate": "2018-01-24",
         "startTime": "19:00",
         "endTime": "20:00",
         "subject": "科学",
@@ -613,6 +652,347 @@ export const CW_LIST = [
         "endTime": "23:30",
         "subject": "化学",
         "studentName": "测试1",
+        "courseType": 0,
+        "studentSex": 1,
+        "subjectVersion": "鲁教五四新版",
+        "studyStatus": "方法不佳，孩子目标定位很高，对自己要求也很高，给自己压力很大，成绩基本上排在年级前五名，近期几次语文模拟成绩，作为成绩不是很理想，想补习作文。",
+        "grade": "小三",
+        "monthPoint": null,
+        "termPoint": null,
+        "otherPoint": null
+      },
+      {
+        "courseUuid": "406F54E4-B84A-4F18-97C0-7B987A3C3A7F",
+        "courseDate": "2017-08-01",
+        "startTime": "19:00",
+        "endTime": "20:00",
+        "subject": "科学",
+        "studentName": "张和诚",
+        "courseType": 1,
+        "studentSex": 0,
+        "subjectVersion": "浙教版",
+        "studyStatus": "均衡,拔",
+        "grade": "初二"
+      }
+      ,
+      {
+        "courseUuid": "406F54E4-B84A-4F18-97C0-7B987A3C3A7F",
+        "courseDate": "2017-08-01",
+        "startTime": "19:00",
+        "endTime": "20:00",
+        "subject": "科学",
+        "studentName": "张和诚",
+        "courseType": 1,
+        "studentSex": 0,
+        "subjectVersion": "浙教版",
+        "studyStatus": "均衡,拔",
+        "grade": "初二"
+      }
+      ,
+      {
+        "courseUuid": "406F54E4-B84A-4F18-97C0-7B987A3C3A7F",
+        "courseDate": "2017-08-01",
+        "startTime": "19:00",
+        "endTime": "20:00",
+        "subject": "科学",
+        "studentName": "张和诚",
+        "courseType": 1,
+        "studentSex": 0,
+        "subjectVersion": "浙教版",
+        "studyStatus": "均衡,拔",
+        "grade": "初二"
+      }
+      ,
+      {
+        "courseUuid": "406F54E4-B84A-4F18-97C0-7B987A3C3A7F",
+        "courseDate": "2017-08-01",
+        "startTime": "19:00",
+        "endTime": "20:00",
+        "subject": "科学",
+        "studentName": "张和诚",
+        "courseType": 1,
+        "studentSex": 0,
+        "subjectVersion": "浙教版",
+        "studyStatus": "均衡,拔",
+        "grade": "初二"
+      }
+    ]
+  },
+  {
+    "total": 4,
+    "list": [
+      {
+        "courseUuid": "406F54E4-B84A-4F18-97C0-7B987A3C3A7F",
+        "courseDate": "2018-01-25",
+        "startTime": "19:00",
+        "endTime": "20:00",
+        "subject": "科学",
+        "studentName": "张和诚",
+        "courseType": 1,
+        "studentSex": 0,
+        "subjectVersion": "浙教版",
+        "studyStatus": "均衡,拔",
+        "grade": "初二"
+      },
+      {
+        "courseUuid": "406F54E4-B84A-4F18-97C0-7B987A3C3A7F",
+        "courseDate": "2017-08-01",
+        "startTime": "19:00",
+        "endTime": "20:00",
+        "subject": "科学",
+        "studentName": "张和诚",
+        "courseType": 1,
+        "studentSex": 0,
+        "subjectVersion": "浙教版",
+        "studyStatus": "均衡,拔",
+        "grade": "初二"
+      },
+      {
+        "courseUuid": "6046718e0b124270a494bfdd59ad6936",
+        "courseDate": "2018-01-19",
+        "startTime": "01:30",
+        "endTime": "23:30",
+        "subject": "化学",
+        "studentName": "测试1",
+        "courseType": 0,
+        "studentSex": 1,
+        "subjectVersion": "鲁教五四新版",
+        "studyStatus": "方法不佳，孩子目标定位很高，对自己要求也很高，给自己压力很大，成绩基本上排在年级前五名，近期几次语文模拟成绩，作为成绩不是很理想，想补习作文。",
+        "grade": "小三",
+        "monthPoint": null,
+        "termPoint": null,
+        "otherPoint": null
+      },
+      {
+        "courseUuid": "406F54E4-B84A-4F18-97C0-7B987A3C3A7F",
+        "courseDate": "2017-08-01",
+        "startTime": "19:00",
+        "endTime": "20:00",
+        "subject": "科学",
+        "studentName": "张和诚",
+        "courseType": 1,
+        "studentSex": 0,
+        "subjectVersion": "浙教版",
+        "studyStatus": "均衡,拔",
+        "grade": "初二"
+      }
+      ,
+      {
+        "courseUuid": "406F54E4-B84A-4F18-97C0-7B987A3C3A7F",
+        "courseDate": "2017-08-01",
+        "startTime": "19:00",
+        "endTime": "20:00",
+        "subject": "科学",
+        "studentName": "张和诚",
+        "courseType": 1,
+        "studentSex": 0,
+        "subjectVersion": "浙教版",
+        "studyStatus": "均衡,拔",
+        "grade": "初二"
+      }
+      ,
+      {
+        "courseUuid": "406F54E4-B84A-4F18-97C0-7B987A3C3A7F",
+        "courseDate": "2017-08-01",
+        "startTime": "19:00",
+        "endTime": "20:00",
+        "subject": "科学",
+        "studentName": "张和诚",
+        "courseType": 1,
+        "studentSex": 0,
+        "subjectVersion": "浙教版",
+        "studyStatus": "均衡,拔",
+        "grade": "初二"
+      }
+      ,
+      {
+        "courseUuid": "406F54E4-B84A-4F18-97C0-7B987A3C3A7F",
+        "courseDate": "2017-08-01",
+        "startTime": "19:00",
+        "endTime": "20:00",
+        "subject": "科学",
+        "studentName": "张和诚",
+        "courseType": 1,
+        "studentSex": 0,
+        "subjectVersion": "浙教版",
+        "studyStatus": "均衡,拔",
+        "grade": "初二"
+      }
+    ]
+  },
+  {
+    "total": 4,
+    "list": [
+      {
+        "courseUuid": "406F54E4-B84A-4F18-97C0-7B987A3C3A7F",
+        "courseDate": "2018-01-26",
+        "startTime": "19:00",
+        "endTime": "20:00",
+        "subject": "科学",
+        "studentName": "张和诚",
+        "courseType": 1,
+        "studentSex": 0,
+        "subjectVersion": "浙教版",
+        "studyStatus": "均衡,拔",
+        "grade": "初二"
+      },
+      {
+        "courseUuid": "406F54E4-B84A-4F18-97C0-7B987A3C3A7F",
+        "courseDate": "2017-08-01",
+        "startTime": "19:00",
+        "endTime": "20:00",
+        "subject": "科学",
+        "studentName": "张和诚",
+        "courseType": 1,
+        "studentSex": 0,
+        "subjectVersion": "浙教版",
+        "studyStatus": "均衡,拔",
+        "grade": "初二"
+      },
+      {
+        "courseUuid": "6046718e0b124270a494bfdd59ad6936",
+        "courseDate": "2018-01-19",
+        "startTime": "01:30",
+        "endTime": "23:30",
+        "subject": "化学",
+        "studentName": "测试1",
+        "courseType": 0,
+        "studentSex": 1,
+        "subjectVersion": "鲁教五四新版",
+        "studyStatus": "方法不佳，孩子目标定位很高，对自己要求也很高，给自己压力很大，成绩基本上排在年级前五名，近期几次语文模拟成绩，作为成绩不是很理想，想补习作文。",
+        "grade": "小三",
+        "monthPoint": null,
+        "termPoint": null,
+        "otherPoint": null
+      },
+      {
+        "courseUuid": "406F54E4-B84A-4F18-97C0-7B987A3C3A7F",
+        "courseDate": "2017-08-01",
+        "startTime": "19:00",
+        "endTime": "20:00",
+        "subject": "科学",
+        "studentName": "张和诚",
+        "courseType": 1,
+        "studentSex": 0,
+        "subjectVersion": "浙教版",
+        "studyStatus": "均衡,拔",
+        "grade": "初二"
+      }
+      ,
+      {
+        "courseUuid": "406F54E4-B84A-4F18-97C0-7B987A3C3A7F",
+        "courseDate": "2017-08-01",
+        "startTime": "19:00",
+        "endTime": "20:00",
+        "subject": "科学",
+        "studentName": "张和诚",
+        "courseType": 1,
+        "studentSex": 0,
+        "subjectVersion": "浙教版",
+        "studyStatus": "均衡,拔",
+        "grade": "初二"
+      }
+      ,
+      {
+        "courseUuid": "406F54E4-B84A-4F18-97C0-7B987A3C3A7F",
+        "courseDate": "2017-08-01",
+        "startTime": "19:00",
+        "endTime": "20:00",
+        "subject": "科学",
+        "studentName": "张和诚",
+        "courseType": 1,
+        "studentSex": 0,
+        "subjectVersion": "浙教版",
+        "studyStatus": "均衡,拔",
+        "grade": "初二"
+      }
+      ,
+      {
+        "courseUuid": "406F54E4-B84A-4F18-97C0-7B987A3C3A7F",
+        "courseDate": "2017-08-01",
+        "startTime": "19:00",
+        "endTime": "20:00",
+        "subject": "科学",
+        "studentName": "张和诚",
+        "courseType": 1,
+        "studentSex": 0,
+        "subjectVersion": "浙教版",
+        "studyStatus": "均衡,拔",
+        "grade": "初二"
+      }
+    ]
+  }
+];
+//课程回放
+export const CR_list = [
+  {
+    "date": 6,
+    "list": [
+      {
+        "courseUuid": "6046718e0b124270a494bfdd59ad6936",
+        "courseDate": "2018-01-22",
+        "startTime": "10:26",
+        "endTime": "23:30",
+        "subject": "化学",
+        "studentName": "战歌",
+        "courseType": 0,
+        "studentSex": 1,
+        "subjectVersion": "鲁教五四新版",
+        "studyStatus": "方法不佳，孩子目标定位很高，对自己要求也很高，给自己压力很大，成绩基本上排在年级前五名，近期几次语文模拟成绩，作为成绩不是很理想，想补习作文。",
+        "grade": "小三",
+        "monthPoint": null,
+        "termPoint": null,
+        "otherPoint": null
+      },
+      {
+        "courseUuid": "406F54E4-B84A-4F18-97C0-7B987A3C3A7F",
+        "courseDate": "2017-08-01",
+        "startTime": "19:00",
+        "endTime": "20:00",
+        "subject": "科学",
+        "studentName": "张和诚",
+        "courseType": 1,
+        "studentSex": 0,
+        "subjectVersion": "浙教版",
+        "studyStatus": "均衡,拔",
+        "grade": "初二"
+      },
+      {
+        "courseUuid": "6046718e0b124270a494bfdd59ad6936",
+        "courseDate": "2018-01-19",
+        "startTime": "01:30",
+        "endTime": "23:30",
+        "subject": "化学",
+        "studentName": "测试3",
+        "courseType": 0,
+        "studentSex": 1,
+        "subjectVersion": "鲁教五四新版",
+        "studyStatus": "方法不佳，孩子目标定位很高，对自己要求也很高，给自己压力很大，成绩基本上排在年级前五名，近期几次语文模拟成绩，作为成绩不是很理想，想补习作文。",
+        "grade": "小三",
+        "monthPoint": null,
+        "termPoint": null,
+        "otherPoint": null
+      },
+      {
+        "courseUuid": "406F54E4-B84A-4F18-97C0-7B987A3C3A7F",
+        "courseDate": "2017-08-01",
+        "startTime": "19:00",
+        "endTime": "20:00",
+        "subject": "科学",
+        "studentName": "张和诚",
+        "courseType": 1,
+        "studentSex": 0,
+        "subjectVersion": "浙教版",
+        "studyStatus": "均衡,拔",
+        "grade": "初二"
+      },
+      {
+        "courseUuid": "6046718e0b124270a494bfdd59ad6936",
+        "courseDate": "2018-01-19",
+        "startTime": "01:30",
+        "endTime": "23:30",
+        "subject": "化学",
+        "studentName": "学号1",
         "courseType": 0,
         "studentSex": 1,
         "subjectVersion": "鲁教五四新版",
