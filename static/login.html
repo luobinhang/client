@@ -103,12 +103,12 @@
         success:function (res) {
           if(res.code == 0){
             var token = res.data.token;
-            localStorage.setItem('username',$('.username').val())
-            sessionStorage.setItem("token", token);
-            sessionStorage.setItem("id", id);
-            sessionStorage.setItem("user", '阿西');
-            sessionStorage.setItem("isFirst", 'false');
-            window.location.href = '/'
+//            localStorage.setItem('username',$('.username').val())
+//            sessionStorage.setItem("token", token);
+//            sessionStorage.setItem("id", id);
+//            sessionStorage.setItem("user", '阿西');
+//            sessionStorage.setItem("isFirst", 'false');
+            window.location.href = './href.html?token='+token;
           }else{
             alert(res.message)
           }

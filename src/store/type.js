@@ -923,97 +923,191 @@ export const CW_LIST = [
     ]
   }
 ];
-//课程回放
+//课程记录
 export const CR_list = [
   {
-    "date": 6,
+    "courseDate": "2018-01-29",
     "list": [
       {
-        "courseUuid": "6046718e0b124270a494bfdd59ad6936",
-        "courseDate": "2018-01-22",
-        "startTime": "10:26",
-        "endTime": "23:30",
-        "subject": "化学",
-        "studentName": "战歌",
+        "courseUuid": "test3",
+        "courseDate": "2018-01-29",
+        "startTime": "12:00",
+        "endTime": "13:00",
+        "subject": "测评课",
+        "name": "测试",
         "courseType": 0,
-        "studentSex": 1,
-        "subjectVersion": "鲁教五四新版",
-        "studyStatus": "方法不佳，孩子目标定位很高，对自己要求也很高，给自己压力很大，成绩基本上排在年级前五名，近期几次语文模拟成绩，作为成绩不是很理想，想补习作文。",
-        "grade": "小三",
-        "monthPoint": null,
-        "termPoint": null,
-        "otherPoint": null
-      },
+        "classTeacherAppraiseUuid": null,
+        "grade": null,
+        "subjectVersion": null
+      }
+    ]
+  },
+  {
+    "courseDate": "2018-01-24",
+    "list": [
       {
-        "courseUuid": "406F54E4-B84A-4F18-97C0-7B987A3C3A7F",
-        "courseDate": "2017-08-01",
+        "courseUuid": "test2",
+        "courseDate": "2018-01-24",
         "startTime": "19:00",
         "endTime": "20:00",
-        "subject": "科学",
-        "studentName": "张和诚",
-        "courseType": 1,
-        "studentSex": 0,
-        "subjectVersion": "浙教版",
-        "studyStatus": "均衡,拔",
-        "grade": "初二"
-      },
-      {
-        "courseUuid": "6046718e0b124270a494bfdd59ad6936",
-        "courseDate": "2018-01-19",
-        "startTime": "01:30",
-        "endTime": "23:30",
-        "subject": "化学",
-        "studentName": "测试3",
+        "subject": "测评课",
+        "name": "测试",
         "courseType": 0,
-        "studentSex": 1,
-        "subjectVersion": "鲁教五四新版",
-        "studyStatus": "方法不佳，孩子目标定位很高，对自己要求也很高，给自己压力很大，成绩基本上排在年级前五名，近期几次语文模拟成绩，作为成绩不是很理想，想补习作文。",
-        "grade": "小三",
-        "monthPoint": null,
-        "termPoint": null,
-        "otherPoint": null
+        "classTeacherAppraiseUuid": null,
+        "grade": null,
+        "subjectVersion": null
       },
       {
-        "courseUuid": "406F54E4-B84A-4F18-97C0-7B987A3C3A7F",
-        "courseDate": "2017-08-01",
-        "startTime": "19:00",
-        "endTime": "20:00",
-        "subject": "科学",
-        "studentName": "张和诚",
-        "courseType": 1,
-        "studentSex": 0,
-        "subjectVersion": "浙教版",
-        "studyStatus": "均衡,拔",
-        "grade": "初二"
-      },
-      {
-        "courseUuid": "6046718e0b124270a494bfdd59ad6936",
-        "courseDate": "2018-01-19",
-        "startTime": "01:30",
-        "endTime": "23:30",
-        "subject": "化学",
-        "studentName": "学号1",
+        "courseUuid": "test1",
+        "courseDate": "2018-01-24",
+        "startTime": "08:00",
+        "endTime": "09:00",
+        "subject": "测评课",
+        "name": "测试",
         "courseType": 0,
-        "studentSex": 1,
-        "subjectVersion": "鲁教五四新版",
-        "studyStatus": "方法不佳，孩子目标定位很高，对自己要求也很高，给自己压力很大，成绩基本上排在年级前五名，近期几次语文模拟成绩，作为成绩不是很理想，想补习作文。",
-        "grade": "小三",
-        "monthPoint": null,
-        "termPoint": null,
-        "otherPoint": null
+        "classTeacherAppraiseUuid": null,
+        "grade": null,
+        "subjectVersion": null
+      }
+    ]
+  },
+  {
+    "courseDate": "2018-01-15",
+    "list": [
+      {
+        "courseUuid": "7006AED4-6E8D-443D-819E-20B00A916E1F",
+        "courseDate": "2018-01-15",
+        "startTime": "00:30",
+        "endTime": "23:30",
+        "subject": "测评课",
+        "name": "杜宗轩",
+        "courseType": 0,
+        "classTeacherAppraiseUuid": null,
+        "grade": null,
+        "subjectVersion": null
+      }
+    ]
+  },
+  {
+    "courseDate": "2017-11-19",
+    "list": [
+      {
+        "courseUuid": "31A07FDC-E12F-43AF-8454-0001B370B5E6",
+        "courseDate": "2017-11-19",
+        "startTime": "16:00",
+        "endTime": "17:00",
+        "subject": "科学",
+        "name": "詹溢宁",
+        "courseType": 0,
+        "classTeacherAppraiseUuid": null,
+        "grade": "初三",
+        "subjectVersion": "浙教版"
       },
       {
-        "courseUuid": "406F54E4-B84A-4F18-97C0-7B987A3C3A7F",
-        "courseDate": "2017-08-01",
-        "startTime": "19:00",
-        "endTime": "20:00",
+        "courseUuid": "EF00191C-CA9C-4758-B285-0F0652B38CA0",
+        "courseDate": "2017-11-19",
+        "startTime": "13:00",
+        "endTime": "14:00",
         "subject": "科学",
-        "studentName": "张和诚",
+        "name": "吴昊",
+        "courseType": 0,
+        "classTeacherAppraiseUuid": null,
+        "grade": "初三",
+        "subjectVersion": "浙教版"
+      }
+    ]
+  },
+  {
+    "courseDate": "2017-11-18",
+    "list": [
+      {
+        "courseUuid": "0649D5DA-EFCF-4181-A60F-9C6CD5595FBD",
+        "courseDate": "2017-11-18",
+        "startTime": "21:00",
+        "endTime": "22:00",
+        "subject": "科学",
+        "name": "章博函",
+        "courseType": 0,
+        "classTeacherAppraiseUuid": null,
+        "grade": "初一",
+        "subjectVersion": "华东师大版"
+      },
+      {
+        "courseUuid": "5BF7078D-064E-4B86-8F82-1A01A75827CB",
+        "courseDate": "2017-11-18",
+        "startTime": "16:00",
+        "endTime": "17:00",
+        "subject": "科学",
+        "name": "潘聪聪",
+        "courseType": 0,
+        "classTeacherAppraiseUuid": null,
+        "grade": "初三",
+        "subjectVersion": "人教版"
+      }
+    ]
+  },
+  {
+    "courseDate": "2017-11-12",
+    "list": [
+      {
+        "courseUuid": "90D36465-1CFB-4D40-9F98-FB852F567A9F",
+        "courseDate": "2017-11-12",
+        "startTime": "9：00",
+        "endTime": "10:00",
+        "subject": "正式课",
+        "name": "黄子诚",
         "courseType": 1,
-        "studentSex": 0,
-        "subjectVersion": "浙教版",
-        "studyStatus": "均衡,拔",
-        "grade": "初二"
+        "classTeacherAppraiseUuid": null,
+        "grade": null,
+        "subjectVersion": null
+      },
+      {
+        "courseUuid": "7B77ADE7-67F7-4F92-9F51-01B015AFDA59",
+        "courseDate": "2017-11-12",
+        "startTime": "8:30",
+        "endTime": "09:00",
+        "subject": "正式课",
+        "name": "黄子诚",
+        "courseType": 1,
+        "classTeacherAppraiseUuid": null,
+        "grade": null,
+        "subjectVersion": null
+      },
+      {
+        "courseUuid": "BDF51D7E-2553-43FE-AEA3-D8D9AF378D42",
+        "courseDate": "2017-11-12",
+        "startTime": "12:30",
+        "endTime": "13:00",
+        "subject": "正式课",
+        "name": "胡鑫灵",
+        "courseType": 1,
+        "classTeacherAppraiseUuid": null,
+        "grade": null,
+        "subjectVersion": null
+      },
+      {
+        "courseUuid": "19A4546C-8EAD-4DE6-8F99-02F2217F279C",
+        "courseDate": "2017-11-12",
+        "startTime": "11：00",
+        "endTime": "12:00",
+        "subject": "正式课",
+        "name": "胡鑫灵",
+        "courseType": 1,
+        "classTeacherAppraiseUuid": null,
+        "grade": null,
+        "subjectVersion": null
+      },
+      {
+        "courseUuid": "2F1B42DA-7456-4A2D-B2B2-86C8B95871F7",
+        "courseDate": "2017-11-12",
+        "startTime": "10：00",
+        "endTime": "11:00",
+        "subject": "正式课",
+        "name": "邬子昱",
+        "courseType": 1,
+        "classTeacherAppraiseUuid": null,
+        "grade": null,
+        "subjectVersion": null
       }
     ]
   }

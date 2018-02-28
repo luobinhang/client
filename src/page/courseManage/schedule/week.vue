@@ -263,7 +263,7 @@
         timestamp().then( data =>{
           this.year = data.year;
           this.month = data.month;
-          this.weekIndex = data.week-1;
+          this.weekIndex = data.weekInMonth;
           this.getSchedule(true);
         }).catch(() => { //失败获取系统时间
           let newDate = new Date();
@@ -275,22 +275,23 @@
       weekChange($index){ //改变周
         this.weekIndex = $index;
         let list = this.scheduleData[$index]; //本周课表
+        let courseScheduleList = [];  //本周空闲列表集合
         this.scheduleDataList = [];
-        for(let i = 0;i<list.length;i++) {
+        for(let i = 0;i<list.length;i++) { //循环周一到周日
           this.scheduleColumns[i+1].title = list[i].courseDate;
           this.scheduleColumnsTamp[i+1].title = list[i].courseDate;
-          this.timeList[i].list = list[i].courseScheduleList;
+          courseScheduleList.push(list[i].courseScheduleList)
         }
-        for(let i = 0;i<this.timeList.length;i++) {
+        for(let i = 0;i<this.timeList.length;i++) { //循环7点到24点
           let scheduleList =  {
             NAME : this.timeList[i].time,
-            MON : this.scheduleDataHandle(this.timeList[0].list,i),
-            TUE : this.scheduleDataHandle(this.timeList[1].list,i),
-            WED : this.scheduleDataHandle(this.timeList[2].list,i),
-            THU : this.scheduleDataHandle(this.timeList[3].list,i),
-            FRI : this.scheduleDataHandle(this.timeList[4].list,i),
-            SAT : this.scheduleDataHandle(this.timeList[5].list,i),
-            SUN : this.scheduleDataHandle(this.timeList[6].list,i),
+            MON : this.scheduleDataHandle(courseScheduleList[0],i),
+            TUE : this.scheduleDataHandle(courseScheduleList[1],i),
+            WED : this.scheduleDataHandle(courseScheduleList[2],i),
+            THU : this.scheduleDataHandle(courseScheduleList[3],i),
+            FRI : this.scheduleDataHandle(courseScheduleList[4],i),
+            SAT : this.scheduleDataHandle(courseScheduleList[5],i),
+            SUN : this.scheduleDataHandle(courseScheduleList[6],i),
           }
           this.scheduleDataList.push(scheduleList);
         }
@@ -344,11 +345,11 @@
         let endTime = new Date(data.courseDate+' '+data.endTime).getTime();
         let startTime = new Date(data.courseDate+' '+data.startTime).getTime();
         let minute = (endTime-startTime)/1000/60;
-        return minute*(46/60) + 'px';
+        return minute/60*46 + 'px'; //小时*表格高度
       },
       itemTop (data,name) {  //处理课表标签定位
         let minute = data.startTime.substring(3,5)-name.substring(3, 5)
-        return minute/60*46 + 'px';
+        return minute/60*46 + 'px'; //小时*表格高度
       },
       renderItem(h,params,data) {  //render课表内容
         if(data!='' && data!=undefined) {

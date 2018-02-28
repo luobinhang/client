@@ -14,7 +14,7 @@
     <div class="info-main">
       <transition :name="transitionName">
         <onlyRead v-if="onlyReadType" @changeType="changeType"></onlyRead>
-        <edit v-else  :next="NEXT"  @buttonSave="buttonSave" @saveFn="saveFn"></edit>
+        <edit v-else  :next="NEXT"  @buttonSave="buttonSave" @saveFn="saveFn" @goRead="goRead"></edit>
       </transition>
     </div>
   </div>
@@ -31,7 +31,7 @@
   export default {
     data () {
       return {
-        onlyReadType:false,
+        onlyReadType:true,
         transitionName:'vux-pop-in',
         NEXT:0,
         saveShow:false,
@@ -51,6 +51,7 @@
     methods: {
       typeClick(){
         this.onlyReadType = !this.onlyReadType;
+        this.saveShow = false;
         if(this.onlyReadType) {
           this.transitionName = 'vux-pop-in';
         } else {
@@ -61,6 +62,7 @@
         this.onlyReadType = res;
       },
       buttonSave(res){
+        console.log(res)
         this.saveShow = res;
       },
       saveFn(fn){
@@ -71,7 +73,11 @@
       },
       save () {
         this.saveAjax();
-      }
+      },
+      goRead (res) {
+        this.onlyReadType = res;
+        this.saveShow = false;
+      },
     },
 
     components:{

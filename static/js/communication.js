@@ -1,5 +1,4 @@
-
-  /*
+/*
    *
    * @客户端通信
    *
@@ -39,24 +38,24 @@
   sendData(args);
 
   // 调用QC客户端回调
-  function callback(args) {
-    let response = args["args"];
-    let res = JSON.parse(response),
-      token = res.token,
-      id = res.role,
-      isFirst = res.isFirst,
-      user = res.username;
-    sessionStorage.setItem("token", token);
-    sessionStorage.setItem("id", id);
-    sessionStorage.setItem("user", user);
-    if(isFirst === undefined){
-      isFirst = false;
-    }
-    sessionStorage.setItem("isFirst", isFirst);
-    if(isFirst){ // 首次登录强制修改密码
-      window.location.hash = '#/changePassword';
-    }
-  };
+  // function callback(args) {
+  //   let response = args["args"];
+  //   let res = JSON.parse(response),
+  //     token = res.token,
+  //     id = res.role,
+  //     isFirst = res.isFirst,
+  //     user = res.username;
+  //   sessionStorage.setItem("token", token);
+  //   sessionStorage.setItem("id", id);
+  //   sessionStorage.setItem("user", user);
+  //   if(isFirst === undefined){
+  //     isFirst = false;
+  //   }
+  //   sessionStorage.setItem("isFirst", isFirst);
+  //   if(isFirst){ // 首次登录强制修改密码
+  //     window.location.hash = '#/changePassword';
+  //   }
+  // };
 
 
   // 客户端调用上传过程回调

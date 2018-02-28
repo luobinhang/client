@@ -5,7 +5,9 @@
         <div class="info-left-main">
           <div class="info-left-top">
             <div class="info-header">
-              <img :src="infoData.photoUrl" src="../../../assets/teacher/headerBase.png">
+              <div v-if="headerUrl!=''">
+                <img :src="headerUrl">
+              </div>
             </div>
             <div class="info-name">
               <span>{{ infoData.teacherName }}</span>
@@ -35,8 +37,8 @@
                   <td>QQ：{{ infoData.qq }}</td>
                 </tr>
                 <tr>
-                  <td>紧急联系人：{{ infoData.schoolName }}</td>
-                  <td>紧急联系人关系：{{ infoData.schoolName }}</td>
+                  <td>紧急联系人：{{ infoData.emergencyPhone }}</td>
+                  <td>紧急联系人关系：{{ infoData.emergencyRelation }}</td>
                 </tr>
               </table>
             </div>
@@ -49,12 +51,12 @@
               <table cellspacing="0" cellpadding="0" border="0">
                 <tr>
                   <td>高考所在地：{{ infoData.examLocation }}</td>
-                  <td>文理科：{{ infoData.artsOrScience }}</td>
+                  <td>文理科：{{ infoData.artsOrScience | science }}</td>
                 </tr>
                 <tr>
-                  <td>在读院校：{{ infoData.schoolName }}</td>
-                  <td>学历：{{ infoData.education }}</td>
-                  <td>最高学历：{{ infoData.highestEducation }}</td>
+                  <td>在读院校：{{ infoData.teacherSchoolName }}</td>
+                  <td>学历：{{ infoData.education | education }}</td>
+                  <td>最高学历：{{ infoData.highestEducation | education }}</td>
                 </tr>
                 <tr>
                   <td>专业：{{ infoData.major }}</td>
@@ -70,7 +72,7 @@
             <div class="info-item-detail">
               <table cellspacing="0" cellpadding="0" border="0">
                 <tr>
-                  <td>年级偏好：{{ infoData.gradePreference | gradePreferenceFilter }}</td>
+                  <td>年级偏好：{{ infoData.gradePreferenceName }}</td>
                   <td>第一科目：{{ infoData.teachingSubject }}</td>
                   <td>第二科目：{{ infoData.secondSubject }}</td>
                   <td>第三科目：{{ infoData.thirdSubject }}</td>
@@ -86,30 +88,30 @@
             <div class="info-item-detail" :class="{'filter':!switchPay}">
               <table cellspacing="0" cellpadding="0" border="0">
                 <tr>
-                  <td>身份证号码：{{ replace(infoData.idNumber,3,11) }}</td>
+                  <td>身份证号码：{{ replace(infoData.idNumber,3,14) }}</td>
                 </tr>
               </table>
               <div class="info-item-pic">
                 <div class="info-item-img1">
-                  <img :src="infoData.idCardFrontUrl">
+                  <img :src="IdCardUrl1" v-if="IdCardUrl1!=''">
                 </div>
                 <div class="info-item-img1">
-                  <img :src="infoData.idCardVersoUrl">
+                  <img :src="IdCardUrl2" v-if="IdCardUrl2!=''">
                 </div>
               </div>
               <table cellspacing="0" cellpadding="0" border="0">
                 <tr>
                   <td>银行：招商银行</td>
                   <td>银行卡号：{{ replace(infoData.cardNumber,5,14) }}</td>
-                  <td>开户行：{{ infoData.schoolName }}</td>
+                  <td>开户行：{{ infoData.bankAddress }}</td>
                 </tr>
               </table>
               <div class="info-item-pic">
                 <div class="info-item-img1">
-                  <img :src="infoData.bankFrontUrl">
+                  <img :src="bankUrl1" v-if="bankUrl1!=''">
                 </div>
                 <div class="info-item-img1">
-                  <img :src="infoData.bankVersoUrl">
+                  <img :src="bankUrl2" v-if="bankUrl2!=''">
                 </div>
               </div>
             </div>
@@ -124,25 +126,25 @@
                 <div class="info-item-img2">
                   <p>兼职协议第一页</p>
                   <div>
-                    <img :src="infoData.pactPage1Url">
+                    <img :src="agreementUrl1" v-if="agreementUrl1!=''">
                   </div>
                 </div>
                 <div class="info-item-img2">
                   <p>兼职协议第二页</p>
                   <div>
-                    <img :src="infoData.pactPage2Url">
+                    <img :src="agreementUrl2" v-if="agreementUrl2!=''">
                   </div>
                 </div>
                 <div class="info-item-img2">
                   <p>信息登记表</p>
                   <div>
-                    <img :src="infoData.registerPageUrl">
+                    <img :src="registerUrl" v-if="registerUrl!=''">
                   </div>
                 </div>
                 <div class="info-item-img2">
                   <p>学生证</p>
                   <div>
-                    <img :src="infoData.credentialUrl">
+                    <img :src="studentCardUrl" v-if="studentCardUrl!=''">
                   </div>
                 </div>
               </div>
@@ -193,6 +195,15 @@
         tipWindow:false,
         infoUrl:this.$store.state.info,
         infoData:'',
+        headerUrl:'',
+        IdCardUrl1:'',
+        IdCardUrl2:'',
+        bankUrl1:'',
+        bankUrl2:'',
+        agreementUrl1:'',
+        agreementUrl2:'',
+        registerUrl:'',
+        studentCardUrl:'',
       }
     },
     beforeMount () {
@@ -223,30 +234,45 @@
       getInfo () {
         this.$axios.get(this.infoUrl)
           .then( res => {
-            this.infoData = res.data.data
+            this.infoData = res.data.data;
+            let imgList = this.infoData.teacherFileList;
+            for(let i of imgList) {
+              if(i.purpose == 1) { //头像
+                this.headerUrl = i.fileAddress || '';
+              } else if(i.purpose == 2) { //身份证正面
+                this.IdCardUrl1 = i.fileAddress
+              } else if(i.purpose == 3) { //身份证反面
+                this.IdCardUrl2 = i.fileAddress
+              } else if(i.purpose == 4) { //银行卡正面
+                this.bankUrl1 = i.fileAddress
+              } else if(i.purpose == 5) { //银行卡反面
+                this.bankUrl2 = i.fileAddress
+              } else if(i.purpose == 6) { //兼职协议第一页
+                this.agreementUrl1 = i.fileAddress
+              } else if(i.purpose == 7) { //兼职协议第二页
+                this.agreementUrl2 = i.fileAddress
+              } else if(i.purpose == 8) { //信息登记表
+                this.registerUrl = i.fileAddress
+              } else if(i.purpose == 9) { //学生证
+                this.studentCardUrl = i.fileAddress
+              }
+            }
           })
       }
     },
     filters:{
-      gradePreferenceFilter (value) {
-        if(value == null) {
-          return '';
-        } else {
-          if(value == 1) {
-            return "小学"
-          } else if (res == 2) {
-            return "小学,初中"
-          } else if (res == 3) {
-            return "小学,初中,高中"
-          } else if (res == 4) {
-            return "初中"
-          } else if (res == 5) {
-            return "初中,高中"
-          } else if (res == 6) {
-            return "高中"
-          } else {
-            return "";
-          }
+      science (val) {
+        if(val == 1){
+          return '文科'
+        } else if(val == 2){
+          return '理科'
+        }
+      },
+      education (val) {
+        if(val == 1){
+          return '本科'
+        } else if(val == 2){
+          return '研究生'
         }
       },
     },

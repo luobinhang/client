@@ -18,7 +18,7 @@ img {
   max-width: 100%;
   border: 0;
 }
-a {
+body a {
   color: inherit;
 }
 em,
@@ -141,8 +141,7 @@ h6 {
   height: 34px;
   overflow: hidden;
 }
-.warpper .header .header-main .header-nav .header-nav-item:hover,
-.warpper .header .header-main .header-nav .header-nav-item.active {
+.warpper .header .header-main .header-nav .header-nav-item:hover {
   height: auto;
   background: #4b6aa0;
 }
@@ -153,6 +152,10 @@ h6 {
   opacity: 1;
   height: auto;
   overflow: visible;
+  padding: 3px 0;
+}
+.warpper .header .header-main .header-nav .header-nav-item.active {
+  background: #4b6aa0;
 }
 .warpper .header .header-main .header-nav .header-nav-item > a {
   line-height: 34px;

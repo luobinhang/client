@@ -29,10 +29,11 @@
     <div class="crBody" @scroll="changeDate($event)">
       <div v-for="(cr,$index) in courseRecord">
         <div class="crItem">
-          <p class="crTitle"  ref="courseDate" v-show="$index!=0">{{cr.list[0].courseDate}}</p>
+          <p class="crTitle" ref="courseDate" v-show="$index!=0">{{cr.list[0].courseDate}}</p>
           <ul class="courseList">
             <li class="card" v-for="item in cr.list">
-              <div v-if="item.video!=''" class="courseHead">
+              <div v-if="item.video!=''" class="courseHead"
+                   :class="{ 'evaluation': item.courseType==0, 'official': item.courseType==1}">
                 <img :src="item.imgUrl" alt="课程封面图">
                 <p class="playVideo">
                   <img src="../../assets/images/play.png" @click="start(item.courseUuid)" alt="播放">
@@ -44,7 +45,7 @@
               <div class="courseBody">
                 <div>
                   <p>{{item.subject}}</p>
-                  <p>{{item.studentName}}</p>
+                  <p>{{item.name}}</p>
                 </div>
                 <div>
                   <p>{{item.startTime}}- {{item.endTime}}</p>
@@ -62,7 +63,9 @@
         <div class="videoHead" ref="videohead">
           <img src="../../assets/images/close2.png" @click="videoWarpper=false" alt="关闭视频">
         </div>
-        <div class="videoBody" ref="videoBody" v-html="iframe"></div>
+        <div class="videoBody">
+          <div class="videoMain" v-html="iframe"></div>
+        </div>
       </div>
     </div>
   </div>
@@ -73,12 +76,13 @@
 <script>
   import {timestamp} from '@/common/js/common';
   import {GetQueryString} from '../../common/js/common';
+
   const token = sessionStorage.getItem('token')
   export default {
     data() {
       return {
         subjectList: [
-          {value: '全部', label: '全部'},
+          {value: '', label: '全部'},
           {value: '语文', label: '语文'},
           {value: '数学', label: '数学'},
           {value: '英语', label: '英语'},
@@ -94,15 +98,15 @@
         classType: ["全部", "测评课", "正式课"],
         i: 0,
         formData: {
-          subject: '全部',
+          subject: '',
           startDate: "",
           endDate: "",
-          classType: 0,
+          courseType: "",
           pageNo: 1,
-          pageSize: 6,
+          pageSize: 10000,
         },
-//      courseRecord:[],
-        courseRecord: this.$store.state.cwList,
+        courseRecord:[],
+//        courseRecord: this.$store.state.crList,
         videoWarpper: false,
         iframe: ""
       }
@@ -130,19 +134,26 @@
 //      课程类型选择
       selectClassType(index) {
         this.i = index;
-        this.formData.classType = index;
+        if (index==0){
+          this.formData.courseType = "";
+        }
+        else{
+          this.formData.courseType = index-1;
+        }
         this.courseRecordList();
       },
 //      查询课程记录列表
       courseRecordList() {
-        this.$axios.get(this.$store.state.teacherCourseRecordList, {params: this.formData})
+        this.$axios.get(this.$store.state.getCourseRecordList, {params: this.formData})
           .then(res => {
-//          this.courseRecord = res.data.data;
-//          if( this.courseRecord[0].total!= 0){
-//            this.dateTime=this.courseRecord[0].list[0].courseDate;
-//          }
-            this.dateTime = this.courseRecord[0].list[0].courseDate;
-
+            this.courseRecord = res.data.data;
+            if (this.courseRecord.length != 0) {
+              //this.dateTime=this.courseRecord[0].list[0].courseDate;
+              this.dateTime = this.courseRecord[0].courseDate;
+            }
+            else {
+              this.$Message.error("没有课程记录哦！");
+            }
           })
       },
 //      播放课程记录视频
@@ -154,18 +165,18 @@
         this.iframe = '<iframe src="../../static/play.html?token=' + token + '&uuid=' + uuid + '&xp=' + xp + '" id="iframe" width="100%" height="100%" frameborder="no" marginwidth="0" marginheight="0" scrolling="no" allowtransparency="yes" allowfullscreen="true"></iframe>';
       },
 //      点击空白区域，关闭视频
-      closeVideo(e){
+      closeVideo(e) {
         if (!this.$refs.videoContain.contains(e.target)) {
-          this.videoWarpper=false;
+          this.videoWarpper = false;
         }
       },
 //      日期切换
-      changeDate(e){
+      changeDate(e) {
         let crItem = document.getElementsByClassName("crItem");
-        let scrollTop=e.target.scrollTop;
+        let scrollTop = e.target.scrollTop;
 //        console.log(scrollTop,crItem);
-        for(let i = 0;i<crItem.length;i++){
-          if(scrollTop>= crItem[i].offsetTop) {
+        for (let i = 0; i < crItem.length; i++) {
+          if (scrollTop >= crItem[i].offsetTop) {
             this.dateTime = crItem[i].children[0].innerHTML;
           }
 //          console.log(item.offsetTop);

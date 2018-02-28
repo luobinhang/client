@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Title</title>
+  <script>
+    /*
+     * 页面初始化
+     *
+     * */
+    function GetQueryString (name) {
+      var reg = new RegExp("(^|&)"+ name +"=([^&]*)(&|$)");
+      var r = window.location.search.substr(1).match(reg);
+      if(r!=null)return  unescape(r[2]); return null;
+    }
+
+
+    sessionStorage.setItem("token",GetQueryString('token'));
+    const origin = window.location.origin;
+    window.location.href = origin;
+
+  </script>
+</head>
+<body>
+</body>
+</html>

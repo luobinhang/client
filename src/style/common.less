@@ -20,7 +20,7 @@ img {
   border: 0;
 }
 
-a {
+body a {
   color: inherit;
 }
 
@@ -132,11 +132,9 @@ b, strong, h1, h2, h3, h4, h5, h6 {
           transition: all .2s;
           height: 34px;
           overflow: hidden;
-          &:hover,&.active{
+          &:hover{
             height: auto;
             background: #4b6aa0;
-          }
-          &:hover{
             i{
               transform: rotate(180deg);
             }
@@ -144,7 +142,11 @@ b, strong, h1, h2, h3, h4, h5, h6 {
               opacity: 1;
               height: auto;
               overflow: visible;
+              padding: 3px 0;
             }
+          }
+          &.active{
+            background: #4b6aa0;
           }
           &>a{
             line-height: 34px;

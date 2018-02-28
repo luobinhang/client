@@ -18,23 +18,24 @@ import store from '../../store/store';
 
 export default function apiBase(type) {
   let host = window.location.host,
-      API = 'http://clienttest.haiketang.net',
-      webAPI = "filetest.haiketang.net";
+    API = 'http://clienttest.haiketang.net',
+    webAPI = "clienttest.haiketang.net";
   if(host === 'frontend.onlyhi.cn') {  //正式环境
-      API = 'http://client.onlyhi.cn';
-      webAPI = "file.onlyhi.cn";
+    API = 'http://client.onlyhi.cn';
+    webAPI = "client.onlyhi.cn";
   } else if(host === 'frontend.haiketang.net') {//搬迁环境
-      API = 'http://clienttest.haiketang.net';
-      webAPI = "filetest.haiketang.net";
+    API = 'http://clienttest.haiketang.net';
+    webAPI = "clienttest.haiketang.net";
   } else if(host === 'frontendtest.haiketang.net') {//公网测试环境
-      API = 'http://clienttest.haiketang.net';
-      webAPI = "filetest.haiketang.net";
+    API = 'http://clienttest.haiketang.net';
+    webAPI = "clienttest.haiketang.net";
   } else if(host === 'localhost:8085') {//本地测试环境
-      API = 'http://clienttest.haiketang.net';
-      webAPI = "filetest.haiketang.net";
-  } else if(host === 'localhost:8086') {//本地测试环境
+    API = 'http://clienttest.haiketang.net';
+    webAPI = "clienttest.haiketang.net";
+  } else if (host === 'localhost:8086') {//本地测试环境
     // API = 'http://192.168.0.15:20003';
-    webAPI = "filetest.haiketang.net";
+    API = 'http://clienttest.haiketang.net';
+    webAPI = "clienttest.haiketang.net";
   }
 
   let API_BASE_URL = type == 'webAPI'? webAPI : API;
@@ -57,9 +58,8 @@ store.state.resetpsd = '/client/user/resetpsdByJson'; //重置密码
 store.state.getAllProvince = '/common/getAllProvince'; //获取省
 store.state.getCity = '/common/getCitysByProvinceCode'; //获取市
 store.state.getArea = '/common/getDistrictsByCityCode'; //获取区
-store.state.getSchool = '/teacher/getAllSchool'; //获取学校
-store.state.getGrade = '/teacher/getAllGrade'; //获取年级
-store.state.getGradePreference = '/teacher/getAllGradePreference'; //获取年级偏好
+store.state.getSubject = '/common/getAllSubject'; //获取年级偏好
+
 
 
 
@@ -86,11 +86,16 @@ store.state.todayNoEndCourseList = '/teacher/todayNoEndCourseList'; //教师今�
 store.state.courseSchedule = '/teacher/courseSchedule'; //教师今天课程提醒
 store.state.getNoEndCourseList = '/teacher/getNoEndCourseList'; //教师待上课程
 store.state.freeTimeList = '/teacher/freeTimeList'; //获取空闲时间
+store.state.saveFreeTime = '/teacher/saveFreeTime'; //保存空闲时间
+store.state.saveFreeTimeTemplate = '/teacher/saveFreeTimeTemplate'; //保存空闲时间模板
+store.state.saveFreeTimeTemplate = '/teacher/getFreeTimeTemplate'; //获取空闲时间模板
 store.state.info = '/teacher/info'; //教师信息
-store.state.uploadFile = '/teacher/uploadFile'; //教师信息
-store.state.infoSave = '/teacher/infoSaveByJson'; //教师信息
-
-
+store.state.uploadFile = '/teacher/uploadFile'; //上传图片
+store.state.infoSave = '/teacher/infoSaveByJson'; //保存教师信息
+store.state.getSchool = '/teacher/getAllSchool'; //获取学校
+store.state.getGrade = '/teacher/getAllGrade'; //获取年级
+store.state.getGradePreference = '/teacher/getAllGradePreference'; //获取年级偏好
+store.state.getCourseRecordList = '/teacher/getCourseRecordList'; //获取课程记录
 
 
 

@@ -92,7 +92,7 @@
   overflow: hidden;
   height: 8px;
   border-radius: 4px;
-  transition: all 1s linear;
+  transition: all 2s linear;
   position: relative;
   background-image: url("../assets/teacher/progress.png");
   background-repeat: no-repeat;

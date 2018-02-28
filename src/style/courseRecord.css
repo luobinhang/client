@@ -121,7 +121,6 @@
 }
 .crContainer .crBody .courseList li .courseHead {
   height: 106px;
-  border-bottom: 2px solid #86d2b1;
   position: relative;
 }
 .crContainer .crBody .courseList li .courseHead .playVideo {
@@ -151,6 +150,12 @@
   vertical-align: middle;
   margin-right: 10px;
 }
+.crContainer .crBody .courseList li .evaluation {
+  border-bottom: 2px solid #ed9d40;
+}
+.crContainer .crBody .courseList li .official {
+  border-bottom: 2px solid #86d2b1;
+}
 .crContainer .crBody .courseList li .courseBody {
   padding: 10px 0 12px 12px;
   display: flex;
@@ -166,10 +171,12 @@
   height: 100%;
   position: fixed;
   background-color: rgba(0, 0, 0, 0.7);
+  left: 0;
+  top: 0;
+  z-index: 3;
 }
 .videoWarp .videoContain {
-  width: 632px;
-  height: 434px;
+  width: 75%;
   position: absolute;
   top: 50%;
   left: 50%;
@@ -188,7 +195,16 @@
   cursor: pointer;
 }
 .videoWarp .videoContain .videoBody {
-  height: 410px;
+  width: 100%;
+  padding-top: 56.25%;
+  position: relative;
+}
+.videoWarp .videoContain .videoBody .videoMain {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
 }
 @media screen and (max-width: 1256px) {
   .crContainer .crBody .courseList li:nth-of-type(4n) {

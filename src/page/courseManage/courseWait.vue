@@ -73,7 +73,7 @@
         enterClass: false,
         dayList: ['今天', '明天', '后天'],
         cwList: [],
-        cwList: this.$store.state.cwList,
+//        cwList: this.$store.state.cwList,
         courseTip: "",//详情现实与隐藏
         bgColor: "#5e85c8",
         startClass: false,
@@ -105,7 +105,6 @@
             let ISOtime = this.cwList[0].list[0].courseDate + ' ' + this.cwList[0].list[0].startTime;
             let second = (new Date(ISOtime).getTime() - timestamp) / 1000;
             if (second > 1200) {
-              console.log(1);
               //大于20分钟不可进入教室
               let interval = setInterval(() => {
                 if (second > 0 && second <= 1200) {

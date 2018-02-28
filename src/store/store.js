@@ -23,6 +23,7 @@ const state = {
   rewardList:types.REWARD_LIST,
   scheduleType:types.SCHEDULE_TYPE,
   cwList:types.CW_LIST,
+  crList:types.CR_list
 };
 
 const getters = {

@@ -41,6 +41,7 @@ export function GetQueryString (name) {
 
 
 
+
 /*
 *
 * AXIOS封装
@@ -62,13 +63,13 @@ const Axios = axios.create({
 //POST传参序列化(添加请求拦截器)
 Axios.interceptors.request.use(
   config => {
-    // 未登录(本地测试使用)
 
-      // if ( token === null || token === undefined) {
-      //
-      //   window.location.href = '../../static/login.html';
-      //
-      // }
+    // 未登录(本地测试使用)
+      if ( token === null || token === undefined || token === '') {
+
+        window.location.href = '../../static/login.html';
+
+      }
 
     // else {
 
@@ -87,7 +88,7 @@ Axios.interceptors.request.use(
 
 
       // 若是有做鉴权token , 就给头部带上token
-      config.headers.token = sessionStorage.getItem('token');
+      config.headers.token = token;
 
     // }
     return config;
@@ -108,14 +109,13 @@ Axios.interceptors.request.use(
 //返回状态判断(添加响应拦截器)
 Axios.interceptors.response.use(
   res => {
-
     //loading隐藏
     AJAX_NUM--;
     if(AJAX_NUM <= 0){
       stores.dispatch('FETCH_LOADING', 'false');
     }
 
-    if (res.data.code != 0) {
+    if (res.data.code !== 0) {
       Notice.error({
         title: res.data.message,
         desc: '',
@@ -138,7 +138,7 @@ Axios.interceptors.response.use(
       desc: '',
       duration:2,
     });
-
+    return Promise.reject(error);
   }
 );
 Vue.prototype.$axios = Axios;
@@ -224,7 +224,8 @@ export function timestamp(){
         hour : date.hour(),
         minute : date.minute(),
         second : date.second(),
-        dateISO : date.format('YYYY-MM-DD')
+        dateISO : date.format('YYYY-MM-DD'),
+        weekInMonth : date.week() - Moment(date.format('YYYY-MM')+'-01').week()
       };
       resolve(time);
     });

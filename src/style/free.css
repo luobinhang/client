@@ -30,6 +30,19 @@
   background: #4b6aa0;
   border-color: #4b6aa0;
 }
+.free-content .free-title .free-title-main > div button.secondaryBtn {
+  background: #fff;
+  border: 1px solid #5e85c8;
+  color: #5e85c8;
+}
+.free-content .free-title .free-title-main > div button.secondaryBtn:hover {
+  background: #5e85c8;
+  color: #fff;
+}
+.free-content .free-title .free-title-main > div button.secondaryBtn:active {
+  background: #4b6aa0;
+  border-color: #4b6aa0;
+}
 .free-content .free-main {
   position: relative;
   -webkit-box-flex: 1;
@@ -46,13 +59,32 @@
   width: 110px;
   z-index: 1;
 }
+.free-content .free-main .free-date .free-date-month {
+  position: relative;
+  cursor: pointer;
+}
+.free-content .free-main .free-date .free-date-month.disable {
+  cursor: not-allowed;
+  opacity: .5;
+}
+.free-content .free-main .free-date .free-date-month.disable:after {
+  content: '';
+  position: absolute;
+  width: 90px;
+  height: 1px;
+  left: 0;
+  top: 50%;
+  -webkit-transform: translateY(-50%);
+  transform: translateY(-50%);
+  background: #73676b;
+  opacity: .5;
+}
 .free-content .free-main .free-date .free-date-month p {
   height: 40px;
   line-height: 40px;
   color: #727a89;
   font-size: 14px;
   display: flex;
-  cursor: pointer;
 }
 .free-content .free-main .free-date .free-date-month p:after {
   content: '';
@@ -173,6 +205,11 @@
   justify-content: center;
   align-items: center;
   flex-direction: column;
+  height: 43px;
+}
+.free-content .free-main .free-table .card .free-table-main .free-table-header table th div.disable {
+  cursor: not-allowed;
+  opacity: .2;
 }
 .free-content .free-main .free-table .card .free-table-main .free-table-header table th div .free-table-checkbox {
   position: absolute;
@@ -186,9 +223,23 @@
   border: 1px solid #727a89;
   color: #727a89;
   cursor: pointer;
+  overflow: hidden;
 }
 .free-content .free-main .free-table .card .free-table-main .free-table-header table th div .free-table-checkbox.selected {
-  color: red;
+  border-color: #5e85c8;
+  background: #5e85c8;
+}
+.free-content .free-main .free-table .card .free-table-main .free-table-header table th div .free-table-checkbox.selected:after {
+  content: "\F3FD";
+  color: #fff;
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  font-family: Ionicons;
+  font-size: 20px;
+  line-height: 13px;
 }
 .free-content .free-main .free-table .card .free-table-main .free-table-detail {
   overflow-y: auto;
@@ -198,32 +249,56 @@
 }
 .free-content .free-main .free-table .card .free-table-main .free-table-detail table {
   width: 100%;
+  min-height: 100%;
 }
 .free-content .free-main .free-table .card .free-table-main .free-table-detail table tr:nth-of-type(odd) td {
   background: #ebf6fb;
 }
 .free-content .free-main .free-table .card .free-table-main .free-table-detail table td {
   text-align: center;
-  height: 33px;
   border-right: 1px solid #dfebf1;
   background: #f7fbfd;
+  position: relative;
 }
 .free-content .free-main .free-table .card .free-table-main .free-table-detail table td:last-child {
   border: 0;
 }
+.free-content .free-main .free-table .card .free-table-main .free-table-detail table td em {
+  opacity: 0;
+  display: block;
+  min-height: 33px;
+  color: #fff;
+}
 .free-content .free-main .free-table .card .free-table-main .free-table-detail table td span {
   display: block;
-  height: 33px;
-  position: relative;
-  line-height: 33px;
+  height: 100%;
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 100%;
   color: #fff;
+  cursor: pointer;
 }
 .free-content .free-main .free-table .card .free-table-main .free-table-detail table td span.selected {
   background: #bcddec;
+}
+.free-content .free-main .free-table .card .free-table-main .free-table-detail table td span.disable {
+  cursor: not-allowed;
+  opacity: .5;
+}
+.free-content .free-main .free-table .card .free-table-main .free-table-detail table td span i {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate3d(-50%, -50%, 0);
 }
 .free-content .free-main .free-table .free-tip {
   color: #b5bdcb;
   font-size: 12px;
   text-align: right;
   margin-top: 10px;
+}
+.freeTimeMoudel {
+  padding: 20px 0;
+  text-align: center;
 }

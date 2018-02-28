@@ -31,7 +31,6 @@
     },
     methods: {
       noticeScroll () {  //公告滚动
-        console.log(1)
         this.animate = true;
         setTimeout(() => {
           this.noticeList.push(this.noticeList[0]);

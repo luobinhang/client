@@ -37,12 +37,12 @@
     <div class="nav-left-main">
       <ul>
         <li style="display: none">
-          <Tooltip placement="top-end" content="信息" :delay="1000">
+          <Tooltip placement="bottom-end" content="信息" :delay="1000">
             <a href="javascript:;"></a>
           </Tooltip>
         </li>
         <li>
-          <Tooltip placement="top-end" content="信息" :delay="1000">
+          <Tooltip placement="bottom-end" content="信息" :delay="1000">
             <a href="javascript:;"></a>
           </Tooltip>
         </li>

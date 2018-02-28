@@ -125,7 +125,7 @@
         margin-bottom: 30px;
         .courseHead {
           height: 106px;
-          border-bottom: 2px solid #86d2b1;
+          //border-bottom: 2px solid #86d2b1;
           position: relative;
           .playVideo {
             position: absolute;
@@ -155,6 +155,12 @@
             }
           }
         }
+        .evaluation {
+          border-bottom: 2px solid #ed9d40;
+        }
+        .official {
+          border-bottom: 2px solid #86d2b1;
+        }
         .courseBody {
           padding: 10px 0 12px 12px;
           display: flex;
@@ -176,29 +182,40 @@
   width: 100%;
   height: 100%;
   position: fixed;
-  background-color: rgba(0,0,0,0.7);
-  .videoContain{
-    width: 632px;
-    height: 434px;
+  background-color: rgba(0, 0, 0, 0.7);
+  left: 0;
+  top: 0;
+  z-index: 3;
+  .videoContain {
+    width: 75%;
     position: absolute;
-    top:50%;
-    left:50%;
-    transform: translate(-50%,-50%);
-    background-color:#fff;
-    .videoHead{
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: #fff;
+    .videoHead {
       height: 24px;
       background-color: #000;
       text-align: right;
-      img{
+      img {
         width: 12px;
         height: 12px;
         margin: 6px 5px 0 0;
-        cursor:pointer;
+        cursor: pointer;
       }
     }
-    .videoBody{
+    .videoBody {
       //height: 355px;
-      height: 410px;
+      width: 100%;
+      padding-top: 56.25%;
+      position: relative;
+      .videoMain{
+        position: absolute;
+        left: 0;
+        top: 0;
+        width: 100%;
+        height: 100%;
+      }
     }
   }
 }
