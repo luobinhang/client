@@ -88,7 +88,7 @@ store.state.getNoEndCourseList = '/teacher/getNoEndCourseList'; //教师待上�
 store.state.freeTimeList = '/teacher/freeTimeList'; //获取空闲时间
 store.state.saveFreeTime = '/teacher/saveFreeTime'; //保存空闲时间
 store.state.saveFreeTimeTemplate = '/teacher/saveFreeTimeTemplate'; //保存空闲时间模板
-store.state.saveFreeTimeTemplate = '/teacher/getFreeTimeTemplate'; //获取空闲时间模板
+store.state.getFreeTimeTemplate = '/teacher/getFreeTimeTemplate'; //获取空闲时间模板
 store.state.info = '/teacher/info'; //教师信息
 store.state.uploadFile = '/teacher/uploadFile'; //上传图片
 store.state.infoSave = '/teacher/infoSaveByJson'; //保存教师信息
@@ -96,6 +96,8 @@ store.state.getSchool = '/teacher/getAllSchool'; //获取学校
 store.state.getGrade = '/teacher/getAllGrade'; //获取年级
 store.state.getGradePreference = '/teacher/getAllGradePreference'; //获取年级偏好
 store.state.getCourseRecordList = '/teacher/getCourseRecordList'; //获取课程记录
+store.state.getTabletApplication='/teacher/tabletApplication';//获取手写板信息
+store.state.saveTabletPostInfo="/teacher/saveTabletPostInfo";// 申请手写板
 
 
 

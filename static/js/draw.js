@@ -110,12 +110,12 @@
           }
         }else{
           alert(res.message);
-          document.write('无法播放');
+          // document.write('无法播放');
         }
       },
       error:function(res){
         alert(res.message);
-        document.write('无法播放');
+        // document.write('无法播放');
       }
     })
   }
@@ -509,8 +509,8 @@
         canvasH = warpperHeight;
         canvasW = warpperHeight*canvasB;
       }
-      var camvasT = (warpperHeight - canvasH)/2;
-      var camvasL = (pageWidth - canvasW)/2;
-      $(".canvas-bg").eq(i).width(canvasW).height(canvasH).css({top:camvasT,left:camvasL});
+      var canvasT = (warpperHeight - canvasH)/2;
+      var canvasL = (pageWidth - canvasW)/2;
+      $(".canvas-bg").eq(i).width(canvasW).height(canvasH).css({top:canvasT,left:canvasL});
     }
   };

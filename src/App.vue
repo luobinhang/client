@@ -22,6 +22,8 @@
       <router-view></router-view>
       <loading v-if="fetchLoading == 'true'"></loading>
     </div>
+    <changePsw v-if="fetchChangePsw == 'true'" class="changePswMain"></changePsw>
+    <bulletinBoard v-if="fetchBulletinBoard == 'true'" class="bulletinBoard"></bulletinBoard>
   </div>
 
 </template>
@@ -32,6 +34,8 @@
   import headerTop from './components/header';
   import navBar from './components/nav';
   import loading from './components/loading';
+  import changePsw from './components/changePassword';
+  import bulletinBoard from './components/bulletinBoard';
 
 export default {
   name: 'app',
@@ -49,7 +53,7 @@ export default {
       const toDepth = to.path.split('/').length
       const fromDepth = from.path.split('/').length
       this.transitionName = toDepth < fromDepth ? 'vux-pop-out' : 'vux-pop-in'
-    }
+    },
   },
   mounted () {
     this.uploadShow ();
@@ -58,6 +62,8 @@ export default {
   computed:{
     ...mapGetters([
      'fetchLoading',
+     'fetchChangePsw',
+     'fetchBulletinBoard',
    ]),
   },
   methods : {
@@ -74,6 +80,8 @@ export default {
     headerTop,
     navBar,
     loading,
+    changePsw,
+    bulletinBoard,
   },
 }
 </script>

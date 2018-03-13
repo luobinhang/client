@@ -126,11 +126,11 @@ export default new Router({
       name: '手写板申请',
       component: HBapplication,
     },
-    {
-      path: '/personal/changePassword',
-      name: '修改密码',
-      component: changePassword,
-    },
+    // {
+    //   path: '/personal/changePassword',
+    //   name: '修改密码',
+    //   component: changePassword,
+    // },
   ]
 });
 

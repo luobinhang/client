@@ -1,10 +1,10 @@
 *{margin:0;padding:0;-webkit-tap-highlight-color: rgba(0,0,0,0);}
-html,body{font-size:12px; background:#fff;}
+html,body{font-size:12px; background:#fff;height: 100%}
 ul,li{list-style:none;}
 a{ font-size:14px; color:#fff; text-decoration:none;}
 input[type="text"], input[type="password"], .ui-autocomplete-input, textarea, .uneditable-input {border: 1px solid #CCCCCC;border-radius: 3px;color: #808080;display: inline-block;font-size: 13px;line-height: 18px;padding: 4px;}
-#stage{width:100%;height:600px;overflow:hidden;position:relative;margin:0 auto;background-color:#fff;-moz-box-shadow:2px 2px 10px #000;-webkit-box-shadow:2px 2px 10px #000;box-shadow:2px 2px 10px #000}
-.inner{position:relative;width:100%;height:560px;-webkit-transform:translate3d(0,0,0);background: #ccc;}
+#stage{width:100%;height:100%;overflow:hidden;position:relative;margin:0 auto;background-color:#fff;-moz-box-shadow:2px 2px 10px #000;-webkit-box-shadow:2px 2px 10px #000;box-shadow:2px 2px 10px #000}
+.inner{position:relative;width:100%;height:396px;-webkit-transform:translate3d(0,0,0);background: #ccc;}
 .inner .canvas-bg{background-color: #fff;position: absolute;}
 .inner .canvas-bg .canvas{width: 100%;height: 100%;}
 .inner .pagecount{position:absolute;z-index:99;right:8px;font-size:10px}
@@ -39,7 +39,7 @@ input[type="text"], input[type="password"], .ui-autocomplete-input, textarea, .u
 .player-cover #player-cover-play img{cursor:pointer}
 .player-cover #player-cover-play li{float:none;width:100%;height:100%;margin-left:-50%;margin-top:-50%}
 .player audio{position:absolute;left:-1px}
-.player{margin:0 auto;width:100%;height:37px;background: rgba(0,0,0,0.50);font-family:monospace;font-size:12px;position:absolute;bottom:0;z-index:200;transition: all 0.5s ease;  -webkit-transition: all 0.5s ease;}
+.player{margin:0 auto;width:100%;height:54px;background: #000;font-family:monospace;font-size:12px;position:absolute;bottom:0;z-index:200;transition: all 0.5s ease;  -webkit-transition: all 0.5s ease;}
 .player.mini{height:2px}
 .player.mini .scrubber{height:5px}
 .player.mini .buttons{display:none}
@@ -52,19 +52,19 @@ input[type="text"], input[type="password"], .ui-autocomplete-input, textarea, .u
   align-items: center;
   -webkit-box-align: center;
   -ms-flex-align: center;
-  -webkit-align-items: center;height:37px;}
+  -webkit-align-items: center;height:54px;}
 .player .play-pause{    display: -webkit-box;
   display: -moz-box;
   display: -ms-flexbox;
   display: -webkit-flex;
-  display: flex;width:50px;height:37px;overflow:hidden;}
+  display: flex;width:50px;height:54px;overflow:hidden;}
 .player .play-pause li{width:100%}
 .player .play-pause:hover,.player .fullscreen:hover{
   background-color: #F42440;
 }
 .player li{display:none;width:44px;height:100%;margin:0;cursor:pointer}
 .player .play{display:inline-block}
-.player .scrubber{width:100%;position:relative;background:#fff;height:3px;margin-top:17px;cursor:pointer;-moz-transition:height 1s;-ms-transition:height 1s;-o-transition:height 1s;-webkit-transition:height 1s;transition:height 1s}
+.player .scrubber{width:100%;position:relative;background:#fff;height:3px;margin-top:25px;cursor:pointer;-moz-transition:height 1s;-ms-transition:height 1s;-o-transition:height 1s;-webkit-transition:height 1s;transition:height 1s}
 .player .progress{position:absolute;top:0;left:0;height:100%;width:0;z-index:1;background-color: #F42440;}
 .player .loaded{position:absolute;top:0;left:0;height:100%;width:0;background:#fff;}
 .player .scrubber-track{position:relative;margin:0 4px;height:100%;z-index:1}
@@ -82,7 +82,7 @@ input[type="text"], input[type="password"], .ui-autocomplete-input, textarea, .u
   -webkit-justify-content:center;
   flex:1;
   height:100%;
-  line-height:37px;
+  line-height:54px;
   color:#fff;}
 .player .time em{padding:0 2px 0 0;color:#fff;font-style:normal;display:inline-block;width: 50px;text-align: center}
 .player .time strong{padding:0 0 0 2px;color:#fff;font-weight:normal;width: 50px;text-align: center;display:inline-block;}
@@ -96,16 +96,16 @@ input[type="text"], input[type="password"], .ui-autocomplete-input, textarea, .u
   display: flex;
   width: 40px;
   cursor: pointer;
-  height:100%;line-height:37px;color:#ddd;background: url("../images/full.png") no-repeat center;}
+  height:100%;line-height:54px;color:#ddd;background: url("../images/full.png") no-repeat center;}
 .player .fullscreenBtn{
   display: block;
   width: 100%;
   height: 100%;
 }
-.player .volume-bar{float:left;height:100%;line-height:37px;padding:0 6px 0 12px;border-left:1px solid #3c3c3b;color:#ddd;box-shadow:0 0 2px #000}
+.player .volume-bar{float:left;height:100%;line-height:54px;padding:0 6px 0 12px;border-left:1px solid #3c3c3b;color:#ddd;box-shadow:0 0 2px #000}
 .player .volume{display:block;float:left;width:30px}
 .player .volume-scrubber{display:block;position:relative;width:0;background:#5a5a5a;height:12px;border:0;overflow:hidden;border-radius:3px;-moz-border-radius:3px;-khtml-border-radius:3px;-webkit-border-radius:3px;-webkit-transition:width .5s ease;-moz-transition:width .5s ease;-o-transition:width .5s ease;-ms-transition:width .5s ease;transition:width .5s ease;margin-top:17px;cursor:pointer}
-.player .gotopage{float:right;color:#fff;line-height:37px}
+.player .gotopage{float:right;color:#fff;line-height:54px}
 .gotopage .page-total{cursor:auto;display:inline-block;width:40px}
 .gotopage .page-current{width:3em;text-align:center;margin:0 10px 0 0;padding:0;font-size:10px;border-radius:0;-moz-border-radius:0;-khtml-border-radius:0;-webkit-border-radius:0}
 .volume-bar:hover .volume-scrubber{width:100px}
@@ -168,19 +168,19 @@ input[type="text"], input[type="password"], .ui-autocomplete-input, textarea, .u
 .loading-progress .progress{background:#C33;width:1%;height:100%}
 .error-message .alert-error{color:#b94a48;background-color:#f2dede;border-color:#eed3d7;padding:8px 35px 8px 14px;-webkit-border-radius:4px;-moz-border-radius:4px;border-radius:4px;font-size:16px;margin:30% 20px}
 @-webkit-keyframes message{10%{opacity:.7}
-50%{opacity:.7}
-99%{-webkit-transform:scale(2);opacity:0}
-100%{-webkit-transform:scale(1)}}@-webkit-keyframes spin{from{opacity:.4}
-50%{opacity:1}
-to{opacity:.4}}@-moz-keyframes spin{from{opacity:.4}
-50%{opacity:1}
-to{opacity:.4}}@-ms-keyframes spin{from{opacity:.4}
-50%{opacity:1}
-to{opacity:.4}}@-o-keyframes spin{from{opacity:.4}
-50%{opacity:1}
-to{opacity:.4}}@keyframes spin{from{opacity:.2}
-50%{opacity:1}
-to{opacity:.2}}
+  50%{opacity:.7}
+  99%{-webkit-transform:scale(2);opacity:0}
+  100%{-webkit-transform:scale(1)}}@-webkit-keyframes spin{from{opacity:.4}
+                                     50%{opacity:1}
+                                     to{opacity:.4}}@-moz-keyframes spin{from{opacity:.4}
+                                                      50%{opacity:1}
+                                                      to{opacity:.4}}@-ms-keyframes spin{from{opacity:.4}
+                                                                       50%{opacity:1}
+                                                                       to{opacity:.4}}@-o-keyframes spin{from{opacity:.4}
+                                                                                        50%{opacity:1}
+                                                                                        to{opacity:.4}}@keyframes spin{from{opacity:.2}
+                                                                                                         50%{opacity:1}
+                                                                                                         to{opacity:.2}}
 .imglist{ position:absolute; top:0; left:0;}
 .imglist li{ float:left; margin:0 10px;}
 .imglist li img{ width:100%; cursor:pointer;}
@@ -193,13 +193,14 @@ to{opacity:.2}}
 }
 .inner .play{
   background: url("../images/playBig.png") no-repeat center;
+  background-size: cover;
   position: absolute;
   left: 50%;
   top:50%;
-  width: 166px;
-  height:166px;
-  margin-left: -83px;
-  margin-top: -83px;
+  width: 100px;
+  height:100px;
+  margin-left: -50px;
+  margin-top: -50px;
   z-index: 1000;
   cursor: pointer;
 }
@@ -218,15 +219,15 @@ to{opacity:.2}}
 }
 
 /*.inner .pause{*/
-  /*background: url("../images/pauseBig.png") no-repeat center;*/
-  /*position: absolute;*/
-  /*left: 50%;*/
-  /*top:50%;*/
-  /*width: 166px;*/
-  /*height:166px;*/
-  /*margin-left: -83px;*/
-  /*margin-top: -83px;*/
-  /*z-index: 1000;*/
+/*background: url("../images/pauseBig.png") no-repeat center;*/
+/*position: absolute;*/
+/*left: 50%;*/
+/*top:50%;*/
+/*width: 166px;*/
+/*height:166px;*/
+/*margin-left: -83px;*/
+/*margin-top: -83px;*/
+/*z-index: 1000;*/
 /*}*/
 .loading{
   position: absolute;
@@ -279,4 +280,9 @@ audio,video{
   bottom: -5px;
   transform: translateX(-50%);
   -webkit-transform: translateX(-50%);
+}
+
+
+.wrapper{
+  height: 100%;
 }

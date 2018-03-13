@@ -6,6 +6,7 @@ export default function RULE() {
   const nameREG = /^[\u4e00-\u9fa5]{0,}$|^[A-Za-z]+$/; //中文或英文
   const QQREG = /[1-9][0-9]{4,}/; //qq
   const wechatREG = /^[a-zA-Z]{1}[-_a-zA-Z0-9]{5,19}|^\w+([-+.]\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)|^1[3|4|5|7|8|9]\d{9}$/; //微信
+  const address=/^[A-Za-z0-9\u4e00-\u9fa5]+$/;//验证地址（数字，字母，汉字）
   return {
     validateHeaderUrl: (rule, value, callback) => {   //头像
       if (value === '') {
@@ -57,7 +58,7 @@ export default function RULE() {
     },
     validatePhone: (rule, value, callback) => {  //电话
       if (value === '') {
-        callback(new Error(' 号不能为空'));
+        callback(new Error(' 电话不能为空'));
       } else if (!phoneREG.test(value)) {
         callback(new Error('请输入国内手机号'));
       } else {
@@ -190,6 +191,15 @@ export default function RULE() {
       if (value === '') {
         callback(new Error('请上传学生证'));
       }  else {
+        callback();
+      }
+    },
+    validateAddress: (rule, value, callback) => {   //住址
+      if (value === '') {
+        callback(new Error('详细街道不能为空'));
+      } else if (!address.test(value)) {
+        callback(new Error('请输入中文或数字或字母'));
+      } else {
         callback();
       }
     },

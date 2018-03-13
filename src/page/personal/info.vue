@@ -62,7 +62,6 @@
         this.onlyReadType = res;
       },
       buttonSave(res){
-        console.log(res)
         this.saveShow = res;
       },
       saveFn(fn){

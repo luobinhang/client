@@ -2,7 +2,6 @@
   width: 100%;
   display: flex;
   flex-direction: column;
-  height: 100%;
   position: relative;
 }
 .schedule-content .schedule-title .schedule-title-main > div {
@@ -76,11 +75,12 @@
 }
 .schedule-content .schedule-main {
   position: relative;
-  -webkit-box-flex: 1;
-  -ms-flex: 1;
-  flex: 1;
+  -webkit-box-flex: 5;
+  -ms-flex: 5;
+  flex: 5;
   margin-top: 20px;
   overflow: hidden;
+  display: flex;
 }
 .schedule-content .schedule-date {
   position: absolute;
@@ -169,30 +169,33 @@
 .schedule-content .schedule-table-detail {
   position: relative;
   z-index: 1;
-  height: 100%;
+  width: 100%;
   overflow-x: hidden;
   overflow-y: auto;
 }
 .schedule-content .schedule-week-main {
   padding: 0 40px 20px 40px;
-  height: 100%;
+  display: flex;
+  width: 100%;
 }
 .schedule-content .schedule-week-main .schedule-table {
   padding-left: 120px;
   width: 100%;
-  height: 100%;
+  display: flex;
 }
 .schedule-content .schedule-week-main .schedule-table .card {
-  height: 100%;
   overflow: hidden;
   background: #fff !important;
   border: 1px solid #ecf4f7;
+  display: flex;
+  width: 100%;
 }
 .schedule-content .schedule-week-main .schedule-table .card .schedule-table-main {
   position: relative;
   z-index: 1;
-  height: 100%;
   overflow: hidden;
+  display: flex;
+  flex: 5;
 }
 .schedule-content .schedule-week-main .schedule-table .card .schedule-table-main .ivu-table:before,
 .schedule-content .schedule-week-main .schedule-table .card .schedule-table-main .ivu-table:after {
@@ -304,16 +307,17 @@
   font-size: 10px;
 }
 .schedule-content .schedule-month-main {
-  height: 100%;
+  flex: 5;
+  display: flex;
   padding: 0 40px 20px 40px;
 }
 .schedule-content .schedule-month-main .schedule-table {
   padding-left: 120px;
   width: 100%;
-  height: 100%;
+  display: flex;
 }
 .schedule-content .schedule-month-main .schedule-table .card {
-  height: 100%;
+  display: flex;
   overflow: hidden;
   background: #fff !important;
   border: 1px solid #ecf4f7;
@@ -321,11 +325,13 @@
 .schedule-content .schedule-month-main .schedule-table .card .schedule-table-main {
   position: relative;
   z-index: 1;
-  height: 100%;
   overflow: hidden;
+  flex: 5;
+  display: flex;
 }
 .schedule-content .schedule-month-main .schedule-table .card .schedule-table-main .schedule-table-detail {
   overflow: hidden;
+  display: flex;
 }
 .schedule-content .schedule-month-main .schedule-table .card .schedule-table-main .schedule-table-detail table {
   min-height: 100%;
@@ -414,9 +420,10 @@
 }
 .schedule-content .schedule-month-main .schedule-table .card .schedule-table-main .schedule-table-detail table tr td .table-cell .day-class-detail .day-class-list {
   width: 100%;
-  flex: 1;
+  flex: 5;
   overflow: hidden;
   transition: all .5s;
+  text-align: center;
 }
 .schedule-content .schedule-month-main .schedule-table .card .schedule-table-main .schedule-table-detail table tr td .table-cell .day-class-detail .day-class-list.open {
   overflow: visible;

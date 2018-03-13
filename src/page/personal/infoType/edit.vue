@@ -883,29 +883,40 @@
           this.headerText = '上传学生证';
         }
       },
-      getProvince () { //获取省
-        this.$axios.get(this.getProvinceUrl)
-          .then( res => {
-            this.provinceList = res.data.data;
-          })
+      getProvince (value) { //获取省
+        if(value != ""){
+           this.$axios.get(this.getProvinceUrl,{
+             loading: false,
+           })
+            .then( res => {
+              this.provinceList = res.data.data;
+            })
+        }
       },
       getCity (value) { //获取市
-        this.$axios.get(this.getCityUrl,{
-          params:{
-            provinceCode : value,
-          }
-        }).then( res => {
+        if(value != ""){
+          this.$axios.get(this.getCityUrl,{
+            params:{
+              provinceCode : value,
+            },
+            loading: false,
+          }).then( res => {
             this.cityList = res.data.data;
           })
+        }
       },
       getArea (value) { //获取区
-        this.$axios.get(this.getAreaUrl,{
-          params:{
-            cityCode : value,
-          }
-        }).then( res => {
+        if(value != ""){
+          this.$axios.get(this.getAreaUrl,{
+            params:{
+              cityCode : value,
+            },
+            loading: false,
+          }).then( res => {
             this.areaList = res.data.data;
           })
+        }
+
       },
       getSchool () { //获取学校
         this.$axios.get(this.getSchoolUrl).then( res => {

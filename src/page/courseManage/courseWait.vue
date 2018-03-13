@@ -10,7 +10,7 @@
         <p class="cwDate">{{ dayList[$index] }}<!--{{cw.list[0].courseDate}}--><span>（共{{cw.total}}节）</span></p>
         <ul>
           <!--测评课evaluation,正式课official-->
-          <li class="card evaluation" v-for="(item,index) in cw.list"
+          <li class="card" v-for="(item,index) in cw.list"
               :class="{ 'evaluation': item.courseType==0, 'official': item.courseType==1}">
             <div class="courseMain">
               <div class="courseDetail">
@@ -39,17 +39,31 @@
                   <span>{{item.subjectVersion}}</span>
                 </p>
               </div>
+              <!--<div class="enterRoom">-->
+              <!--&lt;!&ndash;非第一天第一个课&ndash;&gt;-->
+              <!--<p class="enterClass" v-if="$index+index!=0">进入教室</p>-->
+              <!--&lt;!&ndash;第一天第一个课&ndash;&gt;-->
+              <!--&lt;!&ndash;第一个课不可点击&ndash;&gt;-->
+              <!--<p class="enterClass" v-else-if="$index+index==0 && !startClass">进入教室</p>-->
+              <!--&lt;!&ndash;第一个课可点击开始上课&ndash;&gt;-->
+              <!--<p class="enterClass" v-else-if="$index+index==0 && startClass" :style="{ background: bgColor}"-->
+              <!--@click="start($index,item.courseUuid)">进入教室</p>-->
+              <!--&lt;!&ndash;<p class="lateTime" v-if="lateTime>0">迟到{{lateTime}}</p>&ndash;&gt;-->
+              <!--<p class="lateTime" v-if="$index+index==0 && lateShow">迟到{{lateTime}}</p>-->
+              <!--</div>-->
+
               <div class="enterRoom">
-                <!--非第一个课-->
-                <p class="enterClass" v-if="$index+index!=0">进入教室</p>
-                <!--第一个课-->
-                <!--第一个课不可点击-->
-                <p class="enterClass" v-else-if="$index+index==0 && !startClass">进入教室</p>
-                <!--第一个课可点击开始上课-->
-                <p class="enterClass" v-else-if="$index+index==0 && startClass" :style="{ background: bgColor}"
+                <!--第一天的课-->
+                <!--第一天课不可点击-->
+                <p class="enterClass" v-if="$index==0 && !item.startClass">进入教室</p>
+                <!--第一天课开始上课-->
+                <p class="enterClass" v-else-if="$index==0 && item.startClass" :style="{ background: item.bgColor}"
                    @click="start($index,item.courseUuid)">进入教室</p>
-                <!--<p class="lateTime" v-if="lateTime>0">迟到{{lateTime}}</p>-->
-                <p class="lateTime" v-if="$index+index==0 && lateShow">迟到{{lateTime}}</p>
+                <!--第一天课迟到-->
+                <p class="lateTime" v-show="$index==0 && item.lateShow">迟到{{realLateTime[index]}}</p>
+                <!--非第一天的课-->
+                <p class="enterClass" v-if="$index!=0">进入教室</p>
+
               </div>
             </div>
             <div v-if="item.courseType==0" class="triangleMain">
@@ -67,18 +81,20 @@
 </style>
 <script>
   import { timestamp,forMatTime } from '@/common/js/common';
+  let interval = new Array();
   export default {
     data() {
       return {
         enterClass: false,
         dayList: ['今天', '明天', '后天'],
+//        cwList: [],
         cwList: [],
-//        cwList: this.$store.state.cwList,
         courseTip: "",//详情现实与隐藏
-        bgColor: "#5e85c8",
-        startClass: false,
-        lateTime: 0,
-        lateShow: false
+//        bgColor: "#5e85c8",
+//        startClass: false,
+//        lateShow: false,
+        lateTime:"",
+        realLateTime:new Array(),
       }
     },
     beforeMount() {
@@ -96,67 +112,85 @@
     },
     created: function () {
     },
+    watch : {
+      lateTime (newValue, oldValue) {
+        let newValueArray = newValue.split(",");
+//          let oldValueArray = oldValue.split(",");
+//          for(let i = 0; i < newValueArray.length; i++){
+//            if(newValueArray[i] != oldValueArray[i]) {
+        this.realLateTime = newValueArray;
+//            }
+//          }
+      },
+    },
     methods: {
 // 获取待上课程列表
       getCWList(courseDateList, timestamp) {
+
         this.$axios.post(this.$store.state.getNoEndCourseList, {courseDateList: courseDateList}).then(res => {
           this.cwList = res.data.data;
+//          this.cwList = this.$store.state.cwList;
           if (this.cwList[0].total != 0) {
-            let ISOtime = this.cwList[0].list[0].courseDate + ' ' + this.cwList[0].list[0].startTime;
-            let second = (new Date(ISOtime).getTime() - timestamp) / 1000;
-            if (second > 1200) {
+            let lateList = [];
+            for(let i=0;i<this.cwList[0].list.length;i++){
+              let list = this.cwList[0].list[i]
+              list.lateShow = false;
+              list.bgColor = "#dadada";
+              list.startClass = false;
+              let ISOtime = list.courseDate + ' ' + list.startTime;
+              let second = (new Date(ISOtime).getTime() - timestamp) / 1000;
               //大于20分钟不可进入教室
-              let interval = setInterval(() => {
-                if (second > 0 && second <= 1200) {
-                  second--;
-                  this.startClass = true;
-                }
-                else if (second <= 0) {
-                  second = Math.abs(second);
-                  second++;
-                  this.bgColor = "#da7194";
-                  this.startClass = true;
-                  this.lateShow = true;
-                  this.lateTime = this.moment(second * 1000).format('mm:ss');
-                }
-                else {
-                  second--;
-                }
-              }, 1000);
-            }
-            else if (second > 0 && second <= 1200) {
-              //小于20分钟可以进入教室
-              let interval = setInterval(() => {
-                if (second <= 0) {
-                  second = Math.abs(second);
-                  second++;
-                  this.bgColor = "#da7194";
-                  this.startClass = true;
-                  this.lateShow = true;
-                  this.lateTime = this.moment(second * 1000).format('mm:ss');
-                }
-                else {
-                  second--;
-                  this.startClass = true;
-                }
-              }, 1000);
-            }
-            else {
-              // 还未进入教室，迟到正计时
-              let interval = setInterval(() => {
-                second = Math.abs(second);// 取绝对值
-//              console.log(second/60/60);
-                second++;
-//              console.log(second);
-                this.bgColor = "#da7194";
-                this.startClass = true;
-                this.lateShow = true;
-                this.lateTime = forMatTime(second)
-              }, 1000);
+              if (second > 1200) {
+                this.countDown(i,second,lateList);
+              }
 
+              //小于20分钟可以进入教室
+              else if (second > 0 && second <= 1200) {
+                list.startClass = true;
+                list.bgColor ="#5e85c8";
+                this.countDown(i,second,lateList);
+              }
+              // 还未进入教室，迟到正计时
+              else {
+                list.startClass = true;
+                this.countDown(i,second,lateList);
+              }
             }
           }
+
         })
+      },
+//      倒计时
+      countDown(i,second,lateList){
+        let list = this.cwList[0].list[i];
+        interval[i] = setInterval(() => {
+          if (second > 0 && second <= 1200) {
+            second--;
+            list.bgColor= "#5e85c8";
+            list.startClass = true;
+          }
+          else if (second <= 0) {
+            list.bgColor = "#da7194";
+            list.lateShow= true;
+            second--;
+            let second2 = Math.abs(second);
+            let startTime = list.courseDate + ' ' + list.startTime;
+            let endTime = list.courseDate + ' ' + list.endTime;
+            let time = (new Date(endTime).getTime() -new Date(startTime).getTime()) / 1000;
+            if(second2>=time){
+              clearInterval(interval[i]);
+              lateList[i] = forMatTime(time)
+              this.lateTime = lateList.toString();
+            }
+            else{
+              lateList[i] = forMatTime(second2)
+              this.lateTime = lateList.toString();
+            }
+          }
+          else {
+            second--;
+          }
+        }, 1000);
       },
 //      详情显示与隐藏
       tipShow(index) {
@@ -198,6 +232,11 @@
         sendData(args);
       },
     },
+    destroyed () {
+      for(let i of interval){
+        clearInterval(i);
+      }
+    }
   }
 </script>
 

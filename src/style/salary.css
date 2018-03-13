@@ -3,55 +3,43 @@
   display: flex;
   flex-direction: column;
 }
-.salary-content .card:before {
-  z-index: -1;
-}
-.salary-content .salaryHeader {
-  padding: 20px 40px 0;
-  background-color: #fff;
-  z-index: 3;
-}
-.salary-content .salaryHeader ul {
-  border-bottom: 1px solid #eee;
-  display: flex;
-  justify-content: space-between;
-}
-.salary-content .salaryHeader li:first-child {
+.salary-content .salaryHeader h2 {
   font-size: 18px;
   color: #fc5c41;
   margin-bottom: 4px;
 }
-.salary-content .salaryHeader li:first-child span {
+.salary-content .salaryHeader h2 span {
   color: #919aab;
   font-size: 12px;
   margin-left: 8px;
 }
-.salary-content .salaryHeader li:nth-child(2) {
+.salary-content .salaryHeader p {
   color: #919aab;
   font-size: 12px;
   margin-top: 8px;
 }
 .salary-content .salaryContainer {
-  margin-top: 20px;
   overflow: auto;
-  padding: 0 40px 20px 40px;
+  padding: 20px 40px 20px 40px;
   position: relative;
-  flex: 1;
+  flex: 5;
+}
+.salary-content .salaryContainer ul {
+  position: relative;
 }
 .salary-content .salaryContainer > ul > li:first-child {
-  width: 140px;
-  margin-right: 28px;
+  width: 150px;
   overflow: hidden;
   height: 190px;
   position: absolute;
-  left: 40px;
+  left: 0;
   top: 0;
 }
 .salary-content .salaryContainer > ul > li:first-child > div {
   overflow: hidden;
   background-color: #f4fafd;
   border-radius: 5px;
-  width: 140px;
+  width: 150px;
   height: 190px;
   position: fixed !important;
 }
@@ -130,6 +118,9 @@
 }
 .salary-content .salaryContainer .ivu-table-wrapper .ivu-table tr td:last-child {
   border-right: 0;
+}
+.salary-content .salaryContainer .ivu-table-wrapper .ivu-table:after {
+  z-index: 0;
 }
 .salary-content .salaryContainer .ivu-table-wrapper .ivu-table-cell {
   padding: 0;

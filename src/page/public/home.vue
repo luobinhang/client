@@ -9,7 +9,7 @@
           <div class="home-detail">
             <p>
               <span class="home-tag">明星教师</span> ，
-              <span class="home-name">{{ info.name }}</span>
+              <span class="home-name">{{ info.name }}！</span>
             </p>
             <p class="home-detail-text">
               本月累计上课
@@ -45,7 +45,7 @@
             <li>
               <router-link to="/">
                 <div class="home-nav-icon">
-                  <i class="icon iconfont icon-cultivate" style="font-size: 22px"></i>
+                  <!--<i class="icon iconfont icon-cultivate" style="font-size: 22px"></i>-->
                 </div>
                 <span>入门培训</span>
               </router-link>
@@ -53,7 +53,7 @@
             <li>
               <router-link to="/">
                 <div class="home-nav-icon">
-                  <i class="icon iconfont icon-tubiaodiaozheng205" style="font-size: 28px;margin-top: -2px;"></i>
+                  <!--<i class="icon iconfont icon-tubiaodiaozheng205" style="font-size: 28px;margin-top: -2px;"></i>-->
                 </div>
                 <span>测评培训</span>
               </router-link>
@@ -61,7 +61,7 @@
             <li>
               <router-link to="courseManage/freeTime">
                 <div class="home-nav-icon">
-                  <i class="icon iconfont icon-kongxianshijian" style="font-size: 22px;"></i>
+                  <!--<i class="icon iconfont icon-kongxianshijian" style="font-size: 22px;"></i>-->
                 </div>
                 <span>空闲时间</span>
               </router-link>
@@ -69,7 +69,7 @@
             <li>
               <router-link to="personal/salary">
                 <div class="home-nav-icon">
-                  <i class="icon iconfont icon-xinzi" style="font-size: 18px;margin-top: 1px"></i>
+                  <!--<i class="icon iconfont icon-xinzi" style="font-size: 18px;margin-top: 1px"></i>-->
                 </div>
                 <span>薪资结算</span>
               </router-link>
@@ -77,7 +77,7 @@
             <li>
               <router-link to="/">
                 <div class="home-nav-icon">
-                  <i class="icon iconfont icon-shequ" style="font-size: 30px;"></i>
+                  <!--<i class="icon iconfont icon-shequ" style="font-size: 30px;"></i>-->
                 </div>
                 <span>嗨社区</span>
               </router-link>
@@ -146,6 +146,13 @@
             </tr>
           </table>
         </div>
+        <Spin fix id="loadAPP" v-if="homeClassListShow">
+          <div class="loader">
+            <svg class="circular" viewBox="25 25 50 50">
+              <circle class="path" cx="50" cy="50" r="20" fill="none" stroke-width="5" stroke-miterlimit="10"></circle>
+            </svg>
+          </div>
+        </Spin>
       </div>
     </div>
   </div>
@@ -190,28 +197,29 @@
         courseCalendar:this.$store.state.courseCalendar, //获取日历接口
         dateCourseList:this.$store.state.dateCourseList, //获取日历课程接口
         teacherInfo:this.$store.state.teacherInfo, //获取教师信息接口
+        homeClassListShow: false, //课程列表loading
       }
     },
     beforeMount () {
 
     },
     mounted () {
-      let temp = 0;
-      let token  = sessionStorage.getItem("token");
-      if( token == null || token == ''){
-        let getToken = setInterval(() => {
-          token  = sessionStorage.getItem("token");
-          temp++;
-          if(token != 'null' || token == '' || temp > 20){
-            clearInterval(getToken);
+//      let temp = 0;
+//      let token  = sessionStorage.getItem("token");
+//      if( token == null || token == ''){
+//        let getToken = setInterval(() => {
+//          token  = sessionStorage.getItem("token");
+//          temp++;
+//          if(token != 'null' || token == '' || temp > 20){
+//            clearInterval(getToken);
             this.timeSet();
             this.getInfo();
-          }
-        },300);
-      } else {
-        this.timeSet();
-        this.getInfo();
-      }
+//          }
+//        },300);
+//      } else {
+//        this.timeSet();
+//        this.getInfo();
+//      }
     },
     created: function () {
     },
@@ -292,6 +300,7 @@
         if(day.dateStatus != 2) {
           return false
         } else {
+          this.homeClassListShow = true;
           this.day = day.dateDay;
           this.pickIndex = pick;
           let dateDay = this.day < 10? '0'+this.day:this.day;
@@ -301,9 +310,11 @@
             params:{
               'courseDate' : ymd,
             },
+            loading: false,
           }).then( res => {
             this.classList = res.data.data.list;
             this.classTotal = res.data.data.total;
+            this.homeClassListShow = false;
           })
         }
       },

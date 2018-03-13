@@ -31,6 +31,9 @@ em, i {
 b, strong, h1, h2, h3, h4, h5, h6 {
   font-weight: normal;
 }
+li{
+  list-style: none;
+}
 .clear:after{
   content: '';
   overflow: hidden;
@@ -87,16 +90,16 @@ b, strong, h1, h2, h3, h4, h5, h6 {
   -ms-flex-direction: column;
   -webkit-flex-direction: column;
   background: @background-color2;
-  flex: 1;
+  flex: 5;
   .header {
     position: relative;
     background: #5e85c8;
     box-shadow: 0 7px 7px rgba(160,131,137,.35);
     height: 50px;
-    z-index: 1;
+    z-index: 2;
     .header-main {
       position: relative;
-      z-index: 1;
+      z-index: 2;
       height: 100%;
       display: -webkit-box;
       display: -moz-box;
@@ -180,6 +183,9 @@ b, strong, h1, h2, h3, h4, h5, h6 {
                 &:hover{
                   background: @primary-color ;
                 }
+                span{
+                  display: block;
+                }
               }
             }
           }
@@ -198,15 +204,17 @@ b, strong, h1, h2, h3, h4, h5, h6 {
   }
   .container {
     position: relative;
-    flex: 1;
     overflow: hidden;
+    height: 100%;
+    width: 100%;
+    display: flex;
     .nav-left {
       width: 48px;
       background: #54637f;
       position: absolute;
       left: 0;
       top: 0;
-      z-index: 1;
+      z-index: 3;
       height: 100%;
       box-shadow: 7px 3px 7px rgba(160, 131, 137, .35);
       .nav-left-main {
@@ -214,10 +222,6 @@ b, strong, h1, h2, h3, h4, h5, h6 {
         z-index: 1;
         li {
           background: #54637f;
-          -webkit-transition: background .3s;
-          -moz-transition: background .3s;
-          -ms-transition: background .3s;
-          -o-transition: background .3s;
           transition: background .3s;
           border-bottom: 1px solid #748198;
           cursor: pointer;
@@ -297,12 +301,12 @@ b, strong, h1, h2, h3, h4, h5, h6 {
     }
     .section {
       position: relative;
-      z-index: 0;
-      height: 100%;
+      flex: 5;
       padding-left: 48px;
+      width: 100%;
+      display: flex;
       .content{
         background: #fff;
-        height: 100%;
         overflow-y: auto;
         overflow-x: hidden;
         display: -webkit-box;
@@ -403,64 +407,64 @@ b, strong, h1, h2, h3, h4, h5, h6 {
 }
 
 
-//.slide-left-enter, .slide-right-leave-active {
-//  position: absolute;
-//  height: 100%;
-//  opacity: 0;
-//  -webkit-transform: translate(30px, 0);
-//  transform: translate(30px, 0);
-//}
-//.slide-left-leave-active, .slide-right-enter {
-//  position: absolute;
-//  opacity: 0;
-//  height: 100%;
-//  -webkit-transform: translate(-30px, 0);
-//  transform: translate(-30px, 0);
-//}
+.slide-left-enter, .slide-right-leave-active {
+  position: absolute;
+  height: 100%;
+  opacity: 0;
+  -webkit-transform: translate(30px, 0);
+  transform: translate(30px, 0);
+}
+.slide-left-leave-active, .slide-right-enter {
+  position: absolute;
+  opacity: 0;
+  height: 100%;
+  -webkit-transform: translate(-30px, 0);
+  transform: translate(-30px, 0);
+}
 
-//.slide-left-enter-active, .slide-right-leave-active {
-//  transition: all .1s;
-//}
-//.slide-left, .slide-right-leave-active {
-//  opacity: 0;
-//}
-//.slide-left-enter,.slide-left-leave-to{
-//  transform: translateX(31px);
-//  opacity: 0;
-//}
-//.slide-right-enter,.slide-right-leave-to{
-//  transform: translateX(31px);
-//  opacity: 0;
-//}
-//.slide-right-leave-active {
-//  transform: translateX(-31px);
-//  opacity: 0;
-//}
+.slide-left-enter-active, .slide-right-leave-active {
+  transition: all .1s;
+}
+.slide-left, .slide-right-leave-active {
+  opacity: 0;
+}
+.slide-left-enter,.slide-left-leave-to{
+  transform: translateX(31px);
+  opacity: 0;
+}
+.slide-right-enter,.slide-right-leave-to{
+  transform: translateX(31px);
+  opacity: 0;
+}
+.slide-right-leave-active {
+  transform: translateX(-31px);
+  opacity: 0;
+}
 
 
-//.slide-fade-enter-active {
-//   transition: transform .8s ease;
-// }
-//
-//.slide-fade-enter{
-//  transform: translateX(50px);
-//  opacity: 0;
-//}
-//.slide-leave{
-//  opacity: 0;
-//}
-//.slide-fade-enter-active {
-//  transition: opacity .8s ease;
-//}
-//.slide-fade-enter, .slide-fade-leave-to {
-//  //transform: translateX(50px);
-//  opacity: 0;
-//  //position: absolute;
-//}
-//.slide-leave{
-//  opacity: 0;
-//  position: absolute;
-//}
+.slide-fade-enter-active {
+   transition: transform .8s ease;
+ }
+
+.slide-fade-enter{
+  transform: translateX(50px);
+  opacity: 0;
+}
+.slide-leave{
+  opacity: 0;
+}
+.slide-fade-enter-active {
+  transition: opacity .8s ease;
+}
+.slide-fade-enter, .slide-fade-leave-to {
+  //transform: translateX(50px);
+  opacity: 0;
+  //position: absolute;
+}
+.slide-leave{
+  opacity: 0;
+  position: absolute;
+}
 
 .vux-pop-out-enter-active,
 .vux-pop-in-enter-active
@@ -500,4 +504,77 @@ b, strong, h1, h2, h3, h4, h5, h6 {
 .vux-pop-in-leave-active {
   opacity: 0;
   transform: translate3d(-20%, 0, 0);
+}
+
+
+
+/*
+
+loading
+
+**/
+.loader{
+  width: 30px;
+  height: 30px;
+  position: relative;
+  margin: 0 auto;
+}
+.ivu-spin-fix{
+  z-index: 33;
+}
+.circular {
+  -webkit-animation: rotate 2s linear infinite;
+  animation: rotate 2s linear infinite;
+  height: 100%;
+  -webkit-transform-origin: center center;
+  transform-origin: center center;
+  width: 100%;
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  margin: auto;
+}
+.path {
+  stroke-dasharray: 1,200;
+  stroke-dashoffset: 0;
+  -webkit-animation: dash 1.5s ease-in-out infinite,color 6s ease-in-out infinite;
+  animation: dash 1.5s ease-in-out infinite,color 6s ease-in-out infinite;
+  stroke-linecap: round;
+}
+
+@keyframes rotate{
+  100% {
+    -webkit-transform: rotate(1turn);
+    transform: rotate(1turn);
+  }
+}
+@keyframes color{
+  0%, 100% {
+    stroke: #5e85c8;
+  }
+  40% {
+    stroke: #623db6;
+  }
+  66% {
+    stroke: #008744;
+  }
+  80%, 90% {
+    stroke: #ffa700;
+  }
+}
+@keyframes dash{
+  0% {
+    stroke-dasharray: 1,200;
+    stroke-dashoffset: 0;
+  }
+  50% {
+    stroke-dasharray: 89,200;
+    stroke-dashoffset: -35;
+  }
+  100% {
+    stroke-dasharray: 89,200;
+    stroke-dashoffset: -124;
+  }
 }

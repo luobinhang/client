@@ -1,10 +1,10 @@
 <template>
   <div class="salary-content">
-    <div class="salaryHeader">
-      <ul>
-        <li>薪资结算<!--<span>申诉</span>--></li>
-        <li>*老师薪资通过工资卡发放，请到个人信息页面填写卡片信息</li>
-      </ul>
+    <div class="salaryHeader commonTitle">
+      <div class="commonTitleMain">
+        <h2>薪资结算<!--<span>申诉</span>--></h2>
+        <p>*老师薪资通过工资卡发放，请到个人信息页面填写卡片信息</p>
+      </div>
     </div>
     <div class="salaryContainer">
       <ul>
@@ -178,7 +178,6 @@
     methods: {
 //      点击补录显示
       show(){
-        console.log(1);
         this.modal = true;
         this.money = "",
           this.textarea = ""

@@ -7,7 +7,6 @@
   -webkit-box-direction: normal;
   -ms-flex-direction: column;
   flex-direction: column;
-  height: 100%;
   position: relative;
 }
 .info-content .info-title .info-title-main a {
@@ -25,19 +24,19 @@
 }
 .info-content .info-main {
   position: relative;
-  -webkit-box-flex: 1;
-  -ms-flex: 1;
-  flex: 1;
+  flex: 5;
   overflow: hidden;
+  display: flex;
 }
 .info-content .info-read-main {
-  height: 100%;
   overflow: hidden;
   padding: 30px 40px;
+  display: flex;
 }
 .info-content .info-read-main .info-read-content {
   overflow-y: auto;
-  height: 100%;
+  flex: 5;
+  display: flex;
 }
 .info-content .info-read-main .info-read-content .info-left {
   position: absolute;
@@ -75,10 +74,17 @@
   margin: 0 auto;
   overflow: hidden;
   border-radius: 50%;
+  background: url("../assets/teacher/headerBase.png");
+}
+.info-content .info-read-main .info-read-content .info-left .info-left-main .info-left-top .info-header div {
+  width: 100%;
+  height: 100%;
+  background: #fff;
 }
 .info-content .info-read-main .info-read-content .info-left .info-left-main .info-left-top .info-header img {
   width: 100%;
   height: 100%;
+  display: block;
 }
 .info-content .info-read-main .info-read-content .info-left .info-left-main .info-left-top .info-name {
   margin: 18px 0;
@@ -104,9 +110,10 @@
   text-align: center;
   margin: 0 auto;
 }
-.info-content .info-read-main .info-read-content .info-left .info-left-main .info-left-bottom a {
+.info-content .info-read-main .info-read-content .info-left .info-left-main .info-left-bottom button {
   display: block;
   height: 100%;
+  width: 100%;
 }
 .info-content .info-read-main .info-read-content .info-left .info-left-main .info-left-bottom:hover {
   background-color: #efefef;
@@ -117,14 +124,13 @@
 .info-content .info-read-main .info-read-content .info-right {
   padding-left: 220px;
   width: 100%;
-  height: 100%;
   background: #fff;
+  flex: 5;
+  overflow-y: auto;
 }
 .info-content .info-read-main .info-read-content .info-right .info-right-main {
   position: relative;
   z-index: 1;
-  height: 100%;
-  overflow-y: auto;
   padding: 15px 30px 15px 40px;
 }
 .info-content .info-read-main .info-read-content .info-right .info-right-main .info-item .info-item-title {
@@ -215,19 +221,21 @@
   display: block;
 }
 .info-content .info-edit-main {
-  height: 100%;
   overflow: hidden;
   padding: 30px 40px;
+  width: 100%;
+  display: flex;
 }
 .info-content .info-edit-main .info-edit-content {
   overflow: hidden;
-  height: 100%;
+  width: 100%;
   background: #fff;
+  display: flex;
 }
 .info-content .info-edit-main .info-edit-content .info-edit-detail {
+  width: 100%;
   position: relative;
   z-index: 1;
-  height: 100%;
   padding: 0 100px;
   display: flex;
   flex-direction: column;
@@ -274,7 +282,7 @@
   height: 1px;
   background: #dadada;
   display: block;
-  flex: 1;
+  flex: 5;
   margin: 0 11px;
 }
 .info-content .info-edit-main .info-edit-content .info-edit-detail .info-edit-nav ul li.success {
@@ -305,24 +313,27 @@
   line-height: 1;
 }
 .info-content .info-edit-main .info-edit-content .info-edit-detail .info-edit-form {
-  flex: 1;
+  flex: 5;
   overflow: hidden;
+  width: 100%;
+  display: flex;
 }
 .info-content .info-edit-main .info-edit-content .info-edit-detail .info-edit-form .info-edit-wrapper {
-  width: 500%;
+  width: 100%;
+  flex: 5;
   position: relative;
-  height: 100%;
   transition: all .3s;
 }
 .info-content .info-edit-main .info-edit-content .info-edit-detail .info-edit-form .info-edit-wrapper .info-edit-slider {
   position: absolute;
   top: 0;
-  width: 20%;
+  width: 100%;
   height: 100%;
 }
 .info-content .info-edit-main .info-edit-content .info-edit-detail .info-edit-form .info-edit-wrapper .info-edit-slider > div {
   height: 100%;
   padding: 40px 0;
+  overflow-y: auto;
 }
 .info-content .info-edit-main .info-edit-content .info-edit-detail .info-edit-form .info-edit-wrapper .info-edit-slider:nth-of-type(1) {
   left: 0;
@@ -348,6 +359,12 @@
   height: 92px;
   border-radius: 92px;
   overflow: hidden;
+  background: url("../assets/teacher/headerBase.png");
+}
+.info-content .info-edit-main .info-edit-content .info-edit-detail .info-edit-form .info-edit-wrapper .info-edit-slider .info-edit-contect .info-edit-left .info-edit-header div {
+  width: 100%;
+  height: 100%;
+  background: #fff;
 }
 .info-content .info-edit-main .info-edit-content .info-edit-detail .info-edit-form .info-edit-wrapper .info-edit-slider .info-edit-contect .info-edit-left .info-edit-header img {
   width: 100%;
@@ -366,7 +383,7 @@
 }
 .info-content .info-edit-main .info-edit-content .info-edit-detail .info-edit-form .info-edit-wrapper .info-edit-slider .info-edit-contect .info-edit-right {
   padding-left: 45px;
-  flex: 1;
+  flex: 5;
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;

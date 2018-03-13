@@ -4,7 +4,7 @@
   display: -ms-flexbox;
   display: -webkit-flex;
   display: flex;
-  flex: 1;
+  flex: 5;
   min-height: 530px;
   padding: 20px 40px;
 }
@@ -13,7 +13,7 @@
 }
 .home-content .home-left {
   margin-right: 30px;
-  flex: 1;
+  flex: 5;
   display: -webkit-box;
   display: -moz-box;
   display: -ms-flexbox;
@@ -41,7 +41,7 @@
   display: block;
 }
 .home-content .home-left .home-info .home-info-top .home-detail {
-  flex: 1;
+  flex: 5;
   font-size: 14px;
   padding-top: 3px;
 }
@@ -75,7 +75,7 @@
   color: #727a89;
 }
 .home-content .home-left .home-info .home-info-mid .home-progress {
-  flex: 1;
+  flex: 5;
   position: relative;
   height: 19px;
   padding: 3.5px 0;
@@ -103,8 +103,8 @@
   transform: translate3d(-50%, -50%, 0);
 }
 .home-content .home-left .home-info .home-info-mid .home-progress .home-progress-main .progress-first .progress-tag {
-  height: 14px;
-  width: 38px;
+  height: 16px;
+  width: 50px;
   text-align: center;
   position: relative;
   line-height: 14px;
@@ -141,8 +141,8 @@
   transform: translate3d(-50%, -50%, 0);
 }
 .home-content .home-left .home-info .home-info-mid .home-progress .home-progress-main .progress-second .progress-tag {
-  height: 14px;
-  width: 38px;
+  height: 16px;
+  width: 50px;
   text-align: center;
   position: relative;
   line-height: 14px;
@@ -208,9 +208,9 @@
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
-  -webkit-box-flex: 1;
-  -webkit-flex: 1;
-  flex: 1;
+  -webkit-box-flex: 5;
+  -webkit-flex: 5;
+  flex: 5;
   max-width: 320px;
 }
 .home-content .home-left .home-info .home-info-bottom ul li a span {
@@ -230,11 +230,24 @@
   display: flex;
 }
 .home-content .home-left .home-info .home-info-nav ul li {
-  flex: 1;
+  flex: 5;
   text-align: center;
   color: #5e85c8;
   cursor: pointer;
   transition: color .2s;
+}
+.home-content .home-left .home-info .home-info-nav ul li a {
+  width: 80px;
+  display: block;
+  margin: 0 auto;
+  height: 60px;
+  border-radius: 7px;
+}
+.home-content .home-left .home-info .home-info-nav ul li a:hover {
+  background: rgba(94, 133, 200, 0.2);
+}
+.home-content .home-left .home-info .home-info-nav ul li a:active {
+  background: rgba(94, 133, 200, 0.3);
 }
 .home-content .home-left .home-info .home-info-nav ul li .home-nav-icon {
   height: 35px;
@@ -249,17 +262,23 @@
   transform: translate3d(-50%, -50%, 0);
   line-height: 1;
 }
-.home-content .home-left .home-info .home-info-nav ul li:hover {
-  color: #7e9dd3;
+.home-content .home-left .home-info .home-info-nav ul li:nth-of-type(1) .home-nav-icon {
+  background: url('../assets/teacher/homeNav1.png') no-repeat center;
 }
-.home-content .home-left .home-info .home-info-nav ul li:active {
-  color: #4b6aa0;
+.home-content .home-left .home-info .home-info-nav ul li:nth-of-type(2) .home-nav-icon {
+  background: url('../assets/teacher/homeNav2.png') no-repeat center;
 }
-.home-content .home-left .home-info .home-info-nav ul li:active .home-nav-icon {
-  transform: scale(0.95);
+.home-content .home-left .home-info .home-info-nav ul li:nth-of-type(3) .home-nav-icon {
+  background: url('../assets/teacher/homeNav3.png') no-repeat center;
+}
+.home-content .home-left .home-info .home-info-nav ul li:nth-of-type(4) .home-nav-icon {
+  background: url('../assets/teacher/homeNav4.png') no-repeat center;
+}
+.home-content .home-left .home-info .home-info-nav ul li:nth-of-type(5) .home-nav-icon {
+  background: url('../assets/teacher/homeNav5.png') no-repeat center;
 }
 .home-content .home-left .home-class-tip {
-  flex: 1;
+  flex: 5;
   margin-top: 20px;
   min-height: 179px;
   overflow: auto;
@@ -315,7 +334,7 @@
   background: #727a89;
 }
 .home-content .home-right {
-  flex: 1;
+  flex: 5;
   display: -webkit-box;
   display: -moz-box;
   display: -ms-flexbox;
@@ -341,7 +360,7 @@
   line-height: 24px;
 }
 .home-content .home-right .home-date .home-date-main .home-date-select h2 {
-  flex: 1;
+  flex: 5;
   color: #73676b;
   font-size: 14px;
 }
@@ -437,7 +456,7 @@
   border-right: 4px solid transparent;
 }
 .home-content .home-right .home-class-list {
-  flex: 1;
+  flex: 5;
   border-bottom-left-radius: 4px;
   border-bottom-right-radius: 4px;
   padding: 20px 37px 15px;

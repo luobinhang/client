@@ -1,5 +1,5 @@
 <template>
-  <div class="header clear">
+  <div class="header">
     <div class="header-main">
       <!--<div class="logo">-->
         <!--<img src="../assets/images/logo.png" alt="logo">-->
@@ -89,7 +89,7 @@
               <router-link to="/personal/HBapplication">手写板申请</router-link>
             </li>
             <li>
-              <router-link to="/personal/changePassword">重置密码</router-link>
+              <router-link to="/personal/info"><span @click="changePsw">修改密码</span></router-link>
             </li>
           </ul>
         </div>
@@ -153,6 +153,9 @@
         this.helpIndex = index;
         this.$refs.helpArrow.style.top = this.offsetTop + 'px';
       },
+      changePsw(){
+        this.$store.commit("CHANGE_PASSWORD","true");
+      }
     },
   }
 </script>

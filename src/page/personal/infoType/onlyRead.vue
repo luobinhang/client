@@ -19,7 +19,7 @@
             </div>
           </div>
           <div class="info-left-bottom">
-            <router-link to="/personal/changePassword">修改密码</router-link>
+            <Button @click="changePsw">修改密码</Button>
           </div>
         </div>
       </div>
@@ -32,13 +32,13 @@
             <div class="info-item-detail">
               <table cellspacing="0" cellpadding="0" border="0">
                 <tr>
-                  <td>微信：{{ infoData.wechat }}</td>
-                  <td>邮箱：{{ infoData.email }}</td>
-                  <td>QQ：{{ infoData.qq }}</td>
+                  <td>微信：{{ infoData.wechat || "无" }}</td>
+                  <td>邮箱：{{ infoData.email || "无" }}</td>
+                  <td>QQ：{{ infoData.qq || "无" }}</td>
                 </tr>
                 <tr>
-                  <td>紧急联系人：{{ infoData.emergencyPhone }}</td>
-                  <td>紧急联系人关系：{{ infoData.emergencyRelation }}</td>
+                  <td>紧急联系人：{{ infoData.emergencyPhone || "无" }}</td>
+                  <td>紧急联系人关系：{{ infoData.emergencyRelation || "无" }}</td>
                 </tr>
               </table>
             </div>
@@ -48,19 +48,24 @@
               <h2>学历信息</h2>
             </div>
             <div class="info-item-detail">
-              <table cellspacing="0" cellpadding="0" border="0">
+              <table cellspacing="0" cellpadding="0" border="0" style="table-layout: fixed;">
+                <colgroup>
+                  <col width="40%">
+                  <col>
+                  <col>
+                </colgroup>
                 <tr>
-                  <td>高考所在地：{{ infoData.examLocation }}</td>
-                  <td>文理科：{{ infoData.artsOrScience | science }}</td>
+                  <td>高考所在地：{{ infoData.examLocation || "无" }}</td>
+                  <td>文理科：{{ infoData.artsOrScience || "无" | science }}</td>
                 </tr>
                 <tr>
-                  <td>在读院校：{{ infoData.teacherSchoolName }}</td>
-                  <td>学历：{{ infoData.education | education }}</td>
-                  <td>最高学历：{{ infoData.highestEducation | education }}</td>
+                  <td>在读院校：{{ infoData.teacherSchoolName || "无" }}</td>
+                  <td>学历：{{ infoData.education || "无" | education }}</td>
+                  <td>最高学历：{{ infoData.highestEducation || "无" | education }}</td>
                 </tr>
                 <tr>
-                  <td>专业：{{ infoData.major }}</td>
-                  <td>年级：{{ infoData.grade }}</td>
+                  <td>专业：{{ infoData.major || "无" }}</td>
+                  <td>年级：{{ infoData.grade || "无" }}</td>
                 </tr>
               </table>
             </div>
@@ -72,10 +77,10 @@
             <div class="info-item-detail">
               <table cellspacing="0" cellpadding="0" border="0">
                 <tr>
-                  <td>年级偏好：{{ infoData.gradePreferenceName }}</td>
-                  <td>第一科目：{{ infoData.teachingSubject }}</td>
-                  <td>第二科目：{{ infoData.secondSubject }}</td>
-                  <td>第三科目：{{ infoData.thirdSubject }}</td>
+                  <td>年级偏好：{{ infoData.gradePreferenceName || "无" }}</td>
+                  <td>第一科目：{{ infoData.teachingSubject || "无" }}</td>
+                  <td>第二科目：{{ infoData.secondSubject || "无" }}</td>
+                  <td>第三科目：{{ infoData.thirdSubject || "无" }}</td>
                 </tr>
               </table>
             </div>
@@ -88,7 +93,7 @@
             <div class="info-item-detail" :class="{'filter':!switchPay}">
               <table cellspacing="0" cellpadding="0" border="0">
                 <tr>
-                  <td>身份证号码：{{ replace(infoData.idNumber,3,14) }}</td>
+                  <td>身份证号码：{{ replace(infoData.idNumber,3,14) || "无" }}</td>
                 </tr>
               </table>
               <div class="info-item-pic">
@@ -102,8 +107,8 @@
               <table cellspacing="0" cellpadding="0" border="0">
                 <tr>
                   <td>银行：招商银行</td>
-                  <td>银行卡号：{{ replace(infoData.cardNumber,5,14) }}</td>
-                  <td>开户行：{{ infoData.bankAddress }}</td>
+                  <td>银行卡号：{{ replace(infoData.cardNumber,5,14) || "无" }}</td>
+                  <td>开户行：{{ infoData.bankAddress || "无" }}</td>
                 </tr>
               </table>
               <div class="info-item-pic">
@@ -258,7 +263,10 @@
               }
             }
           })
-      }
+      },
+      changePsw(){
+        this.$store.commit("CHANGE_PASSWORD","true");
+      },
     },
     filters:{
       science (val) {

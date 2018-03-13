@@ -1,7 +1,7 @@
 <template>
   <div class="home-info-bottom">
     <ul :class="{anim:animate==true}" @mouseover="clearScroll()" @mouseout="startScroll()">
-      <li v-for="(item,$index) in noticeList" :key="$index">
+      <li v-for="(item,$index) in noticeList" :key="$index" @click="bulletinBoardShow ()">
         <a href="javascript:;">
           <p>{{ item.text }}</p>
           <span>{{ item.date }}</span>
@@ -43,6 +43,9 @@
       },
       startScroll () { //滚动开始
         this.scrollTime = setInterval(this.noticeScroll, 2000)
+      },
+      bulletinBoardShow () {
+        this.$store.commit("BULLETIN_BOARD","true");
       },
     },
     destroyed () {

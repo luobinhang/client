@@ -37,7 +37,6 @@
 .crContainer .commonTitle .crHeader > div:nth-child(2) .ivu-select-single .ivu-select-selection .ivu-select-selected-value {
   line-height: 27px !important;
   height: 27px !important;
-  padding-left: 15px !important;
 }
 .crContainer .commonTitle .crHeader > div:nth-child(2) .ivu-select-visible .ivu-select-selection {
   box-shadow: none;
@@ -101,7 +100,7 @@
   overflow: auto;
   position: relative;
   padding: 0 40px;
-  flex: 1;
+  flex: 5;
 }
 .crContainer .crBody .crTitle {
   padding: 0 0 20px 0;
@@ -129,16 +128,26 @@
   height: 100%;
   top: 0;
   left: 0;
-  background-color: rgba(0, 0, 0, 0.5);
+  transition: all ease-out 250ms;
   border-top-left-radius: 4px;
   border-top-right-radius: 4px;
+  cursor: pointer;
 }
 .crContainer .crBody .courseList li .courseHead .playVideo > img {
-  transform: translate(-50%, -50%);
   position: absolute;
   top: 50%;
   left: 50%;
-  cursor: pointer;
+  margin: -18px 0 0 -18px;
+  transform: scale(2);
+  transition: all ease-out 250ms;
+  opacity: 0;
+}
+.crContainer .crBody .courseList li .courseHead .playVideo:hover {
+  background-color: rgba(0, 0, 0, 0.5);
+}
+.crContainer .crBody .courseList li .courseHead .playVideo:hover > img {
+  opacity: 1;
+  transform: scale(1);
 }
 .crContainer .crBody .courseList li .courseHead .notFound {
   text-align: center;
@@ -176,7 +185,7 @@
   z-index: 3;
 }
 .videoWarp .videoContain {
-  width: 75%;
+  width: 59%;
   position: absolute;
   top: 50%;
   left: 50%;
@@ -198,6 +207,8 @@
   width: 100%;
   padding-top: 56.25%;
   position: relative;
+  padding-bottom: 54px;
+  min-height: 450px;
 }
 .videoWarp .videoContain .videoBody .videoMain {
   position: absolute;

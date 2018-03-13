@@ -1,12 +1,18 @@
 <template>
-  <div class="content">
-    <div class="main changePassword">
-      <Form ref="formCustom" :model="formCustom" :rules="ruleCustom" :label-width="80">
-        <FormItem label="手机号" prop="phone">
-          <Input type="text" v-model="userPhone" number disabled="disabled"></Input>
+  <Modal v-model="changePassword" width="377" :transfer="false" :mask-closable="false" :closable="false">
+    <p slot="header">
+      <span>修改密码</span>
+      <i class="close" @click="close">
+        <img src="../assets/images/close2.png" alt="关闭">
+      </i>
+    </p>
+    <div class="pswMoudel">
+      <Form ref="formCustom" :model="formCustom" :rules="ruleCustom" :label-width="85">
+        <FormItem label="手机号：" prop="phone">
+          <p>{{userPhone}}</p>
         </FormItem>
-        <FormItem label="验证码" prop="code">
-          <Input type="text" v-model="formCustom.code"></Input>
+        <FormItem label="验证码：" prop="code">
+          <Input type="text" v-model="formCustom.code" :maxlength="6" number></Input>
           <Button
             type="primary"
             @click="handleCode('formCustom')"
@@ -16,25 +22,23 @@
           >{{ codeState }}</Button>
         </FormItem>
         <!--<FormItem label="旧密码" prop="passwdOld">-->
-          <!--<Input type="password" v-model="formCustom.passwdOld"></Input>-->
+        <!--<Input type="password" v-model="formCustom.passwdOld"></Input>-->
         <!--</FormItem>-->
-        <FormItem label="新密码" prop="passwd">
+        <FormItem label="新密码：" prop="passwd" :maxlength="20">
           <Input type="password" v-model="formCustom.passwd"></Input>
         </FormItem>
-        <FormItem label="确认密码" prop="passwdCheck">
+        <FormItem label="确认密码：" prop="passwdCheck" :maxlength="20">
           <Input type="password" v-model="formCustom.passwdCheck"></Input>
-        </FormItem>
-
-        <FormItem>
-          <Button type="primary" @click="handleSubmit('formCustom')">提交</Button>
-          <Button type="ghost" @click="handleReset('formCustom')" style="margin-left: 8px">重置</Button>
         </FormItem>
       </Form>
     </div>
-  </div>
+    <div slot="footer">
+      <Button type="primary" @click="handleSubmit('formCustom')">提交</Button>
+    </div>
+  </Modal>
 </template>
 <script>
-  import sha512 from '../../../static/js/sha512'
+  import sha512 from '../../static/js/sha512'
   const phoneReg=/^[1][3,4,5,7,8][0-9]{9}$/;
   const pwdReg = /^(?![\d]+$)(?![a-zA-Z]+$)(?![^\da-zA-Z]+$).{6,20}$/;
   const isFirst = sessionStorage.getItem('isFirst');
@@ -82,7 +86,7 @@
         } else if (value.length < 6) {
           callback(new Error('密码不能小于6位!'));
         } else if(!pwdReg.test(value)){
-          callback(new Error('请使用字母、数字和符号两种及以上6-20位密码!'));
+          callback(new Error('字母、数字和符号两种及以上6-20位'));
         } else {
           if (this.formCustom.passwdCheck !== '') {
             // 对第二个密码框单独验证
@@ -98,7 +102,7 @@
         } else if (value.length < 6) {
           callback(new Error('密码不能小于6位!'));
         }else if(!pwdReg.test(value)){
-          callback(new Error('请使用字母、数字和符号两种及以上6-20位密码!'));
+          callback(new Error('字母、数字和符号两种及以上6-20位'));
         }  else if (value !== this.formCustom.passwd) {
           callback(new Error('两次输入密码不一致!'));
         } else{
@@ -112,10 +116,10 @@
         changeSuccess: false,
         userPhoneData:'',
         show:false,
-        codeState:'获取验证码',
+        codeState:'获取',
         codeTemp:60,
         disabled:false,
-        authCode:0,
+//        authCode:0,
         disabledBtn:false,
         formCustom: {
           phone:'',
@@ -124,6 +128,7 @@
           passwdCheck: '',
           code: '',
         },
+        changePassword:true,
         ruleCustom: {
 //          passwdOld: [
 //            { validator: validatePassOld, trigger: 'blur' }
@@ -143,23 +148,35 @@
         }
       }
     },
+    beforeMount () {
+    },
+    mounted () {
+      this.changePassword = true,
+      this.getPhone();
+      if(isFirst == 'true'){
+        const title = '提示';
+        const content = '<p>您当前密码为原始密码，为保证账户安全，请修改。</p>';
+        this.$Modal.warning({
+          title: title,
+          content: content
+        });
+      }
+    },
+    created: function () {
+    },
+    computed:{
+
+    },
     watch:{
       codeState(curVal,oldVal){  //监听倒计时
         this.codeState = curVal;
       }
     },
-    mounted:function() {
-        this.getPhone();
-        if(isFirst == 'true'){
-          const title = '提示';
-          const content = '<p>您当前密码为原始密码，为保证账户安全，请修改。</p>';
-          this.$Modal.warning({
-            title: title,
-            content: content
-          });
-        }
-    },
     methods: {
+      close(){
+        this.$store.commit("CHANGE_PASSWORD","false");
+        this.changePassword = false;
+      },
       handleSubmit (name) {   //提交重置后密码
         this.$refs[name].validate((valid) => {
           if (valid) {
@@ -168,32 +185,31 @@
               method:"post",
               url: this.$store.state.resetpsd,
               data: {
-                'token' : token,
                 'phone' : this.userPhoneData,
 //                'oldPassword' : oldPassword,
-                'authCode' : this.authCode,
+                'authCode' : this.formCustom.code,
                 'password' : newPassword,
               },
             })
-            .then( res => {
-              const title = '提示';
-              const content = '<p>密码修改成功,请重新登陆!</p>';
-              this.$Modal.success({
-                title: title,
-                content: content,
-                onOk: function(){
-                  let args = '{' +
-                    '"requesttype":14,' +
-                    '"messageid":'+ 0 +',' +
-                    '"jscallback" : "signOut",' +
-                    '"data" : {' +
-                    '"msgbox" :'+ true +'' +
-                    '}'+
-                    '}'
-                  sendData(args);
-                }
-              });
-            })
+              .then( res => {
+                const title = '提示';
+                const content = '<p>密码修改成功,请重新登陆!</p>';
+                this.$Modal.success({
+                  title: title,
+                  content: content,
+                  onOk: function(){
+                    let args = '{' +
+                      '"requesttype":14,' +
+                      '"messageid":'+ 0 +',' +
+                      '"jscallback" : "signOut",' +
+                      '"data" : {' +
+                      '"msgbox" :'+ true +'' +
+                      '}'+
+                      '}'
+                    sendData(args);
+                  }
+                });
+              })
 
           } else {
             this.$Message.error('请完善表单');
@@ -211,58 +227,83 @@
           url: this.$store.state.getAuthCode,
           data:{
             'phone' : phone,
-          }
+          },
+          loading: false,
         })
-        .then( res => {
-          const that = this;
-          let temp = 60;
-          that.disabled = true;
-          that.disabledBtn = true;
-          that.codeState = temp + "秒后重试";
-          let secondDown = setInterval(function(){
-            temp--;
-            that.codeState = temp + "秒后重试";
-            if(temp<=0){
-              that.codeState = '获取验证码' ;
-              that.disabled = false;
-              that.disabledBtn = false;
-              clearInterval(secondDown)
-            }
-          },1000)
+          .then( res => {
+            const that = this;
+            let temp = 60;
+            that.disabled = true;
+            that.disabledBtn = true;
+            that.codeState = temp + "s";
+            let secondDown = setInterval(function(){
+              temp--;
+              that.codeState = temp + "s";
+              if(temp<=0){
+                that.codeState = '获取' ;
+                that.disabled = false;
+                that.disabledBtn = false;
+                clearInterval(secondDown)
+              }
+            },1000)
 //          that.authCode = res.data.data.authCode;
-        })
+          })
       },
       getPhone () {  //获取用户手机号
-        this.$axios.get(this.$store.state.getUserPhone)
-        .then( res => {
-          let phoneData = res.data.data;
-          this.formCustom.phone = phoneData;
-          this.userPhoneData = phoneData;
-          this.userPhone = phoneData.substring(0,3)+"****"+phoneData.substring(7,11);
+        this.$axios.get(this.$store.state.getUserPhone,{
+          loading:false,
         })
+          .then( res => {
+            let phoneData = res.data.data;
+            this.formCustom.phone = phoneData;
+            this.userPhoneData = phoneData;
+            this.userPhone = phoneData.substring(0,3)+"****"+phoneData.substring(7,11);
+          })
       },
     },
   }
 </script>
-
-<style>
-.changePassword .ivu-input {
-  width: 260px;
-  height: 36px;
-}
-.changePassword .codeBtn{
-  position: absolute;
-  left: 275px;
-  top:2px;
-  background: #F42440;
-  border-color: #F42440 ;
-}
-.changePassword .ivu-btn-primary,.changePassword .ivu-btn-primary:hover{
-    background: #F42440;
-    border-color: #F42440;
+<style lang="less">
+  .changePswMain{
+    .ivu-modal-content{
+      .ivu-modal-body{
+        padding: 15px 43px 0;
+      }
+      p{
+        font-size: 14px;
+      }
+    }
+    .close{
+      position: absolute;
+      font-size: 12px;
+      right: 16px;
+      top: 12px;
+      line-height: 1;
+      overflow: hidden;
+      cursor: pointer;
+    }
+    .ivu-input{
+      width: 132px;
+      font-size: 14px;
+    }
+    .ivu-form-item{
+      margin-bottom: 20px;
+    }
+    .ivu-form-item-label{
+      font-size: 14px;
+    }
+    .codeBtn{
+      position: absolute;
+      right: 17px;
+      top: 2px;
+      width: 50px;
+      height: 32px;
+      background-color: #fff;
+      color: #5e85c8;
+      padding: 0;
+      &.disabledBtn{
+        color: #dadada;
+      }
+    }
   }
-.changePassword .codeBtn.disabledBtn{
-  background: #eee;
-  border-color: #ccc;
-}
 </style>

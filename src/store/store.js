@@ -10,6 +10,8 @@ Vue.use(Vuex);
 const state = {
   // 请求数据时加载状态loading
   fetchLoading: 'false',
+  fetchChangePsw: 'false',
+  fetchBulletinBoard: 'false',
   subjectList : types.SUBJEXT_LIST,
   classTab : types.CLASS_TAB,
   helpMainTeacher : types.HELP_MAIN_TEACHER,
@@ -28,7 +30,9 @@ const state = {
 
 const getters = {
   // 请求数据时加载状态
-  fetchLoading: state => state.fetchLoading
+  fetchLoading: state => state.fetchLoading,
+  fetchChangePsw: state => state.fetchChangePsw,
+  fetchBulletinBoard: state => state.fetchBulletinBoard,
 };
 
 
@@ -43,7 +47,13 @@ const mutations = {
   // 请求数据时loading
   [types.FETCH_LOADING] (state, res) {
     state.fetchLoading = res;
-  }
+  },
+  CHANGE_PASSWORD (state, res) {
+    state.fetchChangePsw = res;
+  },
+  BULLETIN_BOARD (state, res) {
+    state.fetchBulletinBoard = res;
+  },
 };
 export default new Vuex.Store({
   state, getters, mutations , actions

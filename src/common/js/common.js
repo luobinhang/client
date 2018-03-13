@@ -58,6 +58,7 @@ const Axios = axios.create({
   headers: {
     "Content-Type": "application/json;charset=UTF-8"
   },
+  loading:true,
 });
 
 //POST传参序列化(添加请求拦截器)
@@ -65,17 +66,24 @@ Axios.interceptors.request.use(
   config => {
 
     // 未登录(本地测试使用)
-      if ( token === null || token === undefined || token === '') {
+    if ( token === null || token === undefined || token === '') {
 
-        window.location.href = '../../static/login.html';
+      window.location.href = '../../static/login.html';
 
-      }
+    } else {
 
-    // else {
+      // 若是有做鉴权token , 就给头部带上token
+      config.headers.token = token;
+
+    }
 
       //loading显示
+    if( config.loading ) {
+
       AJAX_NUM++;
       stores.dispatch('FETCH_LOADING','true');
+
+    }
 
       // if (
       //   config.method === "post" ||
@@ -86,16 +94,12 @@ Axios.interceptors.request.use(
       //   config.data = qs.stringify(config.data);
       // }
 
-
-      // 若是有做鉴权token , 就给头部带上token
-      config.headers.token = token;
-
-    // }
     return config;
 
   },
   error => {
 
+    console.log(2)
     Notice.error({
       title: res.data.message,
       desc: '',
@@ -111,16 +115,20 @@ Axios.interceptors.response.use(
   res => {
     //loading隐藏
     AJAX_NUM--;
+
     if(AJAX_NUM <= 0){
+      AJAX_NUM = 0;
       stores.dispatch('FETCH_LOADING', 'false');
     }
 
     if (res.data.code !== 0) {
+
       Notice.error({
         title: res.data.message,
         desc: '',
         duration:2,
       });
+
       return Promise.reject(res.data.message);
 
     } else {
@@ -131,19 +139,32 @@ Axios.interceptors.response.use(
 
   },
   error => {
+
     AJAX_NUM = 0;
     stores.dispatch('FETCH_LOADING', 'false');
+
     Notice.error({
       title: '网络异常 '+ error,
-      desc: '',
-      duration:2,
+      desc: '请检查网络，或者稍后刷新重试',
+      duration:5,
     });
+
     return Promise.reject(error);
   }
 );
 Vue.prototype.$axios = Axios;
 
-
+// Vue.prototype.$ajax = (
+//   type="get",
+//   url,
+//   loading,
+// ) => {
+//   if( type == "get") {
+//     Axios.get(url).then(() => {
+//
+//     })
+//   }
+// }
 
 /*
 *
@@ -246,7 +267,7 @@ export function timestamp(){
 export function addClass(element, new_name) {
   if (!element || !new_name) return false;
   if (element.className) {
-    var old_class_name = element.className;
+    let old_class_name = element.className;
     element.className = old_class_name + " " + new_name;
   } else{
     element.className = new_name;
@@ -265,12 +286,12 @@ export function addClass(element, new_name) {
 export function removeClass(element, class_name) {
   if(!element || !class_name) return false;
   if (!element.className) return false;
-  var all_names = element.className.split(" ");
+  let all_names = element.className.split(" ");
   for (var i = 0; i < all_names.length; i++) {
     if (all_names[i] === class_name) {
       all_names.splice(i, 1);
       element.className = "";
-      for (var j = 0; j < all_names.length; j++) {
+      for (let j = 0; j < all_names.length; j++) {
         element.className += " ";
         element.className += all_names[j];
       }
@@ -283,7 +304,7 @@ export function removeClass(element, class_name) {
 
 /*
  *
- * 秒转分秒
+ * 秒转时分秒
  *
  * */
 
@@ -292,9 +313,11 @@ export function forMatTime(j) {
     g = Math.floor(ex / 3600),
     d = Math.floor(ex / 60) % 60,
     f = ex % 60,
-    k = (d > 9 ? d : "0" + d) + ":" + (f > 9 ? f : "0" + f);
-    if (g > 0) {
-      k = g + ":" + k;
-    }
-  return k;
+    k = (d > 9 ? d : "0" + d) + ":" + (f > 9 ? f : "0" + f),
+    // if (g > 0) {
+    //   k = g + ":" + k;
+    // }
+    q = (g > 9 ? g : "0" + g) + ":" + k;
+
+  return q;
 }

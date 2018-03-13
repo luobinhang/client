@@ -34,9 +34,10 @@
             <li class="card" v-for="item in cr.list">
               <div v-if="item.video!=''" class="courseHead"
                    :class="{ 'evaluation': item.courseType==0, 'official': item.courseType==1}">
-                <img :src="item.imgUrl" alt="课程封面图">
-                <p class="playVideo">
-                  <img src="../../assets/images/play.png" @click="start(item.courseUuid)" alt="播放">
+                <!--<img :src="item.imgUrl" alt="课程封面图">-->
+                <img src="../../assets/images/cBg.png" alt="课程封面图">
+                <p class="playVideo" @click="start(item.courseUuid)">
+                  <img src="../../assets/images/play.png" alt="播放">
                 </p>
               </div>
               <div v-else class="courseHead" style="background-color: #c3c8ca;">

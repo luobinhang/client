@@ -9,50 +9,46 @@
 <script src="js/jquery.js"></script>
 
 <body>
-<div class="loading">
+<div class="loading" style="display: none">
   <p></p>
 </div>
 <div class="iosPlay"></div>
 <div id="main" class="main wrapper">
-<di                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       v class="column clearfix">
-    <div class="column-content">
-     <div id="support-info" class="support-info hide">
-        <h2>温馨提示</h2>
-        <p>暂不支持使用您当前的浏览器进行播放 :-( </p>
-      </div>
-      <div id="stage">
-        <div id="stage-inner" class="inner">
-          <div class="play"></div>
-        </div>
-      <div class="player">
-          <div class="buttons">
-             <ul class="play-pause">
-              <li class="play"><i></i></li>
-              <li class="pause"><i></i></li>
-              <li class="warn"></li>
-             </ul>
-            <div class="time">
-                <em class="played">0:00</em>
-                <div class="scrubber" id="scrubber">
-                  <div style="width: 0%;" class="progress"></div>
-                  <div style="width: 100%;" class="loaded"></div>
-                  <div class="timeShow">
-                    <span>00:00</span>
-                    <i class="timeArrow"></i>
-                  </div>
-                  <div class="scrubber-track">
-                    <div style="left:0%;" class="scrubber-draggable progress-tracker" id="drag"></div>
-                  </div>
-                </div>
-              <strong class="duration">0:00</strong>
-            </div>
-            <ul class="fullscreen"><a href="javascript:;" class="fullscreenBtn"></a></ul>
-          </div>
-          <div class="player-bg"></div>
-        </div>
-      </div>
+  <div id="support-info" class="support-info hide">
+    <h2>温馨提示</h2>
+    <p>暂不支持使用您当前的浏览器进行播放 :-( </p>
+  </div>
+  <div id="stage">
+    <div id="stage-inner" class="inner">
+      <div class="play"></div>
     </div>
-</div>
+  <div class="player">
+      <div class="buttons">
+         <ul class="play-pause">
+          <li class="play"><i></i></li>
+          <li class="pause"><i></i></li>
+          <li class="warn"></li>
+         </ul>
+        <div class="time">
+            <em class="played">0:00</em>
+            <div class="scrubber" id="scrubber">
+              <div style="width: 0%;" class="progress"></div>
+              <div style="width: 100%;" class="loaded"></div>
+              <div class="timeShow">
+                <span>00:00</span>
+                <i class="timeArrow"></i>
+              </div>
+              <div class="scrubber-track">
+                <div style="left:0%;" class="scrubber-draggable progress-tracker" id="drag"></div>
+              </div>
+            </div>
+          <strong class="duration">0:00</strong>
+        </div>
+        <ul class="fullscreen"><a href="javascript:;" class="fullscreenBtn"></a></ul>
+      </div>
+      <div class="player-bg"></div>
+    </div>
+  </div>
   <div class="audio">
     <audio id="audio1">您的浏览器不支持audio标签</audio>
   </div>
