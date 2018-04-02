@@ -1,7 +1,6 @@
 @import "iconfont/iconfont.css";
 body {
-  min-width: 1069px;
-  color: #323741;
+  color: #727a89;
 }
 body,
 html,
@@ -51,7 +50,7 @@ li {
   box-shadow: 3px 3px 15px rgba(160, 131, 137, 0.35);
   position: relative;
 }
-.card:before {
+.card:after {
   content: '';
   position: absolute;
   left: 0;
@@ -101,7 +100,7 @@ li {
   background: #5e85c8;
   box-shadow: 0 7px 7px rgba(160, 131, 137, 0.35);
   height: 50px;
-  z-index: 2;
+  z-index: 5;
 }
 .warpper .header .header-main {
   position: relative;
@@ -220,7 +219,7 @@ li {
   position: absolute;
   left: 0;
   top: 0;
-  z-index: 3;
+  z-index: 6;
   height: 100%;
   box-shadow: 7px 3px 7px rgba(160, 131, 137, 0.35);
 }
@@ -233,6 +232,7 @@ li {
   transition: background .3s;
   border-bottom: 1px solid #748198;
   cursor: pointer;
+  position: relative;
 }
 .warpper .container .nav-left .nav-left-main li:hover {
   background: #2d3d5b;
@@ -264,23 +264,56 @@ li {
   background-repeat: no-repeat;
   background-position: center;
 }
-.warpper .container .nav-left .nav-left-main li:nth-child(1) a {
-  background-image: url("../assets/teacher/nav1.png");
-}
-.warpper .container .nav-left .nav-left-main li:nth-child(2) a {
+.warpper .container .nav-left .nav-left-main li.nav-message a {
   background-image: url("../assets/teacher/nav2.png");
 }
-.warpper .container .nav-left .nav-left-main li:nth-child(3) a {
-  background-image: url("../assets/teacher/nav3.png");
-}
-.warpper .container .nav-left .nav-left-main li:nth-child(4) a {
+.warpper .container .nav-left .nav-left-main li.nav-test a {
   background-image: url("../assets/teacher/nav4.png");
 }
-.warpper .container .nav-left .nav-left-main li:nth-child(5) a {
+.warpper .container .nav-left .nav-left-main li.nav-help a {
   background-image: url("../assets/teacher/nav5.png");
 }
-.warpper .container .nav-left .nav-left-main li:nth-child(6) a {
+.warpper .container .nav-left .nav-left-main li.nav-setting a {
   background-image: url("../assets/teacher/nav6.png");
+}
+.warpper .container .nav-left .nav-left-main li.nav-setting .setting-list {
+  position: absolute;
+  left: 40px;
+  top: 10px;
+  max-width: 250px;
+  text-align: left;
+  text-decoration: none;
+  white-space: nowrap;
+  min-height: 16px;
+  font-size: 10px;
+  color: #54637f;
+  display: none;
+}
+.warpper .container .nav-left .nav-left-main li.nav-setting .setting-list .setting-list-main {
+  overflow: hidden;
+  border-radius: 4px;
+  background: #f0f0f0;
+  box-shadow: 0 1px 6px rgba(0, 0, 0, 0.2);
+}
+.warpper .container .nav-left .nav-left-main li.nav-setting .setting-list .setting-list-main > div {
+  padding: 0 7px;
+}
+.warpper .container .nav-left .nav-left-main li.nav-setting .setting-list .setting-list-main > div:hover {
+  background: #5e85c8;
+  color: #fff;
+}
+.warpper .container .nav-left .nav-left-main li.nav-setting .setting-list-arrow {
+  position: absolute;
+  width: 0;
+  height: 0;
+  border-right: 7px solid #f0f0f0;
+  border-top: 4px solid transparent;
+  border-bottom: 4px solid transparent;
+  left: -7px;
+  top: 3px;
+}
+.warpper .container .nav-left .nav-left-main li.nav-setting:hover .setting-list {
+  display: block;
 }
 .warpper .container .nav-left:after {
   content: '';
@@ -348,6 +381,15 @@ li {
   display: block;
   font-weight: normal;
 }
+.ivu-modal .ivu-modal-content .ivu-modal-header p .close {
+  position: absolute;
+  font-size: 12px;
+  right: 16px;
+  top: 12px;
+  line-height: 1;
+  overflow: hidden;
+  cursor: pointer;
+}
 .ivu-modal .ivu-modal-content .ivu-modal-footer {
   text-align: center;
   border: 0;
@@ -373,6 +415,12 @@ li {
 }
 .ivu-modal .ivu-modal-content .ivu-modal-footer .ivu-btn-primary:active {
   background-color: #4b6aa0;
+}
+.ivu-modal .ivu-modal-content .ivu-modal-footer .ivu-btn-primary[disabled] {
+  color: #dadada;
+  background-color: #f7f7f7;
+  border-color: #dddee1;
+  cursor: not-allowed;
 }
 .ivu-modal .ivu-modal-content .ivu-modal-close {
   top: 12px;
@@ -558,4 +606,86 @@ loading
     stroke-dasharray: 89,200;
     stroke-dashoffset: -124;
   }
+}
+.tip-null {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex: 5;
+}
+.tip-null .tip-null-text {
+  color: #b3b3b3;
+}
+.enterLoading {
+  background: url("../assets/teacher/loadingMain.gif") no-repeat center;
+  height: 150px;
+}
+/*
+
+help
+
+**/
+.helpWindow .help-content {
+  padding: 5px 0;
+}
+.helpWindow .ivu-modal-footer {
+  display: none;
+}
+.helpWindow .help-main {
+  height: 400px;
+  display: flex;
+}
+.helpWindow .help-main .help-question {
+  width: 180px;
+  height: 100%;
+  overflow-y: auto;
+  overflow-x: hidden;
+  font-size: 14px;
+  color: #8e96a5;
+  position: relative;
+  z-index: 1;
+}
+.helpWindow .help-main .help-question li {
+  line-height: 24px;
+  margin: 10px 0;
+  padding-right: 18px;
+  cursor: pointer;
+  transition-duration: .3s;
+  position: relative;
+}
+.helpWindow .help-main .help-question li.active,
+.helpWindow .help-main .help-question li:hover {
+  color: #5e85c8;
+}
+.helpWindow .help-main .help-question li.active:after {
+  content: '';
+  position: absolute;
+  border-right: 12px solid #f0f4f5;
+  border-top: 11px solid transparent;
+  border-bottom: 11px solid transparent;
+  right: 0;
+  top: 50%;
+  transform: translateY(-50%);
+}
+.helpWindow .help-main .help-answer {
+  flex: 5;
+  background: #f0f4f5;
+  padding: 20px;
+  border-radius: 8px;
+  color: #727a89;
+  font-size: 14px;
+  position: relative;
+  z-index: 0;
+  margin-left: -3px;
+}
+.helpWindow .help-main .help-answer li {
+  position: relative;
+}
+.helpWindow .help-main .help-answer li span {
+  position: absolute;
+  left: 0;
+  top: 0;
+}
+.helpWindow .help-main .help-answer .pl {
+  padding-left: 27px;
 }

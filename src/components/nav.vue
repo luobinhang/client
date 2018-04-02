@@ -1,73 +1,77 @@
 <template>
   <div class="nav-left">
-    <!--<Menu theme="light" :active-name="activeName" width="199px" accordion>-->
-      <!--<MenuItem name="首页" class="sy">-->
-        <!--<router-link to="/home">首页</router-link>-->
-      <!--</MenuItem>-->
-      <!--<Submenu name="2" class="wdkc">-->
-        <!--<template slot="title"><span>我的课程</span></template>-->
-        <!--<MenuItem name="教师待上课程">-->
-          <!--<router-link to="/teacher/courseWait">待上课程</router-link>-->
-        <!--</MenuItem>-->
-        <!--<MenuItem name="教师课程记录">-->
-          <!--<router-link to="/teacher/courseRecord">课程记录</router-link>-->
-        <!--</MenuItem>-->
-      <!--</Submenu>-->
-      <!--<Submenu name="4" class="kjwd">-->
-        <!--<template slot="title"><span>课件文档</span></template>-->
-        <!--<MenuItem name="我的课件">-->
-          <!--<router-link to="/teacher/courseware">-->
-            <!--<label>我的课件</label>-->
-          <!--</router-link>-->
-        <!--</MenuItem>-->
-        <!--<MenuItem name="系统课件">-->
-          <!--<router-link to="/teacher/systemCourseware">系统课件</router-link>-->
-        <!--</MenuItem>-->
-      <!--</Submenu>-->
-      <!--<Submenu name="6" class="grzx">-->
-        <!--<template slot="title"><span>个人中心</span></template>-->
-        <!--<MenuItem name="修改密码">-->
-          <!--<router-link to="/changePassword">重置密码</router-link>-->
-        <!--</MenuItem>-->
-      <!--</Submenu>-->
-      <!--<li class="sbcs ivu-menu-item">-->
-        <!--<a href="javascript:;" @click="device()">设备测试</a>-->
-      <!--</li>-->
-    <!--</Menu>-->
     <div class="nav-left-main">
       <ul>
-        <li style="display: none">
-          <Tooltip placement="bottom-end" content="信息" :delay="300">
+        <!--<li>-->
+          <!--<Tooltip placement="bottom-end" content="信息" :delay="300">-->
+            <!--<a href="javascript:;"></a>-->
+          <!--</Tooltip>-->
+        <!--</li>-->
+        <!--<li>-->
+          <!--<Tooltip placement="bottom-end" content="信息" :delay="300">-->
+            <!--<a href="javascript:;"></a>-->
+          <!--</Tooltip>-->
+        <!--</li>-->
+        <li class="nav-message" @click="bulletinBoardShow">
+          <Tooltip placement="bottom-start" content="信息" :delay="300">
             <a href="javascript:;"></a>
           </Tooltip>
         </li>
-        <li>
-          <Tooltip placement="bottom-end" content="信息" :delay="300">
+        <li class="nav-help" @click="help">
+          <Tooltip placement="top-start" content="帮助" :delay="300">
             <a href="javascript:;"></a>
           </Tooltip>
         </li>
-        <li>
-          <Tooltip placement="top-end" content="信息" :delay="300">
+        <li class="nav-test" @click="device">
+          <Tooltip placement="top-start" content="设备测试" :delay="300">
             <a href="javascript:;"></a>
           </Tooltip>
         </li>
-        <li>
-          <Tooltip placement="top-end" content="信息" :delay="300">
+        <li class="nav-setting">
+          <div style="padding: 9px 0">
             <a href="javascript:;"></a>
-          </Tooltip>
-        </li>
-        <li>
-          <Tooltip placement="top-end" content="信息" :delay="300">
-            <a href="javascript:;"></a>
-          </Tooltip>
-        </li>
-        <li>
-          <Tooltip placement="top-end" content="信息" :delay="300">
-            <a href="javascript:;"></a>
-          </Tooltip>
+          </div>
+          <div class="setting-list">
+            <div class="setting-list-main">
+              <div @click="feedback">意见反馈</div>
+              <div @click="aboutus">关于我们</div>
+            </div>
+            <div class="setting-list-arrow"></div>
+          </div>
         </li>
       </ul>
     </div>
+    <!-- 用户帮助 -->
+    <Modal v-model="helpShow" width="570" class="helpWindow" class-name="vertical-center-modal" :transition-names="['none','none']" :mask-closable="false">
+      <p slot="header">
+        <span>用户帮助</span>
+      </p>
+      <p slot="close">
+        <img src="../assets/images/close2.png" alt="关闭">
+      </p>
+      <div class="helpWindowContent">
+        <div class="help-content">
+          <div class="help-main">
+            <div class="help-question">
+              <ul>
+                <li v-for="(item,$index) in helpMain" @click="helpSelect($index)" :class="{ active : helpIndex == $index }"> {{ item.qusetion }}</li>
+              </ul>
+            </div>
+            <div class="help-answer">
+              <ul>
+                <li v-for="(item,$index) in helpMain" v-show="helpIndex == $index">
+                  <span>答：</span>
+                  <p v-for="(answer,index) in item.answer" class="pl">
+                    {{ answer }}
+                  </p>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+    </Modal>
+
   </div>
 </template>
 <script>
@@ -78,28 +82,18 @@
         activeName:'',
         testNum:0,
         deviceNum:0,
+        helpMain:this.$store.state.helpMainTeacher,
+        helpIndex:0,
+        helpShow:false,
+//        offsetTop :0,
       }
     },
     beforeMount () {
       this.routerStart();
     },
     mounted () {
-
     },
     methods: {
-      //学习力测评
-      test () {
-        this.testNum++;
-        let args = '{' +
-            '"requesttype":9,' +
-            '"messageid":'+ this.testNum +',' +
-            '"jscallback" : "callbackTest",' +
-            '"data" : {' +
-                '"url" :"http://frontendtest.haiketang.net/static/client_test/test_sign.html?token='+ token +'"' +
-            '}'+
-          '}';
-        sendData(args);
-      },
       device () {  //设备测试
         this.deviceNum++;
         let args = '{' +
@@ -114,6 +108,34 @@
       },
       routerStart () {  //刷新页面后保持菜单栏状态
         this.activeName = this.$route.name;
+      },
+      help () { //用户帮助
+        this.helpShow = true;
+      },
+      helpClose () {
+        this.helpShow = false;
+      },
+      helpSelect (index){
+        this.helpIndex = index;
+      },
+      bulletinBoardShow () { //打开公告板
+        this.$store.commit("BULLETIN_BOARD","true");
+      },
+      feedback(){ //意见反馈
+        let args = '{' +
+          '"requesttype":16,' +
+          '"messageid":'+ 0 +',' +
+          '"jscallback" : "feedback"' +
+          '}';
+        sendData(args);
+      },
+      aboutus () { //关于我们
+        let args = '{' +
+          '"requesttype":24,' +
+          '"messageid":'+ 0 +',' +
+          '"jscallback" : "feedback"' +
+          '}';
+        sendData(args);
       },
     },
   }

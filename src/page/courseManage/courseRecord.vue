@@ -35,10 +35,20 @@
               <div v-if="item.video!=''" class="courseHead"
                    :class="{ 'evaluation': item.courseType==0, 'official': item.courseType==1}">
                 <!--<img :src="item.imgUrl" alt="课程封面图">-->
-                <img src="../../assets/images/cBg.png" alt="课程封面图">
-                <p class="playVideo" @click="start(item.courseUuid)">
-                  <img src="../../assets/images/play.png" alt="播放">
-                </p>
+                <div v-if="item.recordStatus === 1">
+                  <img src="../../assets/images/cBg.png" alt="课程封面图">
+                  <p class="playVideo" @click="start(item.courseUuid)">
+                    <img src="../../assets/images/play.png" alt="播放">
+                  </p>
+                </div>
+                <div class="courseListNoVideo" v-else-if="item.recordStatus === 2">
+                  <img src="../../assets/teacher/emoji-null.png">
+                  <span>检测不到回顾视频</span>
+                </div>
+                <div class="courseListNoVideo" v-else-if="item.recordStatus === 3">
+                  <img src="../../assets/teacher/emoji-null.png">
+                  <span>视频转换中，次日方可查看</span>
+                </div>
               </div>
               <div v-else class="courseHead" style="background-color: #c3c8ca;">
                 <p class="notFound"><img src="../../assets/images/notFound.png" alt="无视频">检测不到回顾视频</p>
@@ -52,6 +62,10 @@
                   <p>{{item.startTime}}- {{item.endTime}}</p>
                   <p>{{item.grade}}<span>{{item.subjectVersion}}</span></p>
                 </div>
+              </div>
+              <div class="courseFooter">
+                <span class="writeFeedback"  @click="feedback(item.courseUuid)" v-if="item.classTeacherAppraiseUuid === null">填写反馈</span>
+                <span class="readFeedback" @click="readFeedback(item.classTeacherAppraiseUuid)" v-else>查看反馈</span>
               </div>
             </li>
           </ul>
@@ -69,6 +83,22 @@
         </div>
       </div>
     </div>
+    <!--老师反馈-->
+    <Modal v-model="modal" width="430">
+      <p slot="header">
+        <span>老师反馈</span>
+      </p>
+      <p slot="close">
+        <img src="../../assets/images/close2.png" alt="关闭">
+      </p>
+      <div style="padding: 14px 14px 0;font-size: 14px;">
+        <p style="word-wrap: break-word;">{{ commentInfo.appraiseContent }}</p>
+        <p style="text-align: right;font-size: 12px;margin-top: 10px;">{{ commentInfo.createTime }}</p>
+      </div>
+      <div slot="footer">
+        <Button type="primary" size="large" @click="modal=false" style="width: 125px;">确定</Button>
+      </div>
+    </Modal>
   </div>
 </template>
 <style lang="less">
@@ -109,16 +139,18 @@
         courseRecord:[],
 //        courseRecord: this.$store.state.crList,
         videoWarpper: false,
-        iframe: ""
+        iframe: "",
+        modal:false,
+        commentInfo:'',
+        viewTeacherAppraise:this.$store.state.viewTeacherAppraise,
       }
     },
     beforeMount() {
 
     },
     mounted() {
-    },
-    created: function () {
       this.courseRecordList();
+
     },
     methods: {
 //      科目选择
@@ -128,8 +160,7 @@
       },
 //      日期时间选择
       selectDate(date) {
-        this.formData.startDate = date[0];
-        this.formData.endDate = date[1];
+        [this.formData.startDate,this.formData.endDate] = date;
         this.courseRecordList();
       },
 //      课程类型选择
@@ -145,8 +176,9 @@
       },
 //      查询课程记录列表
       courseRecordList() {
-        this.$axios.get(this.$store.state.getCourseRecordList, {params: this.formData})
-          .then(res => {
+        this.$axios.get(this.$store.state.getCourseRecordList, {
+          params: this.formData
+        }).then(res => {
             this.courseRecord = res.data.data;
             if (this.courseRecord.length != 0) {
               //this.dateTime=this.courseRecord[0].list[0].courseDate;
@@ -182,7 +214,31 @@
           }
 //          console.log(item.offsetTop);
         }
-      }
+      },
+
+      feedback(courseUuid){  //填写老师反馈
+        let args = '{ "requesttype" : 22,' +
+          '"courseUuid" : "'+ courseUuid + '",' +
+          '"callback" : "refreshTeacherRecord"' +
+          '}';
+        sendData(args);
+      },
+      readFeedback(classTeacherAppraiseUuid){  //查看老师反馈
+//        let args = '{ "requesttype" : 23,' +
+//          '"courseUuid" : "'+ courseUuid + '",' +
+//          '"callback" : "refreshTeacherRecord"' +
+//          '}';
+//        sendData(args);
+        this.$axios.get(this.viewTeacherAppraise,{
+          params:{
+            classTeacherAppraiseUuid:classTeacherAppraiseUuid,
+          }
+        }).then( res => {
+          this.commentInfo = res.data.data
+          this.modal = true;
+        })
+
+      },
     }
   }
 </script>

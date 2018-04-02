@@ -34,7 +34,7 @@ export default function RULE() {
       }
     },
     validateGender: (rule, value, callback) => {  //性别
-      if (value === '') {
+      if (value === null) {
         callback(new Error('请选择'));
       } else {
         callback();
@@ -84,21 +84,21 @@ export default function RULE() {
       }
     },
     validateScience: (rule, value, callback) => {   //文理科
-      if (value === '') {
+      if (value === null) {
         callback(new Error('请选择'));
       } else {
         callback();
       }
     },
     validateEducation: (rule, value, callback) => {   //学历
-      if (value === '') {
+      if (value === null) {
         callback(new Error('请选择'));
       } else {
         callback();
       }
     },
     validateBestEducation: (rule, value, callback) => {   //最高学历
-      if (value === '') {
+      if (value === null) {
         callback(new Error('请选择'));
       } else {
         callback();

@@ -248,15 +248,10 @@
         scheduleUrl:this.$store.state.courseSchedule,
       }
     },
-    beforeMount () {
-
-    },
     mounted () {
       this.timeSet();
       let ele = this.$refs.scheduleTableDetail.children[0];
       this.$emit('childDom',ele);
-    },
-    created: function () {
     },
     methods: {
       timeSet () {  //获取服务器时间
@@ -265,12 +260,7 @@
           this.month = data.month;
           this.weekIndex = data.weekInMonth;
           this.getSchedule(true);
-        }).catch(() => { //失败获取系统时间
-          let newDate = new Date();
-          this.year = newDate.getFullYear();
-          this.month = newDate.getMonth() + 1;
-          this.getSchedule(true);
-        })
+        });
       },
       weekChange($index){ //改变周
         this.weekIndex = $index;
@@ -299,6 +289,7 @@
       scheduleDataHandle (data,index) {
         let item = [];
         for(let i = 0;i<data.length;i++){
+          //如果表小时和开始小时相等 匹配对应表列
           if(this.timeList[index].time.substring(0,2) == data[i].startTime.substring(0,2)){
             item.push(data[i]);
           }
@@ -321,7 +312,7 @@
         }
         this.getSchedule();
       },
-      getSchedule (first) {
+      getSchedule (first) { //获取课表
         let year = this.year;
         let month = this.month < 10? '0' + this.month : this.month;
         this.date = year + '-' + month;
@@ -342,8 +333,8 @@
         return this.moment(title).format('ll').substring(5);
       },
       itemHeight (data) {  //处理课表标签高度
-        let endTime = new Date(data.courseDate+' '+data.endTime).getTime();
-        let startTime = new Date(data.courseDate+' '+data.startTime).getTime();
+        let endTime = new Date(data.courseDate.replace(/-/g,'/')+' '+data.endTime).getTime();
+        let startTime = new Date(data.courseDate.replace(/-/g,'/')+' '+data.startTime).getTime();
         let minute = (endTime-startTime)/1000/60;
         return minute/60*46 + 'px'; //小时*表格高度
       },
@@ -352,7 +343,7 @@
         return minute/60*46 + 'px'; //小时*表格高度
       },
       renderItem(h,params,data) {  //render课表内容
-        if(data!='' && data!=undefined) {
+        if( data!='' && data!=undefined ) {
           let moudel = [];
           for(let i = 0;i<data.length;i++){
             let div =  h('div',{

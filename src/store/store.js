@@ -10,6 +10,7 @@ Vue.use(Vuex);
 const state = {
   // 请求数据时加载状态loading
   fetchLoading: 'false',
+  fetchError: 'false',
   fetchChangePsw: 'false',
   fetchBulletinBoard: 'false',
   subjectList : types.SUBJEXT_LIST,
@@ -31,6 +32,7 @@ const state = {
 const getters = {
   // 请求数据时加载状态
   fetchLoading: state => state.fetchLoading,
+  fetchError: state => state.fetchError,
   fetchChangePsw: state => state.fetchChangePsw,
   fetchBulletinBoard: state => state.fetchBulletinBoard,
 };
@@ -53,6 +55,9 @@ const mutations = {
   },
   BULLETIN_BOARD (state, res) {
     state.fetchBulletinBoard = res;
+  },
+  NETWORK_ERROR(state, res) {
+    state.fetchError = res;
   },
 };
 export default new Vuex.Store({

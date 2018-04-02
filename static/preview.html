@@ -10,23 +10,30 @@
   <script src="js/jquery.js"></script>
 
   <style>
+    *{
+      padding: 0;
+      margin: 0;
+      box-sizing: border-box;
+      -webkit-user-select: none;
+      -moz-user-select: none;
+      -ms-user-select: none;
+      user-select: none;
+    }
     body,html{
       height: 100%;
+      overflow: hidden;
     }
     .swiper-pagination-bullet-active{
       background: #F42440;
     }
-    .swiper-button-next{background-image:url("images/r.svg");}
+    .swiper-button-next{background-image:url("images/arrowright.png");}
     /*改变了颜色和加粗的样式*/
-    .swiper-button-prev{background-image:url("images/l.svg");}
-    .swiper-container {
-      width: 100%;
-      height: 300px;
-      margin-left: auto;
-      margin-right: auto;
-    }
+    .swiper-button-prev{background-image:url("images/arrowLeft.png");}
     .swiper-slide{
       position: relative;
+      /*display: flex;*/
+      /*justify-content: center;*/
+      /*align-items: center;*/
     }
     .swiper-slide img{
       max-width: 100%;
@@ -39,11 +46,11 @@
       bottom: 0;
     }
     .gallery-top {
-      height: 90%;
+      height: 82%;
       width: 100%;
     }
     .gallery-thumbs {
-      height: 10%;
+      height: 18%;
       box-sizing: border-box;
       padding: 10px 0;
     }
@@ -71,15 +78,12 @@
       position: relative;
       width: 100%;
       height: 100%;
+
     }
     .coursewareImgWarpper{
       width: 100%;
       height: 100%;
       position: relative;
-      /*position: fixed;*/
-      /*z-index: 999;*/
-      /*left: 0;*/
-      /*top:0;*/
     }
     .courserwareImgMain{
       position: absolute;
@@ -127,26 +131,85 @@
       color: skyblue;
       font-weight: bold;
     }
-  </style>
-  <script>
-   $(function(){
+    .swiper-main{
+      text-align: right;
+      height: 100%;
+      color: #fff;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+    }
+    .swiper-main span{
+      display: block;
+      margin-bottom: 10px;
+    }
+    .swiperImgWrap{
+      width: 100%;
+      flex: 5;
+      position: relative;
+    }
+    .swiper2Main{
+      position: relative;
+      padding-left: 24px;
+      height: 100%;
+    }
+    .swiper2Main i{
+      width: 20px;
+      color: #fff;
+      font-style: normal;
+      position: absolute;
+      left: 0;
+      top: 0;
+      text-align: right;
+      font-size: 10px;
+    }
+    .swiper2Main img{
+      transform: translateX(20px);
+    }
+    .swiperButton{
+      position: absolute;
+      right: -40px;
+      bottom:0;
+      height: 20%;
+      width: 30px;
+    }
+    .swiper-button-next, .swiper-button-prev{
+      width: 30px;
+      height: 16px;
+      background-size: 100%;
+      margin: 0;
+      left: auto;
+      right: auto;
+      top: 50%;
+      bottom:auto;
+      outline: none;
+    }
+    .swiper-button-next{
+      margin-top: 20px;
+    }
+    .swiper-button-prev{
+      margin-top: -20px;
+     }
 
-   })
-  </script>
+  </style>
 </head>
 <body>
 <div class="coursewareImgWarpper">
   <div class="loading">
     <div class="loading-main">
       <div class="loading-img"></div>
-      <div class="loading-progress">0%</div>
-      <div class="loading-tip"></div>
+      <!--<div class="loading-progress">0%</div>-->
+      <!--<div class="loading-tip"></div>-->
     </div>
   </div>
   <!--<div class="coursewareImgClose"></div>-->
   <div class="coursewareImgBg">
     <div class="courserwareImgMain">
-
+      <div class="swiperButton">
+        <div class="swiper-button-next"></div>
+        <div class="swiper-button-prev"></div>
+      </div>
     </div>
   </div>
 </div>
@@ -160,16 +223,12 @@
 
   if(location.host == "frontend.haiketang.net"){
     var API = 'http://client.haiketang.net';
-    var webAPI = "file.haiketang.net";
   }else if(location.host == "frontendtest.haiketang.net"){
     var API = 'http://clienttest.haiketang.net';
-    var webAPI = "filetest.haiketang.net";
-  }else if(location.host == "localhost:8085"){
+  }else if(location.host == "localhost:8086" || location.host == "172.16.20.98:8086"){
     var API = 'http://clienttest.haiketang.net';
-    var webAPI = "filetest.haiketang.net";
   }else{
-    var API = 'http://client.haiketang.net';
-    var webAPI = "file.haiketang.net";
+    var API = 'http://clienttest.haiketang.net';
   }
 
 
@@ -206,36 +265,48 @@
     },
     success:function(res){
       if(res.code==0){
-        var swiperMain='',swiperContent;
+        var swiperMain='',swiper2Main='',swiperContent;
         var coursewareImg = res.data;
         for(var i = 0;i<coursewareImg.length;i++){
           swiperMain += '<div class="swiper-slide">' +
-                          '<img class="swiperImg" src="'+ coursewareImg[i].imageUrl +'">' +
+                          '<div class="swiper-main">' +
+                            '<span>'+ (i+1) + '/' + (coursewareImg.length) +'</span>'+
+                            '<div class="swiperImgWrap">' +
+                                '<img class="swiperImg" src="'+ coursewareImg[i].imageUrl +'">' +
+                            '</div>'+
+
+                        '</div>'+
                         '</div>';
+          swiper2Main += '<div class="swiper-slide">' +
+              '<div class="swiper2Main">' +
+                '<i>'+(i+1)+'</i>'+
+                '<img class="swiperImg" src="'+ coursewareImg[i].imageUrl +'">' +
+              '</div>'+
+            '</div>';
         }
         swiperContent ='<div class="swiper-container gallery-top">' +
                           '<div class="swiper-wrapper">'+swiperMain+'</div>' +
-                          '<div class="swiper-button-next"></div>' +
-                          '<div class="swiper-button-prev"></div>' +
                         '</div>' +
                         '<div class="swiper-container gallery-thumbs">' +
-                            '<div class="swiper-wrapper">'+swiperMain+'</div> ' +
+                            '<div class="swiper-wrapper">'+swiper2Main+'</div> ' +
                         '</div>';
         $(".courserwareImgMain").append(swiperContent);
-        var temp = 0;
-        $(".loading-tip").text(tipArr[random]);
-        $('.swiperImg').each(function() {
-          $(this).load(function(){
-            temp++;
-            var progress = Math.min(parseInt((temp/(coursewareImg.length*2))*100),100)+'%';
-            $(".loading-progress").text(progress);
-            console.log(temp,coursewareImg.length)
-            if(temp == coursewareImg.length*2){
-              $('.loading').fadeOut();
-              swiperStart();
-            }
-          });
-        });
+        $('.loading').fadeOut();
+        swiperStart();
+//        var temp = 0;
+//        $(".loading-tip").text(tipArr[random]);
+//        $('.swiperImg').each(function() {
+//          $(this).load(function(){
+//            temp++;
+//            var progress = Math.min(parseInt((temp/(coursewareImg.length*2))*100),100)+'%';
+//            $(".loading-progress").text(progress);
+//            console.log(temp,coursewareImg.length)
+//            if(temp == coursewareImg.length*2){
+//              $('.loading').fadeOut();
+//              swiperStart();
+//            }
+//          });
+//        });
 
 
       }
@@ -245,19 +316,21 @@
  function swiperStart(){
 
    var galleryTop = new Swiper('.gallery-top', {
-     nextButton: '.swiper-button-next',
-     prevButton: '.swiper-button-prev',
-     spaceBetween: 10,
+     navigation: {
+       nextEl: '.swiper-button-next',
+       prevEl: '.swiper-button-prev',
+     },
+     mousewheel: true,
    });
    var galleryThumbs = new Swiper('.gallery-thumbs', {
-     spaceBetween: 10,
+     spaceBetween: 20,
      centeredSlides: true,
-     slidesPerView: 10,
+     slidesPerView: 5,
      touchRatio: 0.2,
-     slideToClickedSlide: true
+     slideToClickedSlide: true,
    });
-   galleryTop.params.control = galleryThumbs;
-   galleryThumbs.params.control = galleryTop;
+   galleryTop.controller.control = galleryThumbs;
+   galleryThumbs.controller.control = galleryTop;
 
 
  }

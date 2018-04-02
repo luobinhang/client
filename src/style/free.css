@@ -82,7 +82,6 @@
 .free-content .free-main .free-date .free-date-month p {
   height: 40px;
   line-height: 40px;
-  color: #727a89;
   font-size: 14px;
   display: flex;
 }
@@ -193,7 +192,6 @@
   font-weight: normal;
   height: 43px;
   background: #ebf6fb;
-  color: #727a89;
   font-size: 12px;
   border-right: 1px solid #dfebf1;
 }
@@ -222,7 +220,6 @@
   font-size: 10px;
   line-height: 15px;
   border: 1px solid #727a89;
-  color: #727a89;
   cursor: pointer;
   overflow: hidden;
 }
@@ -250,7 +247,6 @@
 }
 .free-content .free-main .free-table .card .free-table-main .free-table-detail table {
   width: 100%;
-  min-height: 100%;
 }
 .free-content .free-main .free-table .card .free-table-main .free-table-detail table tr:nth-of-type(odd) td {
   background: #ebf6fb;

@@ -4,7 +4,7 @@
       <div class="intership-title-main commonTitleMain">
         <h2>实习证明</h2>
         <div>
-          <i class="icon iconfont icon-xiazai" @click="capture()"></i>
+          <Icon type="ios-camera"  @click="capture()"/>
           <a class="down" download="downImg" href=""></a>
         </div>
       </div>

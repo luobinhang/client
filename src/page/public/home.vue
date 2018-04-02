@@ -4,7 +4,11 @@
       <div class="home-info card">
         <div class="home-info-top">
           <div class="home-header">
-            <img src="../../assets/teacher/header.png">
+            <div class="home-header-img">
+              <div class="home-header-user" v-if="info.photo!== null">
+                <img :src="info.photo">
+              </div>
+            </div>
           </div>
           <div class="home-detail">
             <p>
@@ -44,41 +48,31 @@
           <ul>
             <li>
               <router-link to="/">
-                <div class="home-nav-icon">
-                  <!--<i class="icon iconfont icon-cultivate" style="font-size: 22px"></i>-->
-                </div>
+                <div class="home-nav-icon"></div>
                 <span>入门培训</span>
               </router-link>
             </li>
             <li>
               <router-link to="/">
-                <div class="home-nav-icon">
-                  <!--<i class="icon iconfont icon-tubiaodiaozheng205" style="font-size: 28px;margin-top: -2px;"></i>-->
-                </div>
+                <div class="home-nav-icon"></div>
                 <span>测评培训</span>
               </router-link>
             </li>
             <li>
               <router-link to="courseManage/freeTime">
-                <div class="home-nav-icon">
-                  <!--<i class="icon iconfont icon-kongxianshijian" style="font-size: 22px;"></i>-->
-                </div>
+                <div class="home-nav-icon"></div>
                 <span>空闲时间</span>
               </router-link>
             </li>
             <li>
               <router-link to="personal/salary">
-                <div class="home-nav-icon">
-                  <!--<i class="icon iconfont icon-xinzi" style="font-size: 18px;margin-top: 1px"></i>-->
-                </div>
+                <div class="home-nav-icon"></div>
                 <span>薪资结算</span>
               </router-link>
             </li>
             <li>
               <router-link to="/">
-                <div class="home-nav-icon">
-                  <!--<i class="icon iconfont icon-shequ" style="font-size: 30px;"></i>-->
-                </div>
+                <div class="home-nav-icon"></div>
                 <span>嗨社区</span>
               </router-link>
             </li>
@@ -131,20 +125,26 @@
             <em>正式课</em>
           </span>
           </h3>
-          <table>
-            <colgroup>
-              <col width="110">
-              <col width="20">
-              <col>
-              <col width="145">
-            </colgroup>
-            <tr v-for="(item,$index) in classList" :key="$index">
-              <td>{{ item.startTime }} - {{ item.endTime }} </td>
-              <td><i :class="item.courseType == 0?'orange':'green'"></i></td>
-              <td>{{ item.subject }}</td>
-              <td>学生：{{ item.studentName }}</td>
-            </tr>
-          </table>
+          <div class="home-class-list-table">
+            <table cellpadding="0" cellspacing="0" v-if="classList.length !== 0">
+              <colgroup>
+                <col width="110">
+                <col width="20">
+                <col>
+                <col width="145">
+              </colgroup>
+              <tr v-for="(item,$index) in classList" :key="$index">
+                <td>{{ item.startTime }} - {{ item.endTime }} </td>
+                <td><i :class="item.courseType == 0?'orange':'green'"></i></td>
+                <td>{{ item.subject }}</td>
+                <td>学生：{{ item.studentName }}</td>
+              </tr>
+            </table>
+            <div class="classTipNull tip-null" v-else>
+              <img src="../../assets/teacher/null.png" alt="null">
+              <span class="tip-null-text">今天没有课程哦~</span>
+            </div>
+          </div>
         </div>
         <Spin fix id="loadAPP" v-if="homeClassListShow">
           <div class="loader">
@@ -200,28 +200,9 @@
         homeClassListShow: false, //课程列表loading
       }
     },
-    beforeMount () {
-
-    },
     mounted () {
-//      let temp = 0;
-//      let token  = sessionStorage.getItem("token");
-//      if( token == null || token == ''){
-//        let getToken = setInterval(() => {
-//          token  = sessionStorage.getItem("token");
-//          temp++;
-//          if(token != 'null' || token == '' || temp > 20){
-//            clearInterval(getToken);
-            this.timeSet();
-            this.getInfo();
-//          }
-//        },300);
-//      } else {
-//        this.timeSet();
-//        this.getInfo();
-//      }
-    },
-    created: function () {
+      this.timeSet();
+      this.getInfo();
     },
     methods: {
       timeSet () {  //获取服务器时间
@@ -230,12 +211,6 @@
           this.month = data.month;
           this.day = data.day;
           this.dateGet(true);  //首次获取
-        }).catch(() => { //失败获取系统时间
-          let newDate = new Date();
-          this.year = newDate.getFullYear();
-          this.month = newDate.getMonth() + 1;
-          this.day = newDate.getDate();
-          this.dateGet(true);
         })
       },
       getInfo() {  //获取教师信息
@@ -269,8 +244,9 @@
         this.date = year + '-' + month;
         this.$axios.get(this.courseCalendar,{
           params : {
-            'dateTime' : this.date,
-          }
+            dateTime : this.date,
+          },
+          loading: false,
         }).then( res => {
           this.dateList = res.data.data;
           if(first){  //页面初始化 默认选中当天
@@ -314,6 +290,8 @@
           }).then( res => {
             this.classList = res.data.data.list;
             this.classTotal = res.data.data.total;
+            this.homeClassListShow = false;
+          }).catch( error => {
             this.homeClassListShow = false;
           })
         }

@@ -470,7 +470,7 @@
         getSubjectUrl:this.$store.state.getSubject,
         getGradePreferenceUrl:this.$store.state.getGradePreference,
         infoSaveUrl:this.$store.state.infoSave,
-        uploadFileUrl:this.$store.state.uploadFile,
+        uploadFileUrl:this.$store.state.infoUploadFile,
         uploadShow:false, //上传头像弹窗
         provinceList:[], //省列表
         cityList:[], //市列表
@@ -526,14 +526,14 @@
           ],
         },
         formEducation:{ //学历数据
-          province:'',
-          city:'',
-          area:'',
-          science:'',
-          school:'',
-          education:'',
-          bestEducation:'',
-          grade:'',
+          province:null,
+          city:null,
+          area:null,
+          science:null,
+          school:null,
+          education:null,
+          bestEducation:null,
+          grade:null,
           major:'',
         },
         ruleEducation:{ //学历规则
@@ -566,10 +566,10 @@
           ],
         },
         formLike:{ //偏好数据
-          likeId:'',
-          firstId:'',
-          secondId:'',
-          thirdId:'',
+          likeId:null,
+          firstId:null,
+          secondId:null,
+          thirdId:null,
         },
         ruleLike:{ //偏好规则
           likeId: [
@@ -651,8 +651,6 @@
         },
       }
     },
-    beforeMount () {
-    },
     mounted () {
       this.getInfo();
       this.getProvince();
@@ -661,10 +659,9 @@
       this.getSubject();
       this.getGradePreference();
     },
-    created: function () {
-    },
     watch:{
       next (curVal,oldVal) {
+        console.log(this.index + 1)
         this.navClick(this.index+1);
       }
     },
@@ -894,7 +891,7 @@
         }
       },
       getCity (value) { //获取市
-        if(value != ""){
+        if(value !== null){
           this.$axios.get(this.getCityUrl,{
             params:{
               provinceCode : value,
@@ -906,7 +903,7 @@
         }
       },
       getArea (value) { //获取区
-        if(value != ""){
+        if(value !== null){
           this.$axios.get(this.getAreaUrl,{
             params:{
               cityCode : value,
@@ -939,82 +936,90 @@
         })
       },
       saveInfo () {
-        this.$axios.post(this.infoSaveUrl,{
-            teacherName: this.formContect.name,
-            sex: this.formContect.gender,
-            phone: this.formContect.phone,
-            wechat: this.formContect.WeChat,
-            qq: this.formContect.QQ,
-            email: this.formContect.email,
-            emergencyPhone: this.formContect.emergencyPhone,
-            emergencyRelation: this.formContect.relationship,
-            provinceCode: this.formEducation.province,
-            cityCode: this.formEducation.city,
-            districtCode: this.formEducation.area,
-            artsOrScience: this.formEducation.science,
-            teacherSchoolUuid: this.formEducation.school,
-            education: this.formEducation.education,
-            highestEducation: this.formEducation.bestEducation,
-            major: this.formEducation.major,
-            grade: this.formEducation.grade,
-            gradePreferenceValue: this.formLike.likeId,
-            teachingSubjectUuid: this.formLike.firstId,
-            secondSubjectUuid: this.formLike.secondId,
-            thirdSubjectUuid: this.formLike.thirdId,
-            idNumber: this.formPay.idcard,
-            cardNumber: this.formPay.bankNum,
-            bankAddress: this.formPay.bankAddress,
-            teacherFileList:[
-              {
-                purpose:1,
-                fileAddress:this.formContect.headerUrl,
-                fileOriginalName:this.formContect.headerFileName,
-              },
-              {
-                purpose:2,
-                fileAddress:this.formPay.idcardUrl1,
-                fileOriginalName:this.formPay.idcardFileName1,
-              },
-              {
-                purpose:3,
-                fileAddress:this.formPay.idcardUrl2,
-                fileOriginalName:this.formPay.idcardFileName2,
-              },
-              {
-                purpose:4,
-                fileAddress:this.formPay.bankUrl1,
-                fileOriginalName:this.formPay.bankFileName1,
-              },
-              {
-                purpose:5,
-                fileAddress:this.formPay.bankUrl2,
-                fileOriginalName:this.formPay.bankFileName2,
-              },
-              {
-                purpose:6,
-                fileAddress:this.formEntry.agreementUrl1,
-                fileOriginalName:this.formEntry.agreementFileName1,
-              },
-              {
-                purpose:7,
-                fileAddress:this.formEntry.agreementUrl2,
-                fileOriginalName:this.formEntry.agreementFileName2,
-              },
-              {
-                purpose:8,
-                fileAddress:this.formEntry.registerUrl,
-                fileOriginalName:this.formEntry.registerFileName,
-              },
-              {
-                purpose:9,
-                fileAddress:this.formEntry.studentCardUrl,
-                fileOriginalName:this.formEntry.studentCardFileName,
-              },
-            ]
-        }).then( res => {
-          this.$Message.success('保存成功!');
-          this.$emit('goRead',true)
+        this.$refs['formEntry'].validate((valid) => {
+          if(valid) {
+            this.$axios.post(this.infoSaveUrl,{
+              teacherName: this.formContect.name,
+              sex: this.formContect.gender,
+              phone: this.formContect.phone,
+              wechat: this.formContect.WeChat,
+              qq: this.formContect.QQ,
+              email: this.formContect.email,
+              emergencyPhone: this.formContect.emergencyPhone,
+              emergencyRelation: this.formContect.relationship,
+              provinceCode: this.formEducation.province,
+              cityCode: this.formEducation.city,
+              districtCode: this.formEducation.area,
+              artsOrScience: this.formEducation.science,
+              teacherSchoolUuid: this.formEducation.school,
+              education: this.formEducation.education,
+              highestEducation: this.formEducation.bestEducation,
+              major: this.formEducation.major,
+              grade: this.formEducation.grade,
+              gradePreferenceValue: this.formLike.likeId,
+              teachingSubjectUuid: this.formLike.firstId,
+              secondSubjectUuid: this.formLike.secondId,
+              thirdSubjectUuid: this.formLike.thirdId,
+              idNumber: this.formPay.idcard,
+              cardNumber: this.formPay.bankNum,
+              bankAddress: this.formPay.bankAddress,
+              teacherFileList:[
+                {
+                  purpose:1,
+                  fileAddress:this.formContect.headerUrl,
+                  fileOriginalName:this.formContect.headerFileName,
+                },
+                {
+                  purpose:2,
+                  fileAddress:this.formPay.idcardUrl1,
+                  fileOriginalName:this.formPay.idcardFileName1,
+                },
+                {
+                  purpose:3,
+                  fileAddress:this.formPay.idcardUrl2,
+                  fileOriginalName:this.formPay.idcardFileName2,
+                },
+                {
+                  purpose:4,
+                  fileAddress:this.formPay.bankUrl1,
+                  fileOriginalName:this.formPay.bankFileName1,
+                },
+                {
+                  purpose:5,
+                  fileAddress:this.formPay.bankUrl2,
+                  fileOriginalName:this.formPay.bankFileName2,
+                },
+                {
+                  purpose:6,
+                  fileAddress:this.formEntry.agreementUrl1,
+                  fileOriginalName:this.formEntry.agreementFileName1,
+                },
+                {
+                  purpose:7,
+                  fileAddress:this.formEntry.agreementUrl2,
+                  fileOriginalName:this.formEntry.agreementFileName2,
+                },
+                {
+                  purpose:8,
+                  fileAddress:this.formEntry.registerUrl,
+                  fileOriginalName:this.formEntry.registerFileName,
+                },
+                {
+                  purpose:9,
+                  fileAddress:this.formEntry.studentCardUrl,
+                  fileOriginalName:this.formEntry.studentCardFileName,
+                },
+              ]
+            }).then( res => {
+              this.$Message.success('保存成功!');
+              this.$emit('goRead',true)
+            })
+          } else{
+            this.$Message.destroy()
+            this.$Message.error('请完善表单!');
+          }
         })
+
       },
     },
     components:{

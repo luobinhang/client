@@ -3,9 +3,10 @@
     <div class="commonTitle">
       <div class="commonTitleMain">
         <h2>待上课程</h2>
+        <span style="line-height: 35px;color: #939aa9">*只显示近期三天（有课）的课程</span>
       </div>
     </div>
-    <div class="cwBody">
+    <div class="cwBody" v-if="classHave">
       <div class="courseList" v-for="(cw,$index) in cwList">
         <p class="cwDate">{{ dayList[$index] }}<!--{{cw.list[0].courseDate}}--><span>（共{{cw.total}}节）</span></p>
         <ul>
@@ -58,7 +59,7 @@
                 <p class="enterClass" v-if="$index==0 && !item.startClass">进入教室</p>
                 <!--第一天课开始上课-->
                 <p class="enterClass" v-else-if="$index==0 && item.startClass" :style="{ background: item.bgColor}"
-                   @click="start($index,item.courseUuid)">进入教室</p>
+                   @click="start($index,item.courseUuid,item)">进入教室</p>
                 <!--第一天课迟到-->
                 <p class="lateTime" v-show="$index==0 && item.lateShow">迟到{{realLateTime[index]}}</p>
                 <!--非第一天的课-->
@@ -74,6 +75,29 @@
         </ul>
       </div>
     </div>
+    <div class="courseListNull tip-null" v-else>
+      <img src="../../assets/teacher/ai.png" alt="null">
+      <span class="tip-null-text" style="font-size: 16px;color: #8d8d8d;">近三天没有课程哦~</span>
+    </div>
+
+    <Modal v-model="enterWindow" width="320" class="enterWindow">
+      <p slot="header">
+        <span>进入教室</span>
+      </p>
+      <p slot="close">
+        <img src="../../assets/images/close2.png" alt="关闭">
+      </p>
+      <div class="enterWindowImg" v-if="enterType === 0">
+        <img src="../../assets/teacher/loadingMain.gif"/>
+      </div>
+      <div class="enterWindowText" v-else-if="enterType === 1"><Icon type="checkmark-circled"></Icon>进入教室成功！</div>
+      <div class="enterWindowError" v-else-if="enterType === 2">
+        <p>进入教室失败！</p>
+        <Button type="primary" @click="start(startIndex,startUuid,startItem)">重新进入</Button>
+        <div>若长时间不能进入教室，请检查网络或者<a href="javascript:;">请求技术支持</a></div>
+      </div>
+      <p slot="footer"></p>
+    </Modal>
   </div>
 </template>
 <style lang="less">
@@ -87,18 +111,17 @@
       return {
         enterClass: false,
         dayList: ['今天', '明天', '后天'],
-//        cwList: [],
         cwList: [],
         courseTip: "",//详情现实与隐藏
-//        bgColor: "#5e85c8",
-//        startClass: false,
-//        lateShow: false,
         lateTime:"",
+        classHave: true,
         realLateTime:new Array(),
+        enterWindow:false,
+        enterType:null,
+        startIndex:null,
+        startUuid:null,
+        startItem:null,
       }
-    },
-    beforeMount() {
-
     },
     mounted() {
       timestamp().then(data => {
@@ -109,8 +132,15 @@
         let timestamp = data.timestamp;
         this.getCWList(courseDateList, timestamp);
       });
-    },
-    created: function () {
+
+      let methods =  window._client_user_web_methods_;
+      Object.assign(methods, {
+        enterProgess : res => {
+          let as = JSON.parse(res["args"]).state;
+          this.enterWindow = true;
+          this.enterType = as;
+        }
+      });
     },
     watch : {
       lateTime (newValue, oldValue) {
@@ -126,18 +156,29 @@
     methods: {
 // 获取待上课程列表
       getCWList(courseDateList, timestamp) {
-
         this.$axios.post(this.$store.state.getNoEndCourseList, {courseDateList: courseDateList}).then(res => {
           this.cwList = res.data.data;
 //          this.cwList = this.$store.state.cwList;
+
+          let classHave = [];
+          for(let item of this.cwList) {
+            if(item.total !== 0) {
+              classHave.push('T');
+            }
+          }
+          if(classHave.length === 0) {
+            this.classHave = false;
+          }
+
+
           if (this.cwList[0].total != 0) {
             let lateList = [];
             for(let i=0;i<this.cwList[0].list.length;i++){
-              let list = this.cwList[0].list[i]
-              list.lateShow = false;
-              list.bgColor = "#dadada";
-              list.startClass = false;
-              let ISOtime = list.courseDate + ' ' + list.startTime;
+              let list = this.cwList[0].list[i];
+              Object.assign(list, { lateShow: false });
+              Object.assign(list, { bgColor: "#dadada" });
+              Object.assign(list, { startClass: false });
+              let ISOtime = `${list.courseDate.replace(/-/g,'/')} ${list.startTime}`;
               let second = (new Date(ISOtime).getTime() - timestamp) / 1000;
               //大于20分钟不可进入教室
               if (second > 1200) {
@@ -146,8 +187,8 @@
 
               //小于20分钟可以进入教室
               else if (second > 0 && second <= 1200) {
-                list.startClass = true;
-                list.bgColor ="#5e85c8";
+                Object.assign(list, { bgColor: "#5e85c8" });
+                Object.assign(list, { startClass: true });
                 this.countDown(i,second,lateList);
               }
               // 还未进入教室，迟到正计时
@@ -166,17 +207,17 @@
         interval[i] = setInterval(() => {
           if (second > 0 && second <= 1200) {
             second--;
-            list.bgColor= "#5e85c8";
-            list.startClass = true;
+            Object.assign(list, { bgColor: "#5e85c8" });
+            Object.assign(list, { startClass: true });
           }
           else if (second <= 0) {
-            list.bgColor = "#da7194";
-            list.lateShow= true;
+            Object.assign(list, { bgColor: "#da7194" });
+            Object.assign(list, { lateShow: true });
             second--;
-            let second2 = Math.abs(second);
-            let startTime = list.courseDate + ' ' + list.startTime;
-            let endTime = list.courseDate + ' ' + list.endTime;
-            let time = (new Date(endTime).getTime() -new Date(startTime).getTime()) / 1000;
+            let second2 = Math.abs(second),
+                startTime = `${list.courseDate.replace(/-/g,'/')} ${list.startTime}`,
+                endTime = `${list.courseDate.replace(/-/g,'/')} ${list.endTime}`,
+                time = (new Date(endTime).getTime() -new Date(startTime).getTime()) / 1000;
             if(second2>=time){
               clearInterval(interval[i]);
               lateList[i] = forMatTime(time)
@@ -200,28 +241,31 @@
         this.courseTip = '';
       },
 //      开始上课
-      start($index, uuid) {  //进入房间
+      start($index, uuid, item) {  //进入房间
+        this.startIndex = $index;
+        this.startUuid = uuid;
+        this.startItem = item;
         this.$axios({
           method: "post",
           url: this.$store.state.getCourseRoom,
           data: {
-            'courseUuid': uuid,
+            'courseUuid': this.startUuid,
           },
-        })
-          .then(res => {
+        }).then(res => {
             let data = res.data.data;
             let args = '{ "requesttype" : 2,' +
-              '"messageid" : ' + $index + ',' +
-              '"jscallback" : "coursewareClassback",' +
-              '"data" : { ' +
-              '"commchannelid" : "' + data.commChannelId + '",' +
-              '"signallingchannelid" : "' + data.signallingChannelId + '",' +
-              '"recordId" : "' + data.recordId + '",' +
-              '"courseType" : "' + data.courseType + '",' +
-              '"courseUuid" : "' + uuid + '",' +
-              '"tabId" : "' + this.i + '"' +
-              '}' +
-              '}';
+                          '"messageid" : ' + this.startIndex + ',' +
+                          '"jscallback" : "coursewareClassback",' +
+                          '"data" : { ' +
+                          '"commchannelid" : "' + data.commChannelId + '",' +
+                          '"signallingchannelid" : "' + data.signallingChannelId + '",' +
+                          '"recordId" : "' + data.recordId + '",' +
+                          '"courseType" : "' + data.courseType + '",' +
+                          '"courseUuid" : "' + this.startUuid + '",' +
+                          '"tabId" : "' + this.i + '",' +
+                          '"value":'+ JSON.stringify(this.startItem) +''+
+                        '}' +
+                      '}';
             sendData(args);
           })
       },

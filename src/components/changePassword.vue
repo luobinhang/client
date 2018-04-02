@@ -151,7 +151,7 @@
     beforeMount () {
     },
     mounted () {
-      this.changePassword = true,
+      this.changePassword = true;
       this.getPhone();
       if(isFirst == 'true'){
         const title = '提示';
@@ -162,10 +162,9 @@
         });
       }
     },
-    created: function () {
+    created () {
     },
     computed:{
-
     },
     watch:{
       codeState(curVal,oldVal){  //监听倒计时
@@ -231,22 +230,21 @@
           loading: false,
         })
           .then( res => {
-            const that = this;
             let temp = 60;
-            that.disabled = true;
-            that.disabledBtn = true;
-            that.codeState = temp + "s";
-            let secondDown = setInterval(function(){
+            this.disabled = true;
+            this.disabledBtn = true;
+            this.codeState = temp + "s";
+            let secondDown = setInterval(() => {
               temp--;
-              that.codeState = temp + "s";
+              this.codeState = temp + "s";
               if(temp<=0){
-                that.codeState = '获取' ;
-                that.disabled = false;
-                that.disabledBtn = false;
+                this.codeState = '获取' ;
+                this.disabled = false;
+                this.disabledBtn = false;
                 clearInterval(secondDown)
               }
             },1000)
-//          that.authCode = res.data.data.authCode;
+//          this.authCode = res.data.data.authCode;
           })
       },
       getPhone () {  //获取用户手机号
@@ -272,15 +270,6 @@
       p{
         font-size: 14px;
       }
-    }
-    .close{
-      position: absolute;
-      font-size: 12px;
-      right: 16px;
-      top: 12px;
-      line-height: 1;
-      overflow: hidden;
-      cursor: pointer;
     }
     .ivu-input{
       width: 132px;

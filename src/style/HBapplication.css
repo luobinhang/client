@@ -19,7 +19,6 @@
 }
 .hb-content .hbContainer > div div.remindTips p {
   font-size: 14px;
-  color: #727a89;
 }
 .hb-content .hbContainer > div div.mailInfo p:first-child {
   font-size: 16px;
@@ -28,7 +27,6 @@
 }
 .hb-content .hbContainer > div div.mailInfo p {
   font-size: 14px;
-  color: #727a89;
   line-height: 40px;
 }
 .hb-content .hbContainer > div div.mailInfo p span {
@@ -49,7 +47,6 @@
 .hb-content .ivu-form .ivu-form-item-label {
   padding: 10px 0;
   font-size: 14px;
-  color: #727a89;
 }
 .hb-content .input1 input {
   border: none;

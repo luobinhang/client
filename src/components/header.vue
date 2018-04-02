@@ -1,37 +1,6 @@
 <template>
   <div class="header">
     <div class="header-main">
-      <!--<div class="logo">-->
-        <!--<img src="../assets/images/logo.png" alt="logo">-->
-      <!--</div>-->
-      <!--<div class="user">-->
-        <!--<span>欢迎您，{{ user }}</span>-->
-        <!--<a href="javascript:;" class="user-help" @click="help()">用户帮助</a>-->
-        <!--<a href="javascript:;" class="user-feedback" @click="feedback()">意见反馈</a>-->
-        <!--<a href="javascript:;" class="user-support" @click="support()">远程协助</a>-->
-        <!--<a href="javascript:;" @click="signOut()">退出登录</a>-->
-      <!--</div>-->
-      <!--<div class="help" v-show="helpShow">-->
-        <!--<div class="help-content">-->
-          <!--<div class="help-title">-->
-            <!--<p>用户帮助</p>-->
-            <!--<i @click="helpClose()"></i>-->
-          <!--</div>-->
-          <!--<div class="help-main clear">-->
-            <!--<div class="help-question">-->
-              <!--<ul>-->
-                <!--<li v-for="(item,$index) in helpMain" ref="helpQuestion" @click="helpSelect($index)" :class="{ active : helpIndex == $index }"> {{ item.qusetion }}</li>-->
-              <!--</ul>-->
-            <!--</div>-->
-            <!--<div class="help-answer">-->
-              <!--<ul>-->
-                <!--<li v-for="(item,$index) in helpMain" v-show="helpIndex == $index"> {{ item.answer }}</li>-->
-              <!--</ul>-->
-              <!--<i class="help-arrow" ref="helpArrow"></i>-->
-            <!--</div>-->
-          <!--</div>-->
-        <!--</div>-->
-      <!--</div>-->
       <div class="header-logo">
         <img src="../assets/teacher/logo.png">
       </div>
@@ -91,10 +60,29 @@
             <li>
               <router-link to="/personal/info"><span @click="changePsw">修改密码</span></router-link>
             </li>
+            <li>
+              <a href="javascript:;" @click="signOut">退出登录</a>
+            </li>
           </ul>
         </div>
       </div>
     </div>
+    <!-- 退出 -->
+    <Modal v-model="tipWindow" width="320" class="sign-out">
+      <p slot="header">
+        <span>退出提醒</span>
+      </p>
+      <p slot="close">
+        <img src="../assets/images/close2.png" alt="关闭">
+      </p>
+      <div class="tipWindow">
+        <p>确定退出登录吗？</p>
+      </div>
+      <div slot="footer">
+        <Button type="primary" @click="tipWindow = false">取消</Button>
+        <Button type="primary" @click="signOutBtn">确认</Button>
+      </div>
+    </Modal>
   </div>
 </template>
 
@@ -106,15 +94,12 @@
         helpIndex:0,
         helpShow:false,
         offsetTop :0,
+        tipWindow: false,
       }
     },
     props:['rn'],
     mounted () {
-    },
-    watch: {
-      '$route' (to, from) {
-        this.routerName = to.path.split('/')[1];
-      }
+
     },
     methods: {
       signOut () {  //退出登录
@@ -155,117 +140,26 @@
       },
       changePsw(){
         this.$store.commit("CHANGE_PASSWORD","true");
+      },
+      signOut () {
+        this.tipWindow = true;
+      },
+      signOutBtn () {
+        let args = '{' +
+          '"requesttype":10' +
+          '}';
+        sendData(args);
       }
     },
   }
 </script>
-<!--<style scoped lang="less">-->
-  <!--.user{-->
-    <!--position: absolute;-->
-    <!--right: 68px;-->
-    <!--color: #fff;-->
-    <!--height: 90px;-->
-    <!--line-height: 90px;-->
-    <!--top: 0;-->
-    <!--font-size: 14px;-->
-    <!--a{-->
-      <!--color: #fff;-->
-      <!--margin-left: 10px;-->
-    <!--}-->
-  <!--}-->
-  <!--.user a:hover{-->
-    <!--text-decoration: underline;-->
-  <!--}-->
-  <!--.user-help{-->
-    <!--margin: 0 5px 0 15px;-->
-    <!--cursor: pointer;-->
-  <!--}-->
-  <!--.help{-->
-    <!--position: fixed;-->
-    <!--z-index: 15;-->
-    <!--width: 100%;-->
-    <!--background: rgba(0,0,0,0.8);-->
-    <!--height: 100%;-->
-    <!--left: 0;-->
-    <!--top: 0;-->
-    <!--.help-content{-->
-      <!--position: absolute;-->
-      <!--background: #fff;-->
-      <!--left: 50%;-->
-      <!--top: 50%;-->
-      <!--width: 570px;-->
-      <!-- -webkit-transform: translate(-50%,-50%);-->
-      <!-- -moz-transform: translate(-50%,-50%);-->
-      <!-- -ms-transform: translate(-50%,-50%);-->
-      <!-- -o-transform: translate(-50%,-50%);-->
-      <!--transform: translate(-50%,-50%);-->
-      <!--border-radius: 4px;-->
-      <!--overflow: hidden;-->
-    <!--}-->
-    <!--.help-title{-->
-      <!--background: #F42440;-->
-      <!--color: #fff;-->
-      <!--padding-left: 20px;-->
-      <!--font-size: 16px;-->
-      <!--height: 40px;-->
-      <!--line-height: 40px;-->
-      <!--position: relative;-->
-    <!--}-->
-    <!--.help-title i{-->
-      <!--position: absolute;-->
-      <!--right: 20px;-->
-      <!--top: 50%;-->
-      <!--margin-top: -6px;-->
-      <!--height: 12px;-->
-      <!--width: 12px;-->
-      <!--cursor: pointer;-->
-      <!--background: url("../assets/images/close2.png") no-repeat center / 12px;-->
-    <!--}-->
-    <!--.help-main{-->
-      <!--padding: 20px;-->
-      <!--height: 400px;-->
-      <!--.help-question{-->
-        <!--float: left;-->
-        <!--width: 180px;-->
-        <!--height: 100%;-->
-        <!--overflow-y: auto;-->
-        <!--overflow-x: hidden;-->
-        <!--font-size: 14px;-->
-        <!--color: #8e96a5;-->
-        <!--li{-->
-          <!--line-height: 24px;-->
-          <!--margin: 10px 0;-->
-          <!--cursor: pointer;-->
-          <!-- -webkit-transition-duration: .3s;-->
-          <!-- -moz-transition-duration: .3s;-->
-          <!-- -ms-transition-duration: .3s;-->
-          <!-- -o-transition-duration: .3s;-->
-          <!--transition-duration: .3s;-->
-          <!--&.active,&:hover{-->
-            <!--color: #F42440;-->
-          <!--}-->
-        <!--}-->
-      <!--}-->
-      <!--.help-answer{-->
-        <!--float: right;-->
-        <!--width: 330px;-->
-        <!--height: 100%;-->
-        <!--background: #f0f4f5;-->
-        <!--padding: 20px;-->
-        <!--border-radius: 8px;-->
-        <!--color: #727a89;-->
-        <!--font-size: 14px;-->
-        <!--position: relative;-->
-      <!--}-->
-    <!--}-->
-  <!--}-->
-  <!--.help-arrow{-->
-    <!--position: absolute;-->
-    <!--border-right: 12px solid #f0f4f5;-->
-    <!--border-top: 11px solid transparent;-->
-    <!--border-bottom: 11px solid transparent;-->
-    <!--left: -12px;-->
-    <!--top: 10px;-->
-  <!--}-->
-
-<!--</style>-->
+<style lang="less">
+  .sign-out .tipWindow{
+    padding: 20px 0;
+    text-align: center;
+  }
+  .sign-out button{
+    margin: 0 15px !important;
+    width: 100px !important;
+  }
+</style>

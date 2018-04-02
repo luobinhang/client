@@ -26,7 +26,6 @@ Moment.locale('zh-cn');
 Vue.prototype.moment = Moment;
 
 
-
 /*
  *
  * 封装获取URL参数
@@ -52,7 +51,7 @@ let AJAX_NUM = 0;
 const token = sessionStorage.getItem('token');
 const Axios = axios.create({
   baseURL: apiBase('api'),
-  timeout: 5000,
+  timeout: 10000,
   responseType: "json",
   withCredentials: true, // 允许带cookie
   headers: {
@@ -66,7 +65,7 @@ Axios.interceptors.request.use(
   config => {
 
     // 未登录(本地测试使用)
-    if ( token === null || token === undefined || token === '') {
+    if ( !token ) {
 
       window.location.href = '../../static/login.html';
 
@@ -99,7 +98,6 @@ Axios.interceptors.request.use(
   },
   error => {
 
-    console.log(2)
     Notice.error({
       title: res.data.message,
       desc: '',
@@ -113,19 +111,20 @@ Axios.interceptors.request.use(
 //返回状态判断(添加响应拦截器)
 Axios.interceptors.response.use(
   res => {
+
     //loading隐藏
     AJAX_NUM--;
 
     if(AJAX_NUM <= 0){
       AJAX_NUM = 0;
       stores.dispatch('FETCH_LOADING', 'false');
+      stores.commit('NETWORK_ERROR', 'false');
     }
 
     if (res.data.code !== 0) {
 
       Notice.error({
         title: res.data.message,
-        desc: '',
         duration:2,
       });
 
@@ -141,7 +140,9 @@ Axios.interceptors.response.use(
   error => {
 
     AJAX_NUM = 0;
+
     stores.dispatch('FETCH_LOADING', 'false');
+    stores.commit('NETWORK_ERROR', 'true');
 
     Notice.error({
       title: '网络异常 '+ error,
@@ -149,22 +150,12 @@ Axios.interceptors.response.use(
       duration:5,
     });
 
+
     return Promise.reject(error);
   }
 );
 Vue.prototype.$axios = Axios;
 
-// Vue.prototype.$ajax = (
-//   type="get",
-//   url,
-//   loading,
-// ) => {
-//   if( type == "get") {
-//     Axios.get(url).then(() => {
-//
-//     })
-//   }
-// }
 
 /*
 *
@@ -194,21 +185,21 @@ window._client_user_web_methods_ = {
       });
     }
   },
-  enterProgess (res) {
-    let as = JSON.parse(res["args"]).state;
-    if (as == 0) {            //c++调用进入中
-      Message.loading({
-        content: '正在进入教室',
-        duration: 0
-      });
-    } else if ( as == 1 ) {  //c++调用进入成功
-      Message.destroy();
-      Message.success('进入房间成功');
-    } else if ( as == 2 ) {  //c++调用进入失败
-      Message.destroy();
-      Message.error('进入房间失败');
-    }
-  },
+  // enterProgess (res) {
+    // let as = JSON.parse(res["args"]).state;
+    // if (as == 0) {            //c++调用进入中
+    //   Modal.info({
+    //     title: '进入教室',
+    //     content: '<img src="../../assets/teacher/loadingMain.gif" />',
+    //   });
+    // } else if ( as == 1 ) {  //c++调用进入成功
+    //   Message.destroy();
+    //   Message.success('进入房间成功');
+    // } else if ( as == 2 ) {  //c++调用进入失败
+    //   Message.destroy();
+    //   Message.error('进入房间失败');
+    // }
+  // },
   refresh () {
     window.location.reload();
   },

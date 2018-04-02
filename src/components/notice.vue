@@ -20,13 +20,7 @@
         scrollTime:null,
       }
     },
-    beforeMount () {
-
-    },
-    mounted () {
-
-    },
-    created: function () {
+    created () {
       this.startScroll();
     },
     methods: {
@@ -44,7 +38,7 @@
       startScroll () { //滚动开始
         this.scrollTime = setInterval(this.noticeScroll, 2000)
       },
-      bulletinBoardShow () {
+      bulletinBoardShow () { //打开公告板
         this.$store.commit("BULLETIN_BOARD","true");
       },
     },

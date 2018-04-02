@@ -6,25 +6,43 @@
   <script src="js/jquery.js"></script>
   <style>
     *{margin: 0;padding: 0;box-sizing: border-box;-webkit-box-sizing: border-box; }
-    body{color: #333;font-family: PingFang-SC-Regular,"Microsoft yahei","Helvetica Neue", Helvetica, Arial, sans-serif;-webkit-font-smoothing: subpixel-antialiased; background: #eee;}
+    body{font-family: PingFang-SC-Regular,"Microsoft yahei","Helvetica Neue", Helvetica, Arial, sans-serif;-webkit-font-smoothing: subpixel-antialiased; background: #eaeaea;}
     li{list-style: none;}
-    ::-webkit-scrollbar {width: 13px;height: 10px;padding-top: 0px;}
-    ::-webkit-scrollbar-thumb {border-radius:10px;height: 30px;width: 5px;border: 2px solid #f6f6f6;background: #ddd;}
-    ::-webkit-scrollbar-thumb:hover {background-color:#bbb!important}
-    ::-webkit-scrollbar-thumb:active {background-color:#bbb!important}
-    ::-webkit-scrollbar-track {border-width: 0;}
-    .chat-warpper{margin: 0 auto;padding: 7px;}
+
+    ::-webkit-scrollbar {
+      width: 3px;
+      height: 10px;
+      padding-top: 0px;
+    }
+    ::-webkit-scrollbar-thumb {
+      border-radius:1px;
+      height: 30px;
+      width: 3px;
+      background: #d1d1d1;
+    }
+
+    ::-webkit-scrollbar-thumb:hover {
+      background-color:#bbb!important
+    }
+    ::-webkit-scrollbar-thumb:active{
+      background-color:#bbb!important
+    }
+    ::-webkit-scrollbar-track {
+      border-width: 0;
+    }
+
+    .chat-warpper{margin: 0 auto;padding: 17px;}
     .chat-warpper ul li{position: relative;margin-bottom: 10px;}
     .chat-warpper ul li:after{content: '';display: block;overflow: hidden;clear: both;visibility: hidden;height: 0;}
-    .you{padding-left: 40px;}
-    .my{padding-right: 40px;}
-    .user-name{margin-bottom: 5px;line-height: 1.5;color: #999;font-size: 13px;white-space: nowrap;overflow: hidden;text-overflow: ellipsis;  }
-    .user-chat{word-wrap:break-word;background: #fff;padding:5px 15px;line-height: 30px;border-radius: 3px;box-shadow: 0 0 4px rgba(0,0,0,0.1);position: relative;width: 100%; }
+    /*.you{padding-left: 40px;}*/
+    /*.my{padding-right: 40px;}*/
+    .user-name{margin-bottom: 5px;line-height: 1.5;color: #919aab;font-size: 14px;white-space: nowrap;overflow: hidden;text-overflow: ellipsis;  }
+    .user-chat{font-size:14px;word-wrap:break-word;background: #dbdbdb;padding:5px 10px;line-height: 22px;border-radius: 3px;box-shadow: 0 0 4px rgba(0,0,0,0.1);position: relative;width: 100%; color: #727a89;}
     .my .user-chat{float: right;}
     .you .user-chat{  float: left;}
-    .user-chat:after{content: '';height: 0;width: 0;position: absolute;top: 15px;}
-    .you .user-chat:after{border-right: 8px solid #fff;border-bottom: 6px solid transparent;border-top: 6px solid transparent;left: -7px;  }
-    .my .user-chat:after{border-left: 8px solid #fff;border-bottom: 6px solid transparent;border-top: 6px solid transparent;right: -7px; }
+    .user-chat:after{content: '';height: 14px;width: 11px;position: absolute;bottom: 2px;}
+    .you .user-chat:after{left: -8px; background: url("images/leftArrow.png") no-repeat }
+    .my .user-chat:after{right: -8px; background: url("images/rightArrow.png") no-repeat}
     .my .user-name{ text-align: right;}
     .you .user-header{left: 0; }
     .my .user-header{right: 0; }
@@ -36,29 +54,34 @@
   </style>
 </head>
 <body>
-  <div class="chat-warpper">
-    <ul></ul>
-  </div>
+<div class="chat-warpper">
+  <ul></ul>
+</div>
 </body>
 </html>
 <script>
   function appendChat(res){
     var data = JSON.parse(res);
     var isSelf = data.isself,
-        userName = data.username,
-        message = data.message,
-        role = data.role;
+      userName = data.username,
+      message = data.message,
+      role = data.role;
     var isMy = isSelf?'my':'you';
     var header = ( role == 0 )?'images/teacher.png':'images/student.png';
+    var call = ( role == 0 )?'老师':'同学';
     var chat ='<li class='+ isMy +'>' +
-      '<div class="user-header">' +
-      '<img src="'+ header +'">' +
-      '</div> <div class="user-main">' +
-      '<p class="user-name">'+ userName +'</p>' +
+//      '<div class="user-header">' +
+//      '<img src="'+ header +'">' +
+//      '</div> ' +
+      '<div class="user-main">' +
+      '<p class="user-name">'+ userName + call +'</p>' +
       '<div class="user-chat">'+ message +'</div>' +
       '</div>' +
       '</li>';
     $(".chat-warpper ul").append(chat);
-    window.scrollTo(0,document.body.scrollHeight)
-  };
+    window.scrollTo(0,document.body.scrollHeight);
+  }
+
+
+
 </script>

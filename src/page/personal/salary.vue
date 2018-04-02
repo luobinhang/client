@@ -184,8 +184,6 @@
       },
 //      字数限制
       limitLength(){
-        console.log(this.textarea);
-        console.log(this.textarea.length);
         if(this.textarea.length<=48){
           this.limit=48-this.textarea.length;
         }

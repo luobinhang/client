@@ -240,7 +240,6 @@
   height: 42px;
   text-align: center;
   font-size: 12px;
-  color: #727a89;
   font-weight: normal;
   border-bottom: none;
   background: #ebf6fb;
@@ -260,7 +259,6 @@
 .schedule-content .schedule-week-main .schedule-table .card .schedule-table-main .ivu-table td .ivu-table-cell h3 {
   line-height: 45px;
   text-align: center;
-  color: #727a89;
   font-size: 12px;
 }
 .schedule-content .schedule-week-main .schedule-table .card .schedule-table-main .ivu-table td .item {
@@ -347,7 +345,6 @@
 .schedule-content .schedule-month-main .schedule-table .card .schedule-table-main .schedule-table-detail table tr th {
   font-weight: normal;
   font-size: 12px;
-  color: #727a89;
   height: 43px;
   white-space: nowrap;
   overflow: hidden;
@@ -390,7 +387,6 @@
   font-size: 12px;
 }
 .schedule-content .schedule-month-main .schedule-table .card .schedule-table-main .schedule-table-detail table tr td .table-day {
-  color: #727a89;
   text-align: right;
   padding: 2px 2px 0 0;
   line-height: 1;
@@ -449,7 +445,6 @@
   font-size: 10px;
   padding: 0 6px;
   width: 100%;
-  color: #727a89;
   display: none;
 }
 .schedule-content .schedule-month-main .schedule-table .card .schedule-table-main .schedule-table-detail table tr td .table-cell .day-class-detail .day-class-list ul li.show {

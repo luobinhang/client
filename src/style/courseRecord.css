@@ -112,7 +112,7 @@
 }
 .crContainer .crBody .courseList li {
   width: 186px;
-  height: 160px;
+  height: 194px;
   margin-right: 65px;
   border-radius: 3px;
   overflow: hidden;
@@ -132,6 +132,7 @@
   border-top-left-radius: 4px;
   border-top-right-radius: 4px;
   cursor: pointer;
+  z-index: 2;
 }
 .crContainer .crBody .courseList li .courseHead .playVideo > img {
   position: absolute;
@@ -159,6 +160,17 @@
   vertical-align: middle;
   margin-right: 10px;
 }
+.crContainer .crBody .courseList li .courseHead .courseListNoVideo {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+  background-color: #c3c8ca;
+  color: #fff;
+}
+.crContainer .crBody .courseList li .courseHead .courseListNoVideo img {
+  margin-right: 5px;
+}
 .crContainer .crBody .courseList li .evaluation {
   border-bottom: 2px solid #ed9d40;
 }
@@ -166,7 +178,7 @@
   border-bottom: 2px solid #86d2b1;
 }
 .crContainer .crBody .courseList li .courseBody {
-  padding: 10px 0 12px 12px;
+  padding: 8px 0 8px 12px;
   display: flex;
 }
 .crContainer .crBody .courseList li .courseBody div:first-child {
@@ -174,6 +186,42 @@
 }
 .crContainer .crBody .courseList li .courseBody div:last-child span {
   margin-left: 8px;
+}
+.crContainer .crBody .courseList li .courseFooter {
+  text-align: center;
+  position: relative;
+  z-index: 2;
+}
+.crContainer .crBody .courseList li .courseFooter span {
+  cursor: pointer;
+  width: 70px;
+  height: 24px;
+  font-size: 12px;
+  display: block;
+  margin: 0 auto;
+  line-height: 22px;
+}
+.crContainer .crBody .courseList li .courseFooter .writeFeedback {
+  border-radius: 2px;
+  border: 1px solid #da7194;
+  color: #da7194;
+}
+.crContainer .crBody .courseList li .courseFooter .writeFeedback:hover {
+  border: 1px solid #e18da9;
+  color: #e18da9;
+}
+.crContainer .crBody .courseList li .courseFooter .writeFeedback:active {
+  border: 1px solid #ae5a76;
+  color: #ae5a76;
+}
+.crContainer .crBody .courseList li .courseFooter .readFeedback {
+  color: #5e85c8;
+}
+.crContainer .crBody .courseList li .courseFooter .readFeedback:hover {
+  color: #7e9dd3;
+}
+.crContainer .crBody .courseList li .courseFooter .readFeedback:active {
+  color: #4b6aa0;
 }
 .videoWarp {
   width: 100%;

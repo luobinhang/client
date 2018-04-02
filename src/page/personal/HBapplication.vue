@@ -17,7 +17,7 @@
         <!--填写邮件信息（未预约）-->
         <div class="mailInfo" v-if="teacherInfo.isOrder==0">
           <p>填写邮件信息</p>
-          <p><span>姓名：</span>{{teacherInfo.tcName}}</p>
+          <p><span>姓名：</span>{{teacherInfo.teacherName }}</p>
           <p><span>电话：</span>{{teacherInfo.phone}}</p>
           <Form ref="mailInfo" :model="mailInfo" :rules="ruleMail" label-position="left">
             <!--<FormItem prop="tcName" class="tcName" label="姓名：">-->
@@ -59,7 +59,7 @@
         <!--填写邮件信息（已预约）-->
         <div class="mailInfo" v-else>
           <p>填写邮件信息</p>
-          <p><span>姓名：</span>{{teacherInfo.tcName}}</p>
+          <p><span>姓名：</span>{{teacherInfo.teacherName}}</p>
           <p><span>电话：</span>{{teacherInfo.phone}}</p>
           <p><span>邮寄地址：</span>{{teacherInfo.province}}{{teacherInfo.city}}{{teacherInfo.district}}{{teacherInfo.postAddress}}</p>
           <p class="hasOrder">已预约</p>
@@ -89,20 +89,20 @@
         areaList: [], //区列表
         teacherInfo:[],
         mailInfo: {
-          tcName: '',
-          phone: '',
+//          tcName: '',
+//          phone: '',
           provinceCode: "",
           cityCode: "",
           districtCode: "",
           postAddress: ""
         },
         ruleMail: { //邮寄规则
-          tcName: [
-            {validator: RULE().validateName, trigger: 'blur'}
-          ],
-          phone: [
-            {validator: RULE().validatePhone, trigger: 'blur'},
-          ],
+//          tcName: [
+//            {validator: RULE().validateName, trigger: 'blur'}
+//          ],
+//          phone: [
+//            {validator: RULE().validatePhone, trigger: 'blur'},
+//          ],
           provinceCode: [
             {validator: RULE().validateGender, trigger: 'change'}
           ],
@@ -129,38 +129,46 @@
     },
     methods: {
       getTabletApplication(){
-        this.$axios.post(this.getTabletApplicationUrl).then( res => {
+        this.$axios.get(this.getTabletApplicationUrl).then( res => {
           this.teacherInfo = res.data.data;
-          this.mailInfo.tcName=this.teacherInfo.tcName;
-          this.mailInfo.phone=this.teacherInfo.phone;
+//          this.mailInfo.tcName=this.teacherInfo.teacherName;
+//          this.mailInfo.phone=this.teacherInfo.phone;
           if(this.teacherInfo.isOrder==0){
             this.getProvince();
           }
         })
       },
       getProvince() { //获取省
-        this.$axios.get(this.getProvinceUrl)
+        this.$axios.get(this.getProvinceUrl,{
+          loading:false
+        })
           .then(res => {
             this.provinceList = res.data.data;
           })
       },
       getCity(value) { //获取市
-        this.$axios.get(this.getCityUrl, {
-          params: {
-            provinceCode: value,
-          }
-        }).then(res => {
-          this.cityList = res.data.data;
-        })
+        if(value != ""){
+          this.$axios.get(this.getCityUrl, {
+            params: {
+              provinceCode: value,
+            },
+            loading:false,
+          }).then(res => {
+            this.cityList = res.data.data;
+          })
+        }
       },
       getArea(value) { //获取区
-        this.$axios.get(this.getAreaUrl, {
-          params: {
-            cityCode: value,
-          }
-        }).then(res => {
-          this.areaList = res.data.data;
-        })
+        if(value != ""){
+          this.$axios.get(this.getAreaUrl, {
+            params: {
+              cityCode: value,
+            },
+            loading:false,
+          }).then(res => {
+            this.areaList = res.data.data;
+          })
+        }
       },
       //  提交申请手写板信息
       handleSubmit(name) {
@@ -170,12 +178,10 @@
               this.$Message.info('您已预约成功!');
               this.getTabletApplication();
             })
-//              .catch(function (error) {
-//              this.$Message.info(error.message);
-//            });
+
           }
           else {
-//            this.$Message.error('Fail!');
+             this.$Message.error('请完善表单！');
           }
         })
       },

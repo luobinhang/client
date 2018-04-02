@@ -1,5 +1,5 @@
 <template>
-  <Modal v-model="bulletinBoard" width="811" :transfer="false" :mask-closable="false" :closable="false">
+  <Modal v-model="bulletinBoard" width="811" class-name="vertical-center-modal" :transfer="false" :mask-closable="false" :closable="false">
     <p slot="header">
       <span>我的消息</span>
       <i class="close" @click="close">
@@ -188,10 +188,6 @@
       line-height: 1;
       overflow: hidden;
       cursor: pointer;
-    }
-    .ivu-modal{
-      transform: translateY(-50%);
-      top: 50%;
     }
     .ivu-modal-footer{
       padding: 0;

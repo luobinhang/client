@@ -14,7 +14,7 @@
   border-bottom: 1px solid #e7e7e7;
 }
 .cwContainer .cwBody {
-  padding: 0 40px;
+  padding-left: 25px;
   overflow-y: auto;
   display: flex;
   flex-direction: column;
@@ -23,7 +23,7 @@
 .cwContainer .cwBody .courseList .cwDate {
   color: #323741;
   font-size: 14px;
-  padding: 20px 0 10px;
+  padding: 20px 0 0 15px;
 }
 .cwContainer .cwBody .courseList .cwDate span {
   margin-left: 8px;
@@ -36,8 +36,7 @@
   width: 293px;
   height: 96px;
   position: relative;
-  margin-right: 30px;
-  margin-bottom: 30px;
+  margin: 15px 14px 30px 14px;
   padding: 0 10px 0 20px;
   border-top-left-radius: 0px !important;
   border-bottom-left-radius: 0px !important;
@@ -97,14 +96,12 @@
   top: 53px;
   box-shadow: 3px 3px 7px rgba(160, 131, 137, 0.35);
   font-size: 12px;
-  color: #727a89;
 }
 .cwContainer .cwBody .courseList ul li div.courseMain div.courseDetail > div:first-child div.detail div.studyInfo .courseTip span {
   color: #919aab;
 }
 .cwContainer .cwBody .courseList ul li div.courseMain div.courseDetail > p:nth-child(2) {
   font-size: 13px;
-  color: #727a89;
 }
 .cwContainer .cwBody .courseList ul li div.courseMain div.courseDetail > p:nth-child(2) span:nth-child(2) {
   margin: 0 7px;
@@ -171,32 +168,38 @@
 .cwContainer .cwBody .courseList ul li.official:after {
   background-color: #86d2b1;
 }
-@media screen and (max-width: 1365px) {
-  .cwContainer .cwBody .courseList ul li:nth-of-type(3n) {
-    margin-right: 0;
-  }
+.enterWindow {
+  text-align: center;
 }
-@media screen and (min-width: 1366px) and (max-width: 1439px) {
-  .cwContainer .cwBody .courseList ul li:nth-of-type(4n) {
-    margin-right: 0;
-  }
-  .cwContainer .cwBody .courseList ul li {
-    margin-right: 21px;
-  }
+.enterWindow .enterWindowError {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 10px 0;
 }
-@media screen and (min-width: 1440px) and (max-width: 1680px) {
-  .cwContainer .cwBody .courseList ul li:nth-of-type(4n) {
-    margin-right: 0;
-  }
-  .cwContainer .cwBody .courseList ul li {
-    margin-right: 30px;
-  }
+.enterWindow .enterWindowError p {
+  background: url("../assets/teacher/error2.png") no-repeat left center;
+  padding-left: 14px;
+  font-size: 12px;
+  margin-bottom: 20px;
 }
-@media screen and (min-width: 1680px) and (max-width: 1919px) {
-  .cwContainer .cwBody .courseList ul li:nth-of-type(5n) {
-    margin-right: 0;
-  }
-  .cwContainer .cwBody .courseList ul li {
-    margin-right: 20px;
-  }
+.enterWindow .enterWindowError div {
+  color: #919aab;
+  margin-top: 20px;
+  font-size: 10px;
+}
+.enterWindow .enterWindowError div a {
+  color: #5e85c8;
+  text-decoration: underline;
+}
+.enterWindow .enterWindowText {
+  padding: 10px 0;
+}
+.enterWindow .enterWindowText i {
+  color: #60d082;
+  margin-right: 5px;
+}
+.enterWindow .ivu-modal-footer {
+  display: none;
 }

@@ -75,7 +75,7 @@
                  ref="freeTableDetail">
               <!--@mousedown="mouseDown()"-->
               <!--@mouseup="mouseUp()"-->
-              <table cellspacing="0" cellpadding="0" border="0">
+              <table cellspacing="0" cellpadding="0" border="0" :style="{minHeight:tableHeight+'px'}">
                 <colgroup>
                   <col width="16%">
                   <col width="12%">
@@ -93,7 +93,7 @@
                     <em>占位</em>
                     <span
                       :class="{selected:item[timeIndex].selected,disable:item[timeIndex].disable}"
-                      @click="selected(item[timeIndex])"
+                      @click="selected(item[timeIndex],timeIndex)"
                       :time_index="timeIndex"
                       :item_index="itemIndex"
                     ><Icon type="checkmark-round" v-if="item[timeIndex].selected"></Icon></span>
@@ -137,6 +137,7 @@
           type:'',
           text:'',
         },
+        tableHeight:0,
         tipWindow:false, //提示窗
         editMode:false, //编辑模式
         year:new Date().getFullYear(),
@@ -185,8 +186,18 @@
     },
     mounted () {
       this.timeSet();
-    },
-    created: function () {
+      let th = () => {
+        let mh = this.$refs.freeTableDetail.clientHeight;
+        if(mh > 605) {
+          this.tableHeight = mh - 44;
+        } else {
+          this.tableHeight = 0;
+        }
+      }
+      th ();
+      window.onresize = () => {
+        th ();
+      }
     },
     methods: {
       timeSet () {  //获取服务器时间
@@ -346,18 +357,16 @@
       },
       check(index){ //全选
         this.freeTimeWeekColumns[index].allSelect = !this.freeTimeWeekColumns[index].allSelect;
-        if(this.freeTimeWeekColumns[index].allSelect) {
-          for(let item of this.weekList[index]){
+        for(let item of this.weekList[index]){
+          if(this.freeTimeWeekColumns[index].allSelect) {
             item.selected = true;
-          }
-        } else {
-          for(let item of this.weekList[index]){
+          } else {
             item.selected = false;
           }
         }
       },
       selected (val) { //空闲时间选择
-        if(!val.disable)val.selected=!val.selected
+        if(!val.disable)val.selected=!val.selected;
       },
       mouseDown (selected) {
         let that = this;
@@ -495,7 +504,10 @@
     },
     components:{
 
-    }
+    },
+    destroyed () {
+      window.onresize = null;
+    },
   }
 </script>
 

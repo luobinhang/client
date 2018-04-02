@@ -214,22 +214,21 @@
           }
         })
         .then( res => {
-          const that = this;
           let temp = 60;
-          that.disabled = true;
-          that.disabledBtn = true;
-          that.codeState = temp + "秒后重试";
-          let secondDown = setInterval(function(){
+          this.disabled = true;
+          this.disabledBtn = true;
+          this.codeState = temp + "秒后重试";
+          let secondDown = setInterval(() => {
             temp--;
-            that.codeState = temp + "秒后重试";
+            this.codeState = temp + "秒后重试";
             if(temp<=0){
-              that.codeState = '获取验证码' ;
-              that.disabled = false;
-              that.disabledBtn = false;
+              this.codeState = '获取验证码' ;
+              this.disabled = false;
+              this.disabledBtn = false;
               clearInterval(secondDown)
             }
           },1000)
-//          that.authCode = res.data.data.authCode;
+//          this.authCode = res.data.data.authCode;
         })
       },
       getPhone () {  //获取用户手机号

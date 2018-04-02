@@ -50,9 +50,6 @@
 
     },
     mounted () {
-      let array = [1,2,1,3,4,1,5,3,5,2,1];
-      let b = [...new Set(array)];
-      console.log(b)
     },
     created () {
 

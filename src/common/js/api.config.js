@@ -30,6 +30,7 @@ export default function apiBase(type) {
     API = 'http://clienttest.haiketang.net';
     webAPI = "clienttest.haiketang.net";
   } else if(host === 'localhost:8085') {//本地测试环境
+    // API = 'http://192.168.0.15:20003';
     API = 'http://clienttest.haiketang.net';
     webAPI = "clienttest.haiketang.net";
   } else if (host === 'localhost:8086') {//本地测试环境
@@ -78,6 +79,8 @@ store.state.converByJson = '/client/courseware/converByJson'; //教师课件转�
 store.state.deleteCoursewareByJson = '/client/courseware/deleteCoursewareByJson'; //教师删除课件
 store.state.getSysCoursewareList = '/client/courseware/getSysCoursewareList'; //教师系统课件
 
+
+
 //新教师端API
 store.state.courseCalendar = '/teacher/courseCalendar'; //课程日历
 store.state.dateCourseList = '/teacher/courseList'; //教师日历获取上课列表
@@ -90,14 +93,23 @@ store.state.saveFreeTime = '/teacher/saveFreeTime'; //保存空闲时间
 store.state.saveFreeTimeTemplate = '/teacher/saveFreeTimeTemplate'; //保存空闲时间模板
 store.state.getFreeTimeTemplate = '/teacher/getFreeTimeTemplate'; //获取空闲时间模板
 store.state.info = '/teacher/info'; //教师信息
-store.state.uploadFile = '/teacher/uploadFile'; //上传图片
+store.state.infoUploadFile = '/teacher/uploadFile'; //上传图片
 store.state.infoSave = '/teacher/infoSaveByJson'; //保存教师信息
 store.state.getSchool = '/teacher/getAllSchool'; //获取学校
 store.state.getGrade = '/teacher/getAllGrade'; //获取年级
 store.state.getGradePreference = '/teacher/getAllGradePreference'; //获取年级偏好
 store.state.getCourseRecordList = '/teacher/getCourseRecordList'; //获取课程记录
-store.state.getTabletApplication='/teacher/tabletApplication';//获取手写板信息
-store.state.saveTabletPostInfo="/teacher/saveTabletPostInfo";// 申请手写板
+store.state.getTabletApplication='/teacher/viewTabletApply';//获取手写板信息
+store.state.saveTabletPostInfo="/teacher/saveTabletApply";// 申请手写板
+store.state.saveDir="/courseware/saveDir";// 新建文件夹
+store.state.moveCourseware="/courseware/moveCourseware";// 移动文件
+store.state.coursewareList="/courseware/list";// 获取课件
+store.state.deleteDirAndCourseware="/courseware/deleteDirAndCourseware";// 删除课件
+store.state.updateDir="/courseware/updateDir";// 重命名文件夹
+store.state.coursewareUploadFile="/courseware/uploadFile";// 上传文件
+store.state.findByName="/courseware/findByName";// 课件搜索
+store.state.viewTeacherAppraise = '/teacher/viewTeacherAppraise'; //教师查看反馈
+
 
 
 

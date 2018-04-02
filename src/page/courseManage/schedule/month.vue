@@ -1,3 +1,4 @@
+<!-- 月课表组件 -->
 <template>
   <div class="schedule-month-main">
     <div class="schedule-date">
@@ -104,9 +105,8 @@
         if (!this.timer) {
           this.num = val
           this.timer = true
-          let that = this
-          setTimeout(function () {
-            that.timer = false;
+          setTimeout(() => {
+            this.timer = false;
           }, 400)
         }
       }
@@ -116,12 +116,6 @@
         timestamp().then( data =>{
           this.year = data.year;
           this.month = data.month;
-          this.getSchedule();
-          this.listNum();
-        }).catch(() => { //失败获取系统时间
-          let newDate = new Date();
-          this.year = newDate.getFullYear();
-          this.month = newDate.getMonth() + 1;
           this.getSchedule();
           this.listNum();
         })
@@ -161,9 +155,6 @@
         this.open = index;
       }
     },
-    components:{
-
-    }
   }
 </script>
 
