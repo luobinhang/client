@@ -31,6 +31,7 @@ const isFirst = sessionStorage.getItem('isFirst');
 router.beforeEach((to, from, next) => {
   if (isFirst == 'true') {
     store.commit("CHANGE_PASSWORD","true");
+    store.commit('NO_CHANGED','true');
     router.push('/personal/info');
     iView.Notice.error({
       title: '首次登录',

@@ -15,7 +15,7 @@
             3、手写板发货后将暂时扣除老师200元押金，老师自申请之日起累计上满40小时正式课，将以补贴形式返回押金;</p>
         </div>
         <!--填写邮件信息（未预约）-->
-        <div class="mailInfo" v-if="teacherInfo.isOrder==0">
+        <div class="mailInfo" v-if="teacherInfo.isOrder!==0">
           <p>填写邮件信息</p>
           <p><span>姓名：</span>{{teacherInfo.teacherName }}</p>
           <p><span>电话：</span>{{teacherInfo.phone}}</p>
@@ -123,6 +123,7 @@
     },
     mounted() {
       this.getTabletApplication();
+      this.getProvince()
     },
     created: function () {
 

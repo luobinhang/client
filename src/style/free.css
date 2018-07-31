@@ -238,6 +238,7 @@
   font-family: Ionicons;
   font-size: 20px;
   line-height: 13px;
+  background: #5e85c8;
 }
 .free-content .free-main .free-table .card .free-table-main .free-table-detail {
   overflow-y: auto;
@@ -248,7 +249,7 @@
 .free-content .free-main .free-table .card .free-table-main .free-table-detail table {
   width: 100%;
 }
-.free-content .free-main .free-table .card .free-table-main .free-table-detail table tr:nth-of-type(odd) td {
+.free-content .free-main .free-table .card .free-table-main .free-table-detail table tr:nth-of-type(even) td {
   background: #ebf6fb;
 }
 .free-content .free-main .free-table .card .free-table-main .free-table-detail table td {

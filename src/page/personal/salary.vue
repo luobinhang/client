@@ -48,7 +48,8 @@
           <span>信息补录</span>
         </p>
         <p slot="close">
-          <img src="../../assets/images/close2.png" alt="关闭">
+          <!--<img src="../../assets/images/close2.png" alt="关闭">-->
+          <Icon type="close-round"></Icon>
         </p>
         <div class="infoBody">
           <p>金额：<input type="text" v-model="money"><span>元</span></p>

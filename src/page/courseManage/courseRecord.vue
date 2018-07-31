@@ -2,7 +2,7 @@
   <div class="crContainer">
     <div class="commonTitle">
       <div class="crHeader commonTitleMain">
-        <p>课程记录</p>
+        <h2>课程记录</h2>
         <div>
           <span>科目：</span>
           <Select v-model="formData.subject" @on-change="selectSubject" class="classSubject"
@@ -20,17 +20,19 @@
     <div class="crHeader2">
       <div class="crHeader2-main">
         <p>{{dateTime}}</p>
-        <p>
+        <div class="crHeader2-right">
+          <p class="crHeader2-tab">
           <span v-for="(item,$index) in classType" :classType="$index" :class="{active:i==$index}"
                 @click="selectClassType($index)">{{item}}</span>
-        </p>
+          </p>
+        </div>
       </div>
     </div>
-    <div class="crBody" @scroll="changeDate($event)">
+    <div class="crBody" v-if="courseRecord.length" @scroll="changeDate($event)">
       <div v-for="(cr,$index) in courseRecord">
         <div class="crItem">
           <p class="crTitle" ref="courseDate" v-show="$index!=0">{{cr.list[0].courseDate}}</p>
-          <ul class="courseList">
+          <ul class="courseList" :style="{width:courseListWidth}">
             <li class="card" v-for="item in cr.list">
               <div v-if="item.video!=''" class="courseHead"
                    :class="{ 'evaluation': item.courseType==0, 'official': item.courseType==1}">
@@ -56,7 +58,7 @@
               <div class="courseBody">
                 <div>
                   <p>{{item.subject}}</p>
-                  <p>{{item.name}}</p>
+                  <p :title="item.name" style="max-width:5em;overflow: hidden;text-overflow:ellipsis;white-space: nowrap">{{item.name}}</p>
                 </div>
                 <div>
                   <p>{{item.startTime}}- {{item.endTime}}</p>
@@ -72,8 +74,12 @@
         </div>
       </div>
     </div>
+    <div class="courseListNull tip-null" v-else>
+      <img src="../../assets/teacher/ai.png" alt="null">
+      <span class="tip-null-text" style="font-size: 16px;color: #8d8d8d;">没有课程记录哦~</span>
+    </div>
     <!--观看课程视频-->
-    <div class="videoWarp" v-if="videoWarpper" @click="closeVideo($event)">
+    <div class="videoWarp" v-if="videoWarpper">
       <div class="videoContain" ref="videoContain">
         <div class="videoHead" ref="videohead">
           <img src="../../assets/images/close2.png" @click="videoWarpper=false" alt="关闭视频">
@@ -89,11 +95,11 @@
         <span>老师反馈</span>
       </p>
       <p slot="close">
-        <img src="../../assets/images/close2.png" alt="关闭">
+        <Icon type="close-round"></Icon>
       </p>
       <div style="padding: 14px 14px 0;font-size: 14px;">
+        <p style="font-size: 12px;margin-bottom: 10px;">{{ commentInfo.createTime }}</p>
         <p style="word-wrap: break-word;">{{ commentInfo.appraiseContent }}</p>
-        <p style="text-align: right;font-size: 12px;margin-top: 10px;">{{ commentInfo.createTime }}</p>
       </div>
       <div slot="footer">
         <Button type="primary" size="large" @click="modal=false" style="width: 125px;">确定</Button>
@@ -112,7 +118,7 @@
   export default {
     data() {
       return {
-        subjectList: [
+        subjectList: [ //学科列表
           {value: '', label: '全部'},
           {value: '语文', label: '语文'},
           {value: '数学', label: '数学'},
@@ -125,10 +131,10 @@
           {value: '地理', label: '地理'},
           {value: '科学', label: '科学'},
         ],
-        dateTime: "",
-        classType: ["全部", "测评课", "正式课"],
-        i: 0,
-        formData: {
+        dateTime: "", //标题展示日期
+        classType: ["全部", "测评课", "正式课"], //课程类型
+        i: 0, //类型选中下标
+        formData: {  //请求数据
           subject: '',
           startDate: "",
           endDate: "",
@@ -136,109 +142,106 @@
           pageNo: 1,
           pageSize: 10000,
         },
-        courseRecord:[],
-//        courseRecord: this.$store.state.crList,
-        videoWarpper: false,
-        iframe: "",
-        modal:false,
-        commentInfo:'',
+        courseRecord:[], //课程记录列表
+        videoWarpper: false, //播放器显示
+        iframe: "", //iframe DOM
+        modal:false, //老师反馈弹窗显示
+        commentInfo:'',  //老师反馈内容
+        courseListWidth:'100%', //课程记录宽度
         viewTeacherAppraise:this.$store.state.viewTeacherAppraise,
       }
     },
-    beforeMount() {
-
-    },
     mounted() {
       this.courseRecordList();
+    },
+    updated() {
+
+      if(this.courseRecord.length) {
+        let crBody = document.querySelector('.crBody');
+        // crBody - (padding 80 - margin 65 = 15);
+        this.courseListWidth = crBody.clientWidth - 15 + 'px';
+        window.onresize = ()=> {
+          this.courseListWidth = crBody.clientWidth - 15 + 'px';
+        }
+      }
 
     },
     methods: {
-//      科目选择
-      selectSubject(value) {
+      selectSubject(value) {  //科目选择
         this.formData.subject = value;
         this.courseRecordList()
       },
-//      日期时间选择
-      selectDate(date) {
+      selectDate(date) {  //日期时间选择
         [this.formData.startDate,this.formData.endDate] = date;
         this.courseRecordList();
       },
-//      课程类型选择
-      selectClassType(index) {
+      selectClassType(index) {  //课程类型选择
         this.i = index;
         if (index==0){
           this.formData.courseType = "";
-        }
-        else{
+        } else{
           this.formData.courseType = index-1;
         }
         this.courseRecordList();
       },
-//      查询课程记录列表
-      courseRecordList() {
+      courseRecordList() {  //查询课程记录列表
         this.$axios.get(this.$store.state.getCourseRecordList, {
           params: this.formData
-        }).then(res => {
-            this.courseRecord = res.data.data;
-            if (this.courseRecord.length != 0) {
-              //this.dateTime=this.courseRecord[0].list[0].courseDate;
+        }).then(({data}) => {
+            this.courseRecord = data.data;
+            if (this.courseRecord.length) {
               this.dateTime = this.courseRecord[0].courseDate;
-            }
-            else {
+            } else {
+              this.dateTime = this.formData.startDate;
               this.$Message.error("没有课程记录哦！");
             }
           })
       },
-//      播放课程记录视频
       start(uuid) {  //查看回放
-        let xp = GetQueryString('xp') == 1 ? 1 : 0;
-//        alert(xp);
         this.videoWarpper = true;
-        this.iframe = '';
-        this.iframe = '<iframe src="../../static/play.html?token=' + token + '&uuid=' + uuid + '&xp=' + xp + '" id="iframe" width="100%" height="100%" frameborder="no" marginwidth="0" marginheight="0" scrolling="no" allowtransparency="yes" allowfullscreen="true"></iframe>';
+        this.iframe = `<iframe src="../../static/play2.html?token=${token}&uuid=${uuid}"
+                               id="iframe"
+                               width="100%"
+                               height="100%"
+                               frameborder="no"
+                               marginwidth="0"
+                               marginheight="0"
+                               scrolling="no"
+                               allowtransparency="yes"
+                               allowfullscreen="true"></iframe>`;
       },
-//      点击空白区域，关闭视频
-      closeVideo(e) {
-        if (!this.$refs.videoContain.contains(e.target)) {
-          this.videoWarpper = false;
-        }
-      },
-//      日期切换
-      changeDate(e) {
+      changeDate(e) {  //日期切换
         let crItem = document.getElementsByClassName("crItem");
         let scrollTop = e.target.scrollTop;
-//        console.log(scrollTop,crItem);
-        for (let i = 0; i < crItem.length; i++) {
+        for (let i = 0, length = crItem.length; i < length; i++) {
           if (scrollTop >= crItem[i].offsetTop) {
             this.dateTime = crItem[i].children[0].innerHTML;
           }
-//          console.log(item.offsetTop);
         }
       },
 
       feedback(courseUuid){  //填写老师反馈
-        let args = '{ "requesttype" : 22,' +
-          '"courseUuid" : "'+ courseUuid + '",' +
-          '"callback" : "refreshTeacherRecord"' +
-          '}';
+        let args = `{
+          "requesttype": 22,
+          "courseUuid": "${courseUuid}",
+          "callback": "refreshTeacherRecord"
+        }`;
         sendData(args);
       },
       readFeedback(classTeacherAppraiseUuid){  //查看老师反馈
-//        let args = '{ "requesttype" : 23,' +
-//          '"courseUuid" : "'+ courseUuid + '",' +
-//          '"callback" : "refreshTeacherRecord"' +
-//          '}';
-//        sendData(args);
         this.$axios.get(this.viewTeacherAppraise,{
           params:{
             classTeacherAppraiseUuid:classTeacherAppraiseUuid,
           }
-        }).then( res => {
-          this.commentInfo = res.data.data
+        }).then( ({ data }) => {
+          this.commentInfo =  data.data
           this.modal = true;
         })
 
       },
-    }
+    },
+    destroyed () {
+      window.onresize = null;
+    },
   }
 </script>

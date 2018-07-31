@@ -58,6 +58,7 @@ li {
   width: 100%;
   height: 100%;
   box-shadow: 3px 3px 15px rgba(255, 255, 255, 0.35);
+  z-index: -1;
 }
 .commonTitle {
   padding: 13px 40px 0 40px;
@@ -73,7 +74,7 @@ li {
   padding-bottom: 5px;
 }
 .commonTitle .commonTitleMain h2 {
-  font-size: 18px;
+  font-size: 16px;
   color: #fc5c41;
 }
 .warpper {
@@ -101,6 +102,15 @@ li {
   box-shadow: 0 7px 7px rgba(160, 131, 137, 0.35);
   height: 50px;
   z-index: 5;
+}
+.warpper .header.webHeader {
+  height: 60px;
+}
+.warpper .header.webHeader .header-logo {
+  padding-top: 10px;
+}
+.warpper .header.webHeader .header-nav {
+  padding-top: 8px;
 }
 .warpper .header .header-main {
   position: relative;
@@ -190,12 +200,22 @@ li {
 .warpper .header .header-main .header-nav .header-nav-item ul li a {
   display: block;
   transition: all .2s;
+  padding-left: 22.5px;
+  text-align: left;
 }
 .warpper .header .header-main .header-nav .header-nav-item ul li a:hover {
   background: #5e85c8;
 }
 .warpper .header .header-main .header-nav .header-nav-item ul li a span {
   display: block;
+}
+.warpper .header .header-main .header-nav.navBan:after {
+  content: '';
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  left: 0;
+  top: 0;
 }
 .warpper .header:after {
   content: '';
@@ -209,9 +229,9 @@ li {
 .warpper .container {
   position: relative;
   overflow: hidden;
-  height: 100%;
   width: 100%;
   display: flex;
+  flex: 5;
 }
 .warpper .container .nav-left {
   width: 48px;
@@ -288,15 +308,20 @@ li {
   font-size: 10px;
   color: #54637f;
   display: none;
+  border: 1px solid #b2b2b2;
 }
 .warpper .container .nav-left .nav-left-main li.nav-setting .setting-list .setting-list-main {
   overflow: hidden;
-  border-radius: 4px;
   background: #f0f0f0;
   box-shadow: 0 1px 6px rgba(0, 0, 0, 0.2);
+  position: relative;
+  z-index: 1;
 }
 .warpper .container .nav-left .nav-left-main li.nav-setting .setting-list .setting-list-main > div {
-  padding: 0 7px;
+  padding: 8px 15px;
+}
+.warpper .container .nav-left .nav-left-main li.nav-setting .setting-list .setting-list-main > div:first-child {
+  border-bottom: 1px solid #b2b2b2;
 }
 .warpper .container .nav-left .nav-left-main li.nav-setting .setting-list .setting-list-main > div:hover {
   background: #5e85c8;
@@ -310,7 +335,8 @@ li {
   border-top: 4px solid transparent;
   border-bottom: 4px solid transparent;
   left: -7px;
-  top: 3px;
+  top: 8px;
+  z-index: 0;
 }
 .warpper .container .nav-left .nav-left-main li.nav-setting:hover .setting-list {
   display: block;
@@ -383,12 +409,19 @@ li {
 }
 .ivu-modal .ivu-modal-content .ivu-modal-header p .close {
   position: absolute;
-  font-size: 12px;
   right: 16px;
   top: 12px;
-  line-height: 1;
   overflow: hidden;
   cursor: pointer;
+  font-size: 15px;
+  color: #fff;
+  line-height: 1;
+}
+.ivu-modal .ivu-modal-content .ivu-modal-header p .close:hover {
+  color: #d4d4d4;
+}
+.ivu-modal .ivu-modal-content .ivu-modal-header p .close:active {
+  color: #cccccc;
 }
 .ivu-modal .ivu-modal-content .ivu-modal-footer {
   text-align: center;
@@ -424,6 +457,17 @@ li {
 }
 .ivu-modal .ivu-modal-content .ivu-modal-close {
   top: 12px;
+}
+.ivu-modal .ivu-modal-content .ivu-modal-close i {
+  font-size: 15px;
+  color: #fff;
+  line-height: 1;
+}
+.ivu-modal .ivu-modal-content .ivu-modal-close i:hover {
+  color: #d4d4d4;
+}
+.ivu-modal .ivu-modal-content .ivu-modal-close i:active {
+  color: #cccccc;
 }
 .ivu-modal .ivu-modal-content .ivu-modal-body {
   padding: 15px 20px;
@@ -688,4 +732,57 @@ help
 }
 .helpWindow .help-main .help-answer .pl {
   padding-left: 27px;
+}
+.enterWindow {
+  text-align: center;
+}
+.enterWindow .enterWindowError {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 10px 0;
+}
+.enterWindow .enterWindowError p {
+  background: url("../assets/teacher/error2.png") no-repeat left center;
+  padding-left: 14px;
+  font-size: 12px;
+  margin-bottom: 20px;
+}
+.enterWindow .enterWindowError div {
+  color: #919aab;
+  margin-top: 20px;
+  font-size: 10px;
+}
+.enterWindow .enterWindowError div a {
+  color: #5e85c8;
+  text-decoration: underline;
+}
+.enterWindow .enterWindowText {
+  padding: 10px 0;
+}
+.enterWindow .enterWindowText i {
+  color: #60d082;
+  margin-right: 5px;
+}
+.enterWindow .ivu-modal-footer {
+  display: none;
+}
+.scrollHide::-webkit-scrollbar {
+  display: none;
+}
+.scrollHide::-webkit-scrollbar-thumb {
+  display: none;
+}
+.scrollHide:hover::-webkit-scrollbar-thumb {
+  display: block;
+}
+.scrollHide:hover::-webkit-scrollbar {
+  display: block;
+}
+.ivu-date-picker .ivu-date-picker-rel {
+  cursor: pointer;
+}
+.ivu-date-picker .ivu-input {
+  cursor: inherit;
 }

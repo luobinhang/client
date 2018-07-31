@@ -10,16 +10,13 @@
               <router-view></router-view>
             </transition>
             <loading v-if="fetchLoading == 'true'"></loading>
-            <error v-if="fetchError == 'true'"></error>
-        </div>
-
+          </div>
         </div>
       </div>
     </div>
     <div class="uploadContent" v-else>
       <router-view></router-view>
       <loading v-if="fetchLoading == 'true'"></loading>
-      <error v-if="fetchError == 'true'"></error>
     </div>
     <changePsw v-if="fetchChangePsw == 'true'" class="changePswMain"></changePsw>
     <bulletinBoard v-if="fetchBulletinBoard == 'true'" class="bulletinBoard"></bulletinBoard>
@@ -33,7 +30,6 @@
   import headerTop from './components/header';
   import navBar from './components/nav';
   import loading from './components/loading';
-  import error from './components/error';
   import changePsw from './components/changePassword';
   import bulletinBoard from './components/bulletinBoard';
 
@@ -45,6 +41,7 @@ export default {
       routerName:'',
       transitionName: 'vux-pop-in',
       position:false,
+      scroll:null,
     }
   },
   watch: {
@@ -52,7 +49,7 @@ export default {
       this.routerName = to.path.split('/')[1];
       const toDepth = to.path.split('/').length;
       const fromDepth = from.path.split('/').length;
-      this.transitionName = toDepth < fromDepth ? 'vux-pop-out' : 'vux-pop-in'
+      this.transitionName = toDepth < fromDepth ? 'vux-pop-out' : 'vux-pop-in';
     },
   },
   mounted () {
@@ -66,13 +63,20 @@ export default {
         this.$router.push('/coursewareManage/myCourseware');
       }
     });
+
+//    this.$refs.error.onload = () => {
+//      sessionStorage.setItem('errorImgBase64',this.getBase64Image(this.$refs.error))
+//    };
+
+    document.body.ondragstart=function(){window.event.returnValue=false;}
+
   },
   computed:{
     ...mapGetters([
       'fetchLoading',
       'fetchChangePsw',
       'fetchBulletinBoard',
-      'fetchError',
+//      'fetchError',
     ]),
   },
   methods : {
@@ -91,13 +95,22 @@ export default {
         this.$router.push('/personal/info');
 
       }
+    },
+    getBase64Image(img) {
+      var canvas = document.createElement("canvas");
+      canvas.width = img.width;
+      canvas.height = img.height;
+      var ctx = canvas.getContext("2d");
+      ctx.drawImage(img, 0, 0, img.width, img.height);
+      var dataURL = canvas.toDataURL("image/png");
+      return dataURL;
     }
   },
   components:{
     headerTop,
     navBar,
     loading,
-    error,
+//    error,
     changePsw,
     bulletinBoard,
   },

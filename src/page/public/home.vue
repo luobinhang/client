@@ -5,8 +5,9 @@
         <div class="home-info-top">
           <div class="home-header">
             <div class="home-header-img">
-              <div class="home-header-user" v-if="info.photo!== null">
-                <img :src="info.photo">
+              <div class="home-header-user"
+                   :style="headerBackground"
+                   v-if="info.photo!== null">
               </div>
             </div>
           </div>
@@ -17,7 +18,7 @@
             </p>
             <p class="home-detail-text">
               本月累计上课
-              <i>{{ info.hour }}课时</i>
+              <i>{{ info.hour }}小时</i>
               ，击败了
               <i>{{ info.surpassRatio }}</i>
               的老师！
@@ -25,38 +26,46 @@
           </div>
         </div>
         <div class="home-info-mid">
-          <span>所上课时数</span>
+          <span>所上小时数</span>
           <div class="home-progress">
             <div class="home-progress-main" ref="progress">
               <div class="progress-bar" :style="{ 'width':progress.width  + '%','backgroundSize':progress.backgourdSize + '% 100%' }">
               </div>
               <div class="progress-first" :style="{ left: progress.firstLeft }">
-                <div class="progress-tag">{{ progress.firstNum }}课时</div>
+                <div class="progress-tag">{{ progress.firstNum }}小时</div>
                 <div class="progress-line"></div>
                 <div class="progress-grade">level 1</div>
               </div>
               <div class="progress-second" :style="{ left: progress.secondLeft }">
-                <div class="progress-tag">{{ progress.secondNum }}课时  </div>
+                <div class="progress-tag">{{ progress.secondNum }}小时</div>
                 <div class="progress-line"></div>
                 <div class="progress-grade">level 2</div>
               </div>
             </div>
           </div>
         </div>
-        <noticeSection></noticeSection>
+        <!--<noticeSection></noticeSection>-->
         <div class="home-info-nav">
           <ul>
             <li>
-              <router-link to="/">
+              <!--<router-link to="/">-->
+                <!--<div class="home-nav-icon"></div>-->
+                <!--<span>入门培训</span>-->
+              <!--</router-link>-->
+              <div class="home-nav-link" @click="videoStart">
                 <div class="home-nav-icon"></div>
                 <span>入门培训</span>
-              </router-link>
+              </div>
             </li>
             <li>
-              <router-link to="/">
+              <!--<router-link to="/">-->
+                <!--<div class="home-nav-icon"></div>-->
+                <!--<span>测评培训</span>-->
+              <!--</router-link>-->
+              <div class="home-nav-link" @click="tip">
                 <div class="home-nav-icon"></div>
                 <span>测评培训</span>
-              </router-link>
+              </div>
             </li>
             <li>
               <router-link to="courseManage/freeTime">
@@ -65,16 +74,20 @@
               </router-link>
             </li>
             <li>
-              <router-link to="personal/salary">
+              <!--<router-link to="personal/salary">-->
+                <!--<div class="home-nav-icon"></div>-->
+                <!--<span>薪资结算</span>-->
+              <!--</router-link>-->
+              <div class="home-nav-link" @click="tip">
                 <div class="home-nav-icon"></div>
                 <span>薪资结算</span>
-              </router-link>
+              </div>
             </li>
             <li>
-              <router-link to="/">
+              <div @click="hiCommunity" class="home-nav-link">
                 <div class="home-nav-icon"></div>
                 <span>嗨社区</span>
-              </router-link>
+              </div>
             </li>
           </ul>
         </div>
@@ -155,6 +168,20 @@
         </Spin>
       </div>
     </div>
+    <div class="home-video" v-if="videoShow">
+      <div class="home-video-main">
+        <div class="home-video-wrap">
+          <video-player  class="vjs-custom-skin"
+                         ref="videoPlayer"
+                         :options="playerOptions"
+                         :playsinline="true">
+          </video-player>
+          <div class="video-close" @click="videoShow=false">
+            <Icon type="close-round"></Icon>
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
 </template>
 
@@ -166,6 +193,10 @@
   import { timestamp } from '@/common/js/common';
   import noticeSection from '@/components/notice';
   import classTipSection from '@/components/classTip';
+  import 'video.js/dist/video-js.css';
+  import { videoPlayer } from 'vue-video-player';
+
+
   const progressConfig = {
     firstNum:50,
     secondNum:96,
@@ -174,6 +205,8 @@
   export default {
     data () {
       return {
+        playerOptions: {},
+        videoShow:false,
         year:0,
         month:0,
         day:0,
@@ -197,14 +230,38 @@
         courseCalendar:this.$store.state.courseCalendar, //获取日历接口
         dateCourseList:this.$store.state.dateCourseList, //获取日历课程接口
         teacherInfo:this.$store.state.teacherInfo, //获取教师信息接口
+        getTrainingVideo:this.$store.state.getTrainingVideo, //获取入门培训视频
         homeClassListShow: false, //课程列表loading
       }
+    },
+    computed: {
+      player() {
+        return this.$refs.videoPlayer.player
+      },
+      headerBackground () {
+        return this.info.photo?`background:#fff url(${this.info.photo}) center / cover no-repeat;`:'';
+      },
     },
     mounted () {
       this.timeSet();
       this.getInfo();
     },
     methods: {
+      videoStart() {
+        this.$axios.get(this.getTrainingVideo)
+          .then( ({ data }) => {
+            this.playerOptions= {
+              fluid: true,
+              playbackRates: [0.7, 1.0, 1.5, 2.0],
+              sources: [{
+                type: "video/mp4",
+                src: data.data.videoUrl,
+              }],
+            };
+            this.videoShow = true;
+
+          })
+      },
       timeSet () {  //获取服务器时间
         timestamp().then( data =>{
           this.year = data.year;
@@ -215,11 +272,12 @@
       },
       getInfo() {  //获取教师信息
         this.$axios.get(this.teacherInfo)
-          .then( res => {
-            this.info = res.data.data;
+          .then( ({ data }) => {
+            this.info = data.data;
             let pg = this.progress;
             pg.width = this.info.hour * 100 / progressConfig.totalNum;
             pg.backgourdSize = (100 / pg.width)*100;
+            this.$store.state.teacherName = this.info.name;
           })
       },
       datePrev () {  //上月
@@ -296,10 +354,24 @@
           })
         }
       },
+      hiCommunity () {
+        if(sessionStorage.getItem('device') == 'web') {
+          window.open("https://www.vzan.cc/f/s-745762?auth_time=636580064201269353","_blank");
+        } else {
+          let args = '{ "requesttype" : 13,' +
+            '"url" : "https://www.vzan.cc/f/s-745762?auth_time=636580064201269353"' +
+            '}';
+          sendData(args);
+        }
+      },
+      tip(){
+        this.$Message.info("敬请期待")
+      }
     },
     components:{
       noticeSection,
       classTipSection,
+      videoPlayer,
     }
   }
 </script>

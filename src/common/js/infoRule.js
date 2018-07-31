@@ -1,7 +1,8 @@
 export default function RULE() {
   const ChineseREG =/^[\u4e00-\u9fa5]{0,}$/; //非中文
   const numberREG =/^[0-9]*$/; //数字
-  const phoneREG =/^1[3|4|5|7|8|9]\d{9}$/; //手机
+  const bankNumREG =/^[0-9]*\d{19}$/; //19位数字
+  const phoneREG = /^1\d{10}$/; //手机
   const idcardREG =/(^\d{15}$)|(^\d{17}(\d|X|x)$)/; //身份证
   const nameREG = /^[\u4e00-\u9fa5]{0,}$|^[A-Za-z]+$/; //中文或英文
   const QQREG = /[1-9][0-9]{4,}/; //qq
@@ -139,7 +140,7 @@ export default function RULE() {
     validateBankNum: (rule, value, callback) => {   //银行卡号
       if (value === '') {
         callback(new Error('银行卡号不能为空'));
-      }  else if (!numberREG.test(value)) {
+      }  else if (!bankNumREG.test(value)) {
         callback(new Error('银行卡号有误'));
       } else {
         callback();

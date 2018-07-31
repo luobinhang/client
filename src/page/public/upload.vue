@@ -67,7 +67,10 @@
                 <i :class="fileImg(file.coursewareName)" class="item-type"></i>
                 <p>{{ file.coursewareName }}</p>
               </div>
-              <div class="item-loading" v-if="file.converStatus === 1">
+              <div class="item-uploading" v-if="file.converStatus === 0">
+                <Progress :percent="percent" status="active" :stroke-width="6"></Progress>
+              </div>
+              <div class="item-loading" v-else-if="file.converStatus === 1">
                 <i title="删除" class="icon iconfont icon-shanchu item-delete" @click="deleteBtn(file.coursewareUuid,'file')"></i>
                 <span><Icon type="load-c"></Icon>转码中</span>
               </div>
@@ -88,16 +91,22 @@
         <span class="tip-null-text" style="font-size: 16px;color: #8d8d8d;">没有课件~</span>
       </div>
     </div>
-    <div class="upload-btn">
+    <div class="upload-btn" v-if="tabIndex === 0">
       <Upload :action="api+uploadFileUrl"
               :headers="{token : token}"
               :show-upload-list="false"
+              :max-size="102400"
+              :data="{isOriginalFile: 0,isPageRequest: 1}"
               name="originalFile"
               :before-upload="handleUpload"
               :on-progress="uploadProgress"
               :on-success="uploadSuccess"
               :on-error="uploadError"
-              v-if="device == 'web'">
+              :on-exceeded-size="uploadExceeded"
+              :format="['ppt','pptx','doc','docx','pdf','png','jpg','jpeg']"
+              :on-format-error="formatError"
+              v-if="device != 'mac'">
+              <!--v-if="device == 'web'">-->
         <Button type="primary" style="width: 120px;height: 30px;">上传课件</Button>
       </Upload>
       <Button type="primary" style="width: 120px;height: 30px;" v-else @click="uploadPc">上传课件</Button>
@@ -106,19 +115,38 @@
     <!-- 删除文件弹窗 -->
     <Modal v-model="deleteWindow" width="380" class="coursewareWindowContent"  :closable="false">
       <p slot="header">
-        <span>删除文件</span>
-        <i class="close" @click="closeDeleteWindow">
-          <img src="../../assets/images/close2.png" alt="关闭">
-        </i>
+        <span>课件删除</span>
+        <span @click="closeDeleteWindow">
+          <Icon type="close-round" class="close"></Icon>
+        </span>
+
       </p>
       <div class="deleteMain">
-        <p>确认删除文件/文件夹？</p>
+        <p>确定删除课件？</p>
       </div>
       <div slot="footer">
-        <Button type="primary" style="margin-right: 30px;" @click="closeDeleteWindow">返回</Button>
         <Button type="primary" @click="sumbitDelete">确认</Button>
+        <Button type="primary" style="margin-right: 30px;" @click="closeDeleteWindow">返回</Button>
       </div>
     </Modal>
+
+    <!-- 继续上传弹窗 -->
+    <Modal v-model="continueWindow" width="380" class="coursewareWindowContent"  :closable="false">
+      <p slot="header">
+        <span>上传提示</span>
+        <span @click="closeContinueWindow">
+          <Icon type="close-round" class="close"></Icon>
+        </span>
+      </p>
+      <div class="deleteMain">
+        <p>文件大于30M(30720kb)速度较慢，是否继续上传？</p>
+      </div>
+      <div slot="footer">
+        <Button type="primary" style="margin-right: 30px;" @click="uploadContinue">确认</Button>
+        <Button type="primary" @click="closeContinueWindow">返回</Button>
+      </div>
+    </Modal>
+
   </div>
 </template>
 <script>
@@ -130,11 +158,13 @@
   export default{
     data () {
       return {
+        percent: 0,
         tabList:[
           {title:'我的课件'},
-          {title:'公共课件'},
+          {title:'课件库'},
         ],
         tabIndex:0,
+        deleteIndex: 0, //删除文件下标
         deleteWindow:false, //删除文件弹窗
         deleteUuid:null, //删除文件ID
         coursewareListUrl:this.$store.state.coursewareList,
@@ -149,10 +179,31 @@
         device: device,
         api: apiBase(),
         coursewareHave:true,
+        continueWindow:false, //文件大于30M提示弹窗
+        file:null, //上传的文件
       }
     },
     mounted () {
       this.getCourseware();
+
+      let methods =  window._client_user_web_methods_;
+      Object.assign(methods, {
+        classUploadPercent: (res) => {
+          let args = JSON.parse(res["args"]);
+          this.percent = args.percent
+          this.coursewareHave = true;
+          if(this.coursewareList.length) {
+            if(this.coursewareList[0].converStatus === 0) {
+              return false
+            }
+          }
+          this.coursewareList.unshift({
+            converStatus: 0,
+            coursewareName: args.fileName,
+            updateTime: new Date().getTime(),
+          });
+        }
+      });
     },
     methods: {
       tabChange(index) {
@@ -175,8 +226,8 @@
         this.coursewareDirList = coursewareDirList;
         this.coursewareList = coursewareList;
         let arr = [];
-        setTimeout(() => {this.$Message.destroy();},1000);
-        if(coursewareList.length == 0 && coursewareDirList.length == 0) {
+        setTimeout(() => {this.$Message.destroy()},1000);
+        if(!coursewareList.length && !coursewareDirList.length) {
           this.coursewareHave = false;
         } else {
           this.coursewareHave = true;
@@ -184,8 +235,8 @@
           for(let item of coursewareDirList) {
             for(let file of item.coursewareList) {
               if(file.converStatus === 1) {
-                this.sse();
                 arr.push(1);
+                break
               } else {
                 arr.push(2);
               }
@@ -194,18 +245,20 @@
 
           for(let file of coursewareList) {
             if(file.converStatus === 1) {
-              this.sse();
               arr.push(1);
+              break
             } else {
               arr.push(2);
             }
           }
 
-          if(!arr.includes(1)) {
-            if(websocket) {
+          if(websocket) {
+            if(!arr.includes(1)) {
               console.log('close')
               websocket.close();
               websocket = null;
+            } else {
+              this.sse();
             }
           }
         }
@@ -218,10 +271,12 @@
         }
       },
       fileImg (name) { //文件后缀
-        let suffixIndex = name.lastIndexOf(".");
-        let nameLength = name.length;
-        let suffix = name.substring(suffixIndex+1,nameLength);
-        return suffix;
+        if(name) {
+          let suffixIndex = name.lastIndexOf(".");
+          let nameLength = name.length;
+          let suffix = name.substring(suffixIndex+1,nameLength);
+          return suffix.toLowerCase();
+        }
       },
       deleteBtn (id) { //删除文件
         this.deleteWindow = true;
@@ -236,22 +291,20 @@
           coursewareUuid: this.deleteUuid
         }).then(res => {
           this.$Message.success('删除成功');
-          this.closeDeleteWindow ();
-          this.getCourseware ();
-          let args = '{' +
-            '"messageid":'+ this.deleteIndex +',' +
-            '"jscallback" : "callbackfn",' +
-            '"courseid" :'+ this.coursewareUuid +', ' +
-            '"operatortype" : 1' +
-            '}';
+          let args = `{
+            "messageid": ${this.deleteIndex},
+            "jscallback": "callbackfn",
+            "courseid": "${this.deleteUuid}",
+            "operatortype": 1
+          }`;
           sendData(args);
+          this.getCourseware ();
+          this.closeDeleteWindow ();
         })
       },
       sse () {
-        const that = this;
-        if(websocket){
-          return false;
-        }else{
+        if(!websocket){
+          const that = this;
           if ('WebSocket' in window) {
             websocket = new WebSocket(this.$store.state.socket2 + "?token=" + token + "&type=1");
             console.log('WebSocket开始连接')
@@ -292,17 +345,63 @@
           }
         }
       },
-      handleUpload () { //文件上传之前
+      handleUpload (file) { //文件上传之前
         this.sse ();
-        this.$Message.loading({
-          content: '文件上传中',
-          duration: 0,
-        });
-      },
-      uploadProgress (event, file, fileList) {
 
+        if(this.coursewareList.length) {
+          if(this.coursewareList[0].converStatus === 0) {
+            this.$Message.error('请等待文件上传完成')
+            return false
+          }
+        }
+
+        if(file.size > 31457280 && file.size < 104857600) { //大于30M小于100M
+          this.file = file;
+          this.continueWindow = true;
+          return false;
+        }
       },
-      uploadSuccess (response, file, fileList) {
+      uploadContinue() { //继续上传
+        this.continueWindow = false;
+        let formData = new FormData();
+        formData.append('originalFile',this.file);
+        formData.append('isOriginalFile',0);
+        formData.append('isPageRequest',1);
+        this.$axios({
+          url: this.uploadFileUrl,
+          method:'post',
+          data: formData,
+          loading: false,
+          onUploadProgress: progressEvent => { //原生获取上传进度的事件
+            if(progressEvent.lengthComputable){
+              let percent = progressEvent.loaded / progressEvent.total * 100
+              this.uploadProgress({percent: percent},this.file);
+            }
+          },
+        }).then(response => {
+          this.uploadSuccess(response.data)
+        }).catch(error => {
+          this.getCourseware();
+        })
+      },
+      closeContinueWindow() { //停止上传
+        this.continueWindow = false;
+      },
+      uploadProgress (event, file, fileList) { //文件上传中
+        this.coursewareHave = true;
+        this.percent = Math.min(99,Math.floor(event.percent))
+
+        if(this.coursewareList.length) {
+          if(this.coursewareList[0].converStatus !== 0) {
+            this.coursewareList.unshift({
+              converStatus: 0,
+              coursewareName: file.name,
+              updateTime: new Date().getTime(),
+            });
+          }
+        }
+      },
+      uploadSuccess (response, file, fileList) { //文件上传成功
         this.$Message.destroy();
         if(response.code !== 0) {
           this.$Notice.error({
@@ -314,7 +413,7 @@
           this.$Message.success('上传成功')
         }
       },
-      uploadError (error, file, fileList) {
+      uploadError (error, file, fileList) { //文件上传失败
         this.$Message.destroy();
         this.$Notice.error({
           title: error.message,
@@ -322,26 +421,48 @@
         });
         this.getCourseware();
       },
-      uploadPc () {
+
+      formatError() {  //不支持上传类型
+        this.$Message.destroy();
+        this.$Notice.error({
+          title: '不支持的文件类型',
+          desc: '仅支持pdf、ppt、pptx、doc、docx、png、jpg、jpeg',
+          duration:5,
+        });
+      },
+
+      uploadExceeded() {
+        this.$Notice.error({
+          title: '课件过大',
+          desc: '您的课件超过100M，请手动转换pdf格式再上传！转换地址：' +
+          '<span onclick="copyText()" style="cursor: pointer;color: #2D8cF0;">https://smallpdf.com/cn</span>' +
+          '<input id="copyText" type="text" value="https://smallpdf.com/cn" style="opacity: 0;position: absolute;z-index: -99;top: -9999px;">',
+          duration:0,
+        });
+      },
+
+      uploadPc () {  //c++上传
         this.sse();
         let args = '{"requesttype":12,"jscallback" : "callbackfn","messageid" :"0","data" : {}}';
         sendData(args);
       },
+
       openCourseware (file,index) {
         if(file.converStatus !== 2) {
           this.$Message.destroy();
           this.$Message.error('课件未转码完成')
         } else {
-          let coursewareUuid = file.coursewareUuid;
-          let args = '{' +
-            '"requesttype":8,' +
-            '"messageid":'+ index +',' +
-            '"jscallback" : "callbackfn",' +
-            '"data" : {' +
-            '"courseid" :"'+ coursewareUuid +'",' +
-            '"operatortype" : 0' +
-            '}'+
-            '}';
+          let args = `{
+            "requesttype": 8,
+            "messageid": ${index},
+            "jscallback": "callbackfn",
+            "data": {
+              "courseid": "${file.coursewareUuid}",
+              "coursewareUuid": "${file.coursewareUuid}",
+              "coursewareName": "${file.coursewareName}",
+              "operatortype": 0
+            }
+          }`;
           sendData(args);
         }
       },
@@ -353,7 +474,7 @@
           this.selectIndex1 = index;
           this.selectIndex2 = null;
         }
-      }
+      },
     }
   }
 </script>
@@ -363,8 +484,6 @@
   height: 100%;
 }
   .upload-content{
-    /*width: 412px;*/
-    /*height: 560px;*/
     width: 100%;
     height: 100%;
     display: flex;
@@ -523,13 +642,17 @@
                 line-height: 24px;
               }
             }
-            .item-button,.item-loading,.item-error{
+            .item-button,.item-loading,.item-error,.item-uploading{
               display: flex;
               width: 30%;
               flex-direction: row-reverse;
               overflow: hidden;
               line-height: 24px;
               font-size: 10px;
+              .ivu-progress-show-info .ivu-progress-outer {
+                padding-right: 35px;
+                margin-right: -35px;
+              }
               .item-delete{
                 margin-left: 5px;
                 font-size: 14px;

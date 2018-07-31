@@ -11,20 +11,20 @@
             >{{ item.title }}</li>
           </ul>
         </div>
-        <div v-if="scheduleTypeIndex == 0">
-          <span class="schedule-tip">
+        <div>
+          <span class="schedule-tip" v-if="scheduleTypeIndex == 0">
             <em>测评课</em>
             <em>正式课</em>
           </span>
-          <i class="icon iconfont icon-xiazai" @click="capture()"></i>
+          <i class="icon iconfont icon-xiazai2" @click="capture()" title="下载课表"></i>
           <a class="down" download="downImg" href=""></a>
         </div>
       </div>
     </div>
     <div class="schedule-main">
       <transition :name="transitionName">
-        <weekSchedule v-if="scheduleTypeIndex == 0" @childDom="scheduleDom"></weekSchedule>
-        <monthSchedule v-else></monthSchedule>
+        <weekSchedule v-if="scheduleTypeIndex == 0" @childDom="scheduleDom" @imgName="imgName"></weekSchedule>
+        <monthSchedule v-else @childDom="scheduleDom" @imgName="imgName"></monthSchedule>
       </transition>
     </div>
   </div>
@@ -69,16 +69,20 @@
 
       },
       capture () {  //截图下载
-        html2canvas(this.scheduleTableDetail).then(function(canvas) {
+        html2canvas(this.scheduleTableDetail).then((canvas) => {
           let e = document.createEvent("MouseEvents")
           e.initEvent("click", true, true);
           let down = document.querySelector(".down");
           down.setAttribute('href',canvas.toDataURL("image/jpg"));
+          down.setAttribute('download',this.downloadName);
           down.dispatchEvent(e);
         });
       },
       scheduleDom (ele) {
         this.scheduleTableDetail = ele;
+      },
+      imgName (res) {
+        this.downloadName = res;
       }
     },
     components:{

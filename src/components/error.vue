@@ -1,13 +1,17 @@
 <template>
   <div class="error">
-    <img src="../assets/teacher/error.png" alt="error">
+    <img :src="errorImgBase64" alt="error">
     <Button type="primary" @click="refresh">刷新</Button>
     <div class="error-bg"></div>
   </div>
 </template>
 <script>
   export default {
-
+    data() {
+      return {
+        errorImgBase64: sessionStorage.getItem('errorImgBase64')
+      }
+    },
     methods : {
       refresh () {
         window.location.reload();

@@ -12,13 +12,13 @@
             <!--<a href="javascript:;"></a>-->
           <!--</Tooltip>-->
         <!--</li>-->
-        <li class="nav-message" @click="bulletinBoardShow">
-          <Tooltip placement="bottom-start" content="信息" :delay="300">
-            <a href="javascript:;"></a>
-          </Tooltip>
-        </li>
+        <!--<li class="nav-message" @click="bulletinBoardShow">-->
+          <!--<Tooltip placement="bottom-start" content="信息" :delay="300">-->
+            <!--<a href="javascript:;"></a>-->
+          <!--</Tooltip>-->
+        <!--</li>-->
         <li class="nav-help" @click="help">
-          <Tooltip placement="top-start" content="帮助" :delay="300">
+          <Tooltip placement="bottom-start" content="帮助" :delay="300">
             <a href="javascript:;"></a>
           </Tooltip>
         </li>
@@ -47,12 +47,13 @@
         <span>用户帮助</span>
       </p>
       <p slot="close">
-        <img src="../assets/images/close2.png" alt="关闭">
+        <!--<img src="../assets/images/close2.png" alt="关闭">-->
+        <Icon type="close-round"></Icon>
       </p>
       <div class="helpWindowContent">
         <div class="help-content">
           <div class="help-main">
-            <div class="help-question">
+            <div class="help-question scrollHide">
               <ul>
                 <li v-for="(item,$index) in helpMain" @click="helpSelect($index)" :class="{ active : helpIndex == $index }"> {{ item.qusetion }}</li>
               </ul>
@@ -137,6 +138,7 @@
           '}';
         sendData(args);
       },
+
     },
   }
 </script>

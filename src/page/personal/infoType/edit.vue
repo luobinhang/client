@@ -55,12 +55,12 @@
                     <FormItem label="电话" prop="phone">
                       <Input type="text" v-model="formContect.phone"></Input>
                     </FormItem>
-                    <FormItem label="紧急联系人电话" prop="emergencyPhone">
-                      <Input type="text" v-model="formContect.emergencyPhone"></Input>
-                    </FormItem>
-                    <FormItem label="紧急联系人关系" prop="relationship">
-                      <Input type="text" v-model="formContect.relationship"></Input>
-                    </FormItem>
+                    <!--<FormItem label="紧急联系人电话" prop="emergencyPhone">-->
+                      <!--<Input type="text" v-model="formContect.emergencyPhone"></Input>-->
+                    <!--</FormItem>-->
+                    <!--<FormItem label="紧急联系人关系" prop="relationship">-->
+                      <!--<Input type="text" v-model="formContect.relationship"></Input>-->
+                    <!--</FormItem>-->
                   </div>
                 </Form>
               </div>
@@ -213,7 +213,7 @@
                     <Input type="text" :value="'招商银行'" disabled  v-model="formPay.bank"></Input>
                   </FormItem>
                   <FormItem label="银行卡号" prop="bankNum">
-                    <Input type="text" v-model="formPay.bankNum"></Input>
+                    <Input type="text" v-model="formPay.bankNum" :maxlength="19" style="width: 155px"></Input>
                   </FormItem>
                   <FormItem label="开户行" prop="bankAddress" style="width: 100%">
                     <Input type="text" v-model="formPay.bankAddress" placeholder="最多31个字" :maxlength="31" style="width: 480px;"></Input>
@@ -419,12 +419,13 @@
       </div>
     </div>
     <!-- 上传图片 -->
-    <Modal v-model="uploadShow" width="360" class-name="vertical-center-modal">
+    <Modal v-model="uploadShow" width="360" class-name="vertical-center-modal" :mask-closable="false">
       <p slot="header">
         <span>{{ headerText }}</span>
       </p>
       <p slot="close">
-        <img src="../../../assets/images/close2.png" alt="关闭">
+        <!--<img src="../../../assets/images/close2.png" alt="关闭">-->
+        <Icon type="close-round"></Icon>
       </p>
       <div class="uploadImgMain" :style="{'height':cHeight+'px'}">
         <croppa
@@ -444,6 +445,8 @@
 
 <script>
   import RULE from '@/common/js/infoRule';
+  const device = sessionStorage.getItem('device');
+
   export default {
     data () {
       return {
@@ -455,6 +458,7 @@
           {name:'入职材料',icon:'icon-yuangongruzhi',active:false,success:false,type:'formEntry'},
         ],
         index:0,
+        device:device,
         croppa: {},
         headerText:'', //对话框头部文字
         imgType:'', //上传图片类型
@@ -479,6 +483,7 @@
         educationList:[
           {name:1,title:'本科'},
           {name:2,title:'研究生'},
+          {name:3,title:'博士'},
         ], //学校列表
         gradeList:[], //学校列表
         likeList:[], //年级列表
@@ -490,8 +495,8 @@
           email:'',
           QQ:'',
           phone:'',
-          emergencyPhone:'',
-          relationship:'',
+//          emergencyPhone:'',
+//          relationship:'',
           headerUrl:'',
           headerFileName:'',
         },
@@ -500,7 +505,7 @@
             { required: true,validator: RULE().validateName, trigger: 'blur' }
           ],
           gender: [
-            { required: true, validator: RULE().validateGender, trigger: 'change' }
+            { required: true,message: '请选择', validator: RULE().validateGender, trigger: 'change' }
           ],
           WeChat: [
             { required: true,validator: RULE().validateWeChat, trigger: 'blur' }
@@ -515,14 +520,14 @@
           phone: [
             { required: true,validator: RULE().validatePhone, trigger: 'blur' },
           ],
-          emergencyPhone: [
-            { required: true,validator: RULE().validateEmergencyPhone, trigger: 'blur' },
-          ],
-          relationship: [
-            { required: true,validator: RULE().validateRelationship, trigger: 'blur' },
-          ],
+//          emergencyPhone: [
+//            { required: true,validator: RULE().validateEmergencyPhone, trigger: 'blur' },
+//          ],
+//          relationship: [
+//            { required: true,validator: RULE().validateRelationship, trigger: 'blur' },
+//          ],
           headerUrl: [
-            { required: true,validator: RULE().validateHeaderUrl, },
+            { required: true,validator: RULE().validateHeaderUrl },
           ],
         },
         formEducation:{ //学历数据
@@ -538,7 +543,7 @@
         },
         ruleEducation:{ //学历规则
           province: [
-            { required: true, validator: RULE().validateHeaderUrl, trigger: 'change' }
+            { required: true, message: '请选择', validator: RULE().validateHeaderUrl, trigger: 'change' }
           ],
           city: [
             { required: true, message: '请选择', trigger: 'change' }
@@ -547,16 +552,16 @@
             { required: true, message: '请选择', trigger: 'change' }
           ],
           science: [
-            { required: true, validator: RULE().validateScience, trigger: 'change' }
+            { required: true, message: '请选择', validator: RULE().validateScience, trigger: 'change' }
           ],
           school: [
             { required: true, message: '请选择', trigger: 'change' }
           ],
           education: [
-            { required: true, validator: RULE().validateEducation, trigger: 'change' }
+            { required: true, message: '请选择', validator: RULE().validateEducation, trigger: 'change' }
           ],
           bestEducation: [
-            { required: true, validator: RULE().validateBestEducation, trigger: 'change' }
+            { required: true, message: '请选择', validator: RULE().validateBestEducation, trigger: 'change' }
           ],
           grade: [
             { required: true, message: '请选择', trigger: 'change' }
@@ -661,7 +666,6 @@
     },
     watch:{
       next (curVal,oldVal) {
-        console.log(this.index + 1)
         this.navClick(this.index+1);
       }
     },
@@ -726,38 +730,41 @@
             this.$axios.post(this.uploadFileUrl,fd).then( res => {
               let imgUrl = res.data.data;
               this.uploadShow = false;
-              if(type == 'header') {
-                this.formContect.headerUrl = imgUrl;
-                this.formContect.headerFileName = fileName;
-              } else if(type == 'idcard1') {
-                this.formPay.idcardUrl1 = imgUrl;
-                this.formPay.idcardFileName1 = fileName;
-              } else if(type == 'idcard2') {
-                this.formPay.idcardUrl2 = imgUrl;
-                this.formPay.idcardFileName2 = fileName;
-              } else if(type == 'bank1') {
-                this.formPay.bankUrl1 = imgUrl;
-                this.formPay.bankFileName1 = fileName;
-              } else if(type == 'bank2') {
-                this.formPay.bankUrl2 = imgUrl;
-                this.formPay.bankFileName2 = fileName;
-              } else if(type == 'agreement1') {
-                this.formEntry.agreementUrl1 = imgUrl;
-                this.formEntry.agreementFileName1 = fileName;
-              } else if(type == 'agreement2') {
-                this.formEntry.agreementUrl2 = imgUrl;
-                this.formEntry.agreementFileName2 = fileName;
-              } else if(type == 'register') {
-                this.formEntry.registerUrl = imgUrl;
-                this.formEntry.registerFileName = fileName;
-              } else if(type == 'studentCard') {
-                this.formEntry.studentCardUrl = imgUrl;
-                this.formEntry.studentCardFileName = fileName;
-              }
+              this.imgPush(type,imgUrl,fileName);
             })
           }
         })
 
+      },
+      imgPush(type,imgUrl,fileName) {
+        if(type == 'header') { //头像
+          this.formContect.headerUrl = imgUrl;
+          this.formContect.headerFileName = fileName;
+        } else if(type == 'idcard1') { //身份证正面
+          this.formPay.idcardUrl1 = imgUrl;
+          this.formPay.idcardFileName1 = fileName;
+        } else if(type == 'idcard2') { //身份证反面
+          this.formPay.idcardUrl2 = imgUrl;
+          this.formPay.idcardFileName2 = fileName;
+        } else if(type == 'bank1') {  //银行卡正面
+          this.formPay.bankUrl1 = imgUrl;
+          this.formPay.bankFileName1 = fileName;
+        } else if(type == 'bank2') {  //银行卡反面
+          this.formPay.bankUrl2 = imgUrl;
+          this.formPay.bankFileName2 = fileName;
+        } else if(type == 'agreement1') {  //兼职协议第一页
+          this.formEntry.agreementUrl1 = imgUrl;
+          this.formEntry.agreementFileName1 = fileName;
+        } else if(type == 'agreement2') { //兼职协议第二页
+          this.formEntry.agreementUrl2 = imgUrl;
+          this.formEntry.agreementFileName2 = fileName;
+        } else if(type == 'register') {  //信息登记表
+          this.formEntry.registerUrl = imgUrl;
+          this.formEntry.registerFileName = fileName;
+        } else if(type == 'studentCard') {  //学生证
+          this.formEntry.studentCardUrl = imgUrl;
+          this.formEntry.studentCardFileName = fileName;
+        }
       },
       getInfo () {  //获取个人信息
         this.$axios.get(this.infoUrl)
@@ -807,8 +814,8 @@
               email:infoData.email || '',
               QQ:infoData.qq || '',
               phone:infoData.phone || '',
-              emergencyPhone:infoData.emergencyPhone || '',
-              relationship:infoData.emergencyRelation || '',
+//              emergencyPhone:infoData.emergencyPhone || '',
+//              relationship:infoData.emergencyRelation || '',
               headerUrl:headerUrl || '',
               headerFileName:headerFileName || '',
             };
@@ -856,29 +863,36 @@
           })
       },
       uploadOpen (type,width,height) {  //打开上传窗口
-        this.uploadShow = true;
-        this.imgType = type;
-        this.cWidth = width;
-        this.cHeight = height;
-        if(type == 'header') {
-          this.headerText = '上传头像';
-        } else if(type == 'idcard1') {
-          this.headerText = '上传身份证正面';
-        } else if(type == 'idcard2') {
-          this.headerText = '上传身份证反面';
-        } else if(type == 'bank1') {
-          this.headerText = '上传银行卡正面';
-        } else if(type == 'bank2') {
-          this.headerText = '上传银行卡反面';
-        } else if(type == 'agreement1') {
-          this.headerText = '上传兼职协议第一页';
-        } else if(type == 'agreement2') {
-          this.headerText = '上传兼职协议第二页';
-        } else if(type == 'register') {
-          this.headerText = '上传信息登记表';
-        } else if(type == 'studentCard') {
-          this.headerText = '上传学生证';
+
+        if(device == 'mac') {
+          let args = `{"requesttype":25,"data" : {"type": "${type}" }}`;
+          sendData(args);
+        } else {
+          this.uploadShow = true;
+          this.imgType = type;
+          this.cWidth = width;
+          this.cHeight = height;
+          if(type == 'header') {
+            this.headerText = '上传头像';
+          } else if(type == 'idcard1') {
+            this.headerText = '上传身份证正面';
+          } else if(type == 'idcard2') {
+            this.headerText = '上传身份证反面';
+          } else if(type == 'bank1') {
+            this.headerText = '上传银行卡正面';
+          } else if(type == 'bank2') {
+            this.headerText = '上传银行卡反面';
+          } else if(type == 'agreement1') {
+            this.headerText = '上传兼职协议第一页';
+          } else if(type == 'agreement2') {
+            this.headerText = '上传兼职协议第二页';
+          } else if(type == 'register') {
+            this.headerText = '上传信息登记表';
+          } else if(type == 'studentCard') {
+            this.headerText = '上传学生证';
+          }
         }
+
       },
       getProvince (value) { //获取省
         if(value != ""){
@@ -936,94 +950,83 @@
         })
       },
       saveInfo () {
-        this.$refs['formEntry'].validate((valid) => {
-          if(valid) {
-            this.$axios.post(this.infoSaveUrl,{
-              teacherName: this.formContect.name,
-              sex: this.formContect.gender,
-              phone: this.formContect.phone,
-              wechat: this.formContect.WeChat,
-              qq: this.formContect.QQ,
-              email: this.formContect.email,
-              emergencyPhone: this.formContect.emergencyPhone,
-              emergencyRelation: this.formContect.relationship,
-              provinceCode: this.formEducation.province,
-              cityCode: this.formEducation.city,
-              districtCode: this.formEducation.area,
-              artsOrScience: this.formEducation.science,
-              teacherSchoolUuid: this.formEducation.school,
-              education: this.formEducation.education,
-              highestEducation: this.formEducation.bestEducation,
-              major: this.formEducation.major,
-              grade: this.formEducation.grade,
-              gradePreferenceValue: this.formLike.likeId,
-              teachingSubjectUuid: this.formLike.firstId,
-              secondSubjectUuid: this.formLike.secondId,
-              thirdSubjectUuid: this.formLike.thirdId,
-              idNumber: this.formPay.idcard,
-              cardNumber: this.formPay.bankNum,
-              bankAddress: this.formPay.bankAddress,
-              teacherFileList:[
-                {
-                  purpose:1,
-                  fileAddress:this.formContect.headerUrl,
-                  fileOriginalName:this.formContect.headerFileName,
-                },
-                {
-                  purpose:2,
-                  fileAddress:this.formPay.idcardUrl1,
-                  fileOriginalName:this.formPay.idcardFileName1,
-                },
-                {
-                  purpose:3,
-                  fileAddress:this.formPay.idcardUrl2,
-                  fileOriginalName:this.formPay.idcardFileName2,
-                },
-                {
-                  purpose:4,
-                  fileAddress:this.formPay.bankUrl1,
-                  fileOriginalName:this.formPay.bankFileName1,
-                },
-                {
-                  purpose:5,
-                  fileAddress:this.formPay.bankUrl2,
-                  fileOriginalName:this.formPay.bankFileName2,
-                },
-                {
-                  purpose:6,
-                  fileAddress:this.formEntry.agreementUrl1,
-                  fileOriginalName:this.formEntry.agreementFileName1,
-                },
-                {
-                  purpose:7,
-                  fileAddress:this.formEntry.agreementUrl2,
-                  fileOriginalName:this.formEntry.agreementFileName2,
-                },
-                {
-                  purpose:8,
-                  fileAddress:this.formEntry.registerUrl,
-                  fileOriginalName:this.formEntry.registerFileName,
-                },
-                {
-                  purpose:9,
-                  fileAddress:this.formEntry.studentCardUrl,
-                  fileOriginalName:this.formEntry.studentCardFileName,
-                },
-              ]
-            }).then( res => {
-              this.$Message.success('保存成功!');
-              this.$emit('goRead',true)
-            })
-          } else{
-            this.$Message.destroy()
-            this.$Message.error('请完善表单!');
-          }
+        this.$axios.post(this.infoSaveUrl,{
+          teacherName: this.formContect.name,
+          sex: this.formContect.gender,
+          phone: this.formContect.phone,
+          wechat: this.formContect.WeChat,
+          qq: this.formContect.QQ,
+          email: this.formContect.email,
+//          emergencyPhone: this.formContect.emergencyPhone,
+//          emergencyRelation: this.formContect.relationship,
+          provinceCode: this.formEducation.province,
+          cityCode: this.formEducation.city,
+          districtCode: this.formEducation.area,
+          artsOrScience: this.formEducation.science,
+          teacherSchoolUuid: this.formEducation.school,
+          education: this.formEducation.education,
+          highestEducation: this.formEducation.bestEducation,
+          major: this.formEducation.major,
+          grade: this.formEducation.grade,
+          gradePreferenceValue: this.formLike.likeId,
+          teachingSubjectUuid: this.formLike.firstId,
+          secondSubjectUuid: this.formLike.secondId,
+          thirdSubjectUuid: this.formLike.thirdId,
+          idNumber: this.formPay.idcard,
+          cardNumber: this.formPay.bankNum,
+          bankAddress: this.formPay.bankAddress,
+          teacherFileList:[
+            {
+              purpose:1,
+              fileAddress:this.formContect.headerUrl,
+              fileOriginalName:this.formContect.headerFileName,
+            },
+            {
+              purpose:2,
+              fileAddress:this.formPay.idcardUrl1,
+              fileOriginalName:this.formPay.idcardFileName1,
+            },
+            {
+              purpose:3,
+              fileAddress:this.formPay.idcardUrl2,
+              fileOriginalName:this.formPay.idcardFileName2,
+            },
+            {
+              purpose:4,
+              fileAddress:this.formPay.bankUrl1,
+              fileOriginalName:this.formPay.bankFileName1,
+            },
+            {
+              purpose:5,
+              fileAddress:this.formPay.bankUrl2,
+              fileOriginalName:this.formPay.bankFileName2,
+            },
+            {
+              purpose:6,
+              fileAddress:this.formEntry.agreementUrl1,
+              fileOriginalName:this.formEntry.agreementFileName1,
+            },
+            {
+              purpose:7,
+              fileAddress:this.formEntry.agreementUrl2,
+              fileOriginalName:this.formEntry.agreementFileName2,
+            },
+            {
+              purpose:8,
+              fileAddress:this.formEntry.registerUrl,
+              fileOriginalName:this.formEntry.registerFileName,
+            },
+            {
+              purpose:9,
+              fileAddress:this.formEntry.studentCardUrl,
+              fileOriginalName:this.formEntry.studentCardFileName,
+            },
+          ]
+        }).then( res => {
+          this.$Message.success('保存成功!');
+          this.$emit('goRead',true)
         })
-
       },
-    },
-    components:{
-
     },
     props:["next"],
   }

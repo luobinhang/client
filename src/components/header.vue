@@ -1,67 +1,17 @@
 <template>
-  <div class="header">
+  <div class="header" :class="{webHeader}">
     <div class="header-main">
       <div class="header-logo">
         <img src="../assets/teacher/logo.png">
       </div>
-      <div class="header-nav" ref="headerNav">
-        <div class="header-nav-item" :class="{ active:rn == 'home' }">
-          <router-link to="/home">首页</router-link>
-        </div>
-        <div class="header-nav-item" :class="{ active:rn == 'courseManage' }">
-          <p>课程管理<i></i></p>
-          <ul>
-            <li>
-              <router-link to="/courseManage/courseWait">待上课程</router-link>
-            </li>
-            <li>
-              <router-link to="/courseManage/freeTime">空闲时间</router-link>
-            </li>
-            <li>
-              <router-link to="/courseManage/mySchedule">我的课表</router-link>
-            </li>
-            <li>
-              <router-link to="/courseManage/courseRecord">课程记录</router-link>
-            </li>
-          </ul>
-        </div>
-        <div class="header-nav-item"  :class="{ active:rn == 'coursewareManage' }">
-          <p>课件管理 <i></i></p>
-          <ul>
-            <li>
-              <router-link to="/coursewareManage/myCourseware">我的课件</router-link>
-            </li>
-            <li>
-              <router-link to="/coursewareManage/systemCourseware">系统课件</router-link>
-            </li>
-            <li>
-              <router-link to="/coursewareManage/excellentVideo">优秀视频</router-link>
-            </li>
-          </ul>
-        </div>
-        <div class="header-nav-item" :class="{ active:rn == 'personal' }">
-          <p>个人中心 <i></i></p>
-          <ul>
-            <li>
-              <router-link to="/personal/info">个人信息</router-link>
-            </li>
-            <li>
-              <router-link to="/personal/salary">薪资结算</router-link>
-            </li>
-            <li>
-              <router-link to="/personal/cooperation">合作协议</router-link>
-            </li>
-            <li>
-              <router-link to="/personal/internship">实习证明</router-link>
-            </li>
-            <li>
-              <router-link to="/personal/HBapplication">手写板申请</router-link>
-            </li>
-            <li>
-              <router-link to="/personal/info"><span @click="changePsw">修改密码</span></router-link>
-            </li>
-            <li>
-              <a href="javascript:;" @click="signOut">退出登录</a>
+      <div class="header-nav" ref="headerNav" :class="{navBan}">
+        <div class="header-nav-item" v-for="menu in headerList" :class="{ active:rn == menu.name }">
+          <router-link v-if="menu.grade == 0" :to="menu.link">{{ menu.title }}</router-link>
+          <p v-if="menu.grade == 1">{{ menu .title }}<i></i></p>
+          <ul v-if="menu.grade == 1">
+            <li v-for="item in menu.item">
+              <router-link :to="item.link" v-if="!item.click">{{ item.title }}</router-link>
+              <a href="javascript:;" v-else @click="item.click">{{ item.title }}</a>
             </li>
           </ul>
         </div>
@@ -73,20 +23,22 @@
         <span>退出提醒</span>
       </p>
       <p slot="close">
-        <img src="../assets/images/close2.png" alt="关闭">
+        <Icon type="close-round"></Icon>
       </p>
       <div class="tipWindow">
         <p>确定退出登录吗？</p>
       </div>
       <div slot="footer">
-        <Button type="primary" @click="tipWindow = false">取消</Button>
         <Button type="primary" @click="signOutBtn">确认</Button>
+        <Button type="primary" @click="tipWindow = false">取消</Button>
       </div>
     </Modal>
   </div>
 </template>
 
 <script>
+  const device = sessionStorage.getItem('device')
+
   export default {
     data () {
       return {
@@ -95,30 +47,75 @@
         helpShow:false,
         offsetTop :0,
         tipWindow: false,
+        webHeader:false,
+        navBan:false,
+        headerList:[
+          {
+            title: '首页',
+            name: 'home',
+            link: '/home',
+            grade: 0,
+          },
+          {
+            title: '我的课程',
+            name: 'courseManage',
+            grade:1,
+            item: [
+              {title: '待上课程',link:'/courseManage/courseWait'},
+              {title: '空闲时间',link:'/courseManage/freeTime'},
+              {title: '我的课表',link:'/courseManage/mySchedule'},
+              {title: '课程记录',link:'/courseManage/courseRecord'},
+              {title: '我要排课',link:'/courseManage/openClass'},
+              {title: '我要调课',link:'/courseManage/changeClass'},
+            ],
+          },
+          {
+            title: '课件管理',
+            name: 'coursewareManage',
+            grade:1,
+            item: [
+              {title: '我的课件',link:'/coursewareManage/myCourseware'},
+              {title: '课件库',click: this.tip},
+//              {title: '课件库',link:'/coursewareManage/systemCourseware'},
+//              {title: '优秀视频',link:'/coursewareManage/excellentVideo'},
+            ],
+          },
+          {
+            title: '个人中心',
+            name: 'personal',
+            grade:1,
+            item: [
+              {title: '个人信息',link:'/personal/info'},
+              {title: '薪资结算',click: this.tip},
+              {title: '修改密码',click: this.changePsw},
+              {title: '退出登录',click: this.signOut},
+//              {title: '薪资结算',link:'/personal/salary'},
+//              {title: '合作协议',link:'/personal/cooperation'},
+//              {title: '实习证明',link:'/personal/internship'},
+//              {title: '手写板申请',link:'/personal/HBapplication'},
+            ],
+          },
+        ],
       }
     },
     props:['rn'],
     mounted () {
+      if(device == 'web') this.webHeader = true;
 
+      let methods =  window._client_user_web_methods_;
+      Object.assign(methods, {
+        navBan : res => {
+          this.navBan = res;
+        }
+      });
     },
     methods: {
-      signOut () {  //退出登录
-        let args = '{' +
-          '"requesttype":10,' +
-          '"messageid":'+ 0 +',' +
-            '"jscallback" : "signOut",' +
-            '"data" : {' +
-              '"msgbox" :'+ true +'' +
-            '}'+
-          '}';
-        sendData(args);
-      },
       feedback(){ //意见反馈
-        let args = '{' +
-          '"requesttype":16,' +
-          '"messageid":'+ 0 +',' +
-          '"jscallback" : "feedback"' +
-          '}';
+        let args = `{
+          "requesttype": 16,
+          "messageid": 0,
+          "jscallback": "feedback"
+        }`
         sendData(args);
       },
       support(){ //远程协助
@@ -139,16 +136,29 @@
         this.$refs.helpArrow.style.top = this.offsetTop + 'px';
       },
       changePsw(){
+        this.$router.push('/personal/info');
         this.$store.commit("CHANGE_PASSWORD","true");
       },
       signOut () {
         this.tipWindow = true;
       },
       signOutBtn () {
-        let args = '{' +
-          '"requesttype":10' +
-          '}';
-        sendData(args);
+        if(device !== 'web') {
+          let args = `{
+            "requesttype": 14,
+            "messageid": 0,
+            "jscallback": "signOut",
+            "data": {
+              "msgbox": true
+            }
+          }`
+          sendData(args);
+        } else {
+          window.location.href = '../static/login.html'
+        }
+      },
+      tip(){
+        this.$Message.info("敬请期待")
       }
     },
   }

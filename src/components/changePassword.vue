@@ -3,32 +3,30 @@
     <p slot="header">
       <span>修改密码</span>
       <i class="close" @click="close">
-        <img src="../assets/images/close2.png" alt="关闭">
+        <Icon type="close-round"></Icon>
       </i>
     </p>
     <div class="pswMoudel">
       <Form ref="formCustom" :model="formCustom" :rules="ruleCustom" :label-width="85">
         <FormItem label="手机号：" prop="phone">
-          <p>{{userPhone}}</p>
+          <p>{{userPhoneData}}</p>
         </FormItem>
         <FormItem label="验证码：" prop="code">
           <Input type="text" v-model="formCustom.code" :maxlength="6" number></Input>
           <Button
             type="primary"
-            @click="handleCode('formCustom')"
+            @click="handleCode"
             class="codeBtn"
             :disabled="disabled"
             :class="{disabledBtn:disabledBtn}"
           >{{ codeState }}</Button>
         </FormItem>
-        <!--<FormItem label="旧密码" prop="passwdOld">-->
-        <!--<Input type="password" v-model="formCustom.passwdOld"></Input>-->
-        <!--</FormItem>-->
         <FormItem label="新密码：" prop="passwd" :maxlength="20">
-          <Input type="password" v-model="formCustom.passwd"></Input>
+          <Input :type="inputType" v-model="formCustom.passwd"></Input>
+          <em :class="eyes" @click="openPassword"></em>
         </FormItem>
         <FormItem label="确认密码：" prop="passwdCheck" :maxlength="20">
-          <Input type="password" v-model="formCustom.passwdCheck"></Input>
+          <Input :type="inputType" v-model="formCustom.passwdCheck"></Input>
         </FormItem>
       </Form>
     </div>
@@ -39,7 +37,7 @@
 </template>
 <script>
   import sha512 from '../../static/js/sha512'
-  const phoneReg=/^[1][3,4,5,7,8][0-9]{9}$/;
+  const phoneReg= /^1\d{10}$/;
   const pwdReg = /^(?![\d]+$)(?![a-zA-Z]+$)(?![^\da-zA-Z]+$).{6,20}$/;
   const isFirst = sessionStorage.getItem('isFirst');
   export default {
@@ -59,26 +57,11 @@
         if (!value) {
           return callback(new Error('验证码不能为空'));
         }
-//        else if (value!=this.authCode) {
-//          return callback(new Error('验证码错误'));
-//        }
         else{
           callback()
         }
 
       };
-      //判断旧密码
-//      const validatePassOld = (rule, value, callback) => {
-//        if (value === '') {
-//          callback(new Error('请输入密码'));
-//        } else if (value.length < 6) {
-//          callback(new Error('密码不能小于6位!'));
-//        } else if(!pwdReg.test(value)){
-//          callback(new Error('请使用字母、数字和符号两种及以上6-20位密码!'));
-//        } else{
-//          callback();
-//        }
-//      };
       //判断新密码
       const validatePass = (rule, value, callback) => {
         if (value === '') {
@@ -110,6 +93,8 @@
         }
       };
       return {
+        inputType:'password',
+        eyes: 'eyes1',
         courseWait:"",
         userPhone:'',
         tip:false,
@@ -119,7 +104,6 @@
         codeState:'获取',
         codeTemp:60,
         disabled:false,
-//        authCode:0,
         disabledBtn:false,
         formCustom: {
           phone:'',
@@ -130,9 +114,6 @@
         },
         changePassword:true,
         ruleCustom: {
-//          passwdOld: [
-//            { validator: validatePassOld, trigger: 'blur' }
-//          ],
           passwd: [
             { validator: validatePass, trigger: 'blur' }
           ],
@@ -145,15 +126,14 @@
           phone: [
             { validator: validatePhone, trigger: 'blur' }
           ]
-        }
+        },
+        noChanged:this.$store.state.fetchNoChangePsw,
       }
-    },
-    beforeMount () {
     },
     mounted () {
       this.changePassword = true;
       this.getPhone();
-      if(isFirst == 'true'){
+      if(isFirst == 'true' && this.noChanged !== 'true'){
         const title = '提示';
         const content = '<p>您当前密码为原始密码，为保证账户安全，请修改。</p>';
         this.$Modal.warning({
@@ -161,10 +141,6 @@
           content: content
         });
       }
-    },
-    created () {
-    },
-    computed:{
     },
     watch:{
       codeState(curVal,oldVal){  //监听倒计时
@@ -185,26 +161,25 @@
               url: this.$store.state.resetpsd,
               data: {
                 'phone' : this.userPhoneData,
-//                'oldPassword' : oldPassword,
                 'authCode' : this.formCustom.code,
                 'password' : newPassword,
               },
             })
               .then( res => {
                 const title = '提示';
-                const content = '<p>密码修改成功,请重新登陆!</p>';
+                const content = '<p>密码修改成功,请重新登录!</p>';
                 this.$Modal.success({
                   title: title,
                   content: content,
-                  onOk: function(){
-                    let args = '{' +
-                      '"requesttype":14,' +
-                      '"messageid":'+ 0 +',' +
-                      '"jscallback" : "signOut",' +
-                      '"data" : {' +
-                      '"msgbox" :'+ true +'' +
-                      '}'+
-                      '}'
+                  onOk: () => {
+                    let args = `{
+                      "requesttype": 14,
+                      "messageid": 0,
+                      "jscallback": "signOut",
+                      "data": {
+                        "msgbox": true
+                      }
+                    }`
                     sendData(args);
                   }
                 });
@@ -219,7 +194,7 @@
         this.$refs[name].resetFields();
         this.formCustom.phone = this.userPhoneData; //手机号赋值
       },
-      handleCode (name) {  //发送验证码
+      handleCode () {  //发送验证码
         let phone = this.userPhoneData;
         this.$axios({
           method:"post",
@@ -228,8 +203,7 @@
             'phone' : phone,
           },
           loading: false,
-        })
-          .then( res => {
+        }).then( res => {
             let temp = 60;
             this.disabled = true;
             this.disabledBtn = true;
@@ -244,19 +218,21 @@
                 clearInterval(secondDown)
               }
             },1000)
-//          this.authCode = res.data.data.authCode;
           })
       },
       getPhone () {  //获取用户手机号
         this.$axios.get(this.$store.state.getUserPhone,{
           loading:false,
-        })
-          .then( res => {
+        }).then( res => {
             let phoneData = res.data.data;
             this.formCustom.phone = phoneData;
             this.userPhoneData = phoneData;
             this.userPhone = phoneData.substring(0,3)+"****"+phoneData.substring(7,11);
           })
+      },
+      openPassword() {
+        this.inputType = this.inputType === 'password' ? 'text' : 'password';
+        this.eyes = this.eyes === 'eyes1' ? 'eyes2' : 'eyes1';
       },
     },
   }
@@ -293,6 +269,24 @@
       &.disabledBtn{
         color: #dadada;
       }
+    }
+    em{
+      width: 50px;
+      position: absolute;
+      right: 17px;
+      top: 2px;
+      cursor: pointer;
+      height: 32px;
+      background-image: url("../assets/images/eyes1.png");
+      background-size: 20px auto;
+      background-position: center;
+      background-repeat: no-repeat;
+      &:hover{
+        background-image: url("../assets/images/eyes2.png");
+      }
+    }
+    em.eyes2{
+      background-image: url("../assets/images/eyes3.png");
     }
   }
 </style>

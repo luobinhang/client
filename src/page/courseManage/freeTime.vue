@@ -93,7 +93,7 @@
                     <em>占位</em>
                     <span
                       :class="{selected:item[timeIndex].selected,disable:item[timeIndex].disable}"
-                      @click="selected(item[timeIndex],timeIndex)"
+                      @click="selected(item[timeIndex],itemIndex)"
                       :time_index="timeIndex"
                       :item_index="itemIndex"
                     ><Icon type="checkmark-round" v-if="item[timeIndex].selected"></Icon></span>
@@ -112,7 +112,7 @@
         <span>提示</span>
       </p>
       <p slot="close" @click="tipWindow = false">
-        <img src="../../assets/images/close2.png" alt="关闭">
+        <Icon type="close-round"></Icon>
       </p>
       <div class="freeTimeMoudel" v-html="tip.text"></div>
       <div slot="footer">
@@ -128,7 +128,6 @@
 
 <script>
   import { timestamp } from '@/common/js/common';
-
 
   export default {
     data () {
@@ -161,6 +160,7 @@
         freeTimeMonthColumns:[],
         freeTimeWeekColumns:[],
         freeTimeTamp:[
+          {time:'06:00 - 07:00'},
           {time:'07:00 - 08:00'},
           {time:'08:00 - 09:00'},
           {time:'09:00 - 10:00'},
@@ -182,24 +182,22 @@
       }
     },
     beforeMount () {
-
+      this.timeSet();
     },
     mounted () {
-      this.timeSet();
-      let th = () => {
+      window.onresize = () => {
+        this.tableHeightFun();
+      }
+    },
+    methods: {
+      tableHeightFun () {
         let mh = this.$refs.freeTableDetail.clientHeight;
         if(mh > 605) {
           this.tableHeight = mh - 44;
         } else {
           this.tableHeight = 0;
         }
-      }
-      th ();
-      window.onresize = () => {
-        th ();
-      }
-    },
-    methods: {
+      },
       timeSet () {  //获取服务器时间
         timestamp().then( data =>{
           this.year = data.year;
@@ -243,13 +241,15 @@
       },
       getFreeTime () {  //获取空闲时间
         this.$axios.get(this.freeTimeListUrl + this.dateTimeList)
-          .then( res => {
-            this.dataHandle(res)
+          .then( ({data}) => {
+            this.submitDisabled = !data.data.isCommit;
+            this.dataHandle(data);
+            this.tableHeightFun();
           })
       },
-      dataHandle (res) { //处理原始数据
-        this.freeTimeAll = res.data.data.freeTimeMonthList;
-        let freeTimeAll = res.data.data.freeTimeMonthList;
+      dataHandle ({data}) { //处理原始数据
+        this.freeTimeAll = data.freeTimeMonthList;
+        let freeTimeAll = data.freeTimeMonthList;
         let allFreeTime= []; //全部数据
         let allTitle = []; //全部表头
         for (let a in freeTimeAll) { //循环全部数据（3个月）
@@ -270,37 +270,37 @@
             ];
             for (let w in weekList) { //循环周数据（7天）
               weekTitle[w].title = weekList[w].freetimeDate; //表头日期赋值
+
+              let dayFreeTime = []  //天数据（每天含有6-23点，是否选中）
+
+              for(let i = 6; i < 24; i++) { //天数据 6-23点 选中 禁选
+                let start = i<10? `0${i}:00`: `${i}:00`;
+                let end = i+1<10? `0${i+1}:00`: `${i+1}:00`;
+                dayFreeTime.push({
+                  time:`${start} - ${end}`,
+                  selected:false,
+                  disable:false,
+                })
+              }
+
               if(parseInt(weekList[w].freetimeDate.substring(5,7))!=this.monthList[a].month){
                 weekTitle[w].disable = true;  //非选择月禁止点击
               }
-              let dayFreeTime = [  //天数据（每天含有7-23点，是否选中）
-                {time:'07:00 - 08:00', selected:false, disable:false},
-                {time:'08:00 - 09:00', selected:false, disable:false},
-                {time:'09:00 - 10:00', selected:false, disable:false},
-                {time:'10:00 - 11:00', selected:false, disable:false},
-                {time:'11:00 - 12:00', selected:false, disable:false},
-                {time:'12:00 - 13:00', selected:false, disable:false},
-                {time:'13:00 - 14:00', selected:false, disable:false},
-                {time:'14:00 - 15:00', selected:false, disable:false},
-                {time:'15:00 - 16:00', selected:false, disable:false},
-                {time:'16:00 - 17:00', selected:false, disable:false},
-                {time:'17:00 - 18:00', selected:false, disable:false},
-                {time:'18:00 - 19:00', selected:false, disable:false},
-                {time:'19:00 - 20:00', selected:false, disable:false},
-                {time:'20:00 - 21:00', selected:false, disable:false},
-                {time:'21:00 - 22:00', selected:false, disable:false},
-                {time:'22:00 - 23:00', selected:false, disable:false},
-                {time:'23:00 - 24:00', selected:false, disable:false},
-              ];
               weekFreeTime.push(dayFreeTime); //周数据数组
               let dayList = weekList[w].freetimePeriodList; //当天空闲时间
               if(dayList.length != 0){  //循环当天空闲时间
+                let temp = 0;
                 for(let d in dayList){
-                  // 空闲时间-7对应左侧时间下标（7:00开始）
-                  let itemIndex = parseInt(dayList[d].substring(0, 2))-7;
+                  // 空闲时间-6对应左侧时间下标（6:00开始）
+                  let itemIndex = parseInt(dayList[d].substring(0, 2))-6;
                   if(itemIndex >= 0) {
                     weekFreeTime[w][itemIndex].selected = true;
+                    temp++;
                   }
+                }
+                //判断是否全天空闲
+                if(temp >= 18){
+                  weekTitle[w].allSelect = true;
                 }
               }
             }
@@ -320,7 +320,7 @@
         } else {
           this.mIndex = monthIndex;
           if(!first) {
-            this.weekChange (monthIndex,0); //不是首次默认选中第一周
+            this.weekChange (monthIndex, 0); //不是首次默认选中第一周
           } else {
             this.weekChange (monthIndex,this.week); //默认选中本周
           }
@@ -331,24 +331,27 @@
         this.weekList = this.freeTimeAllList[monthIndex][weekIndex]; //本周数据
         this.freeTimeWeekColumns = this.freeTimeAllColumns[monthIndex][weekIndex];
         this.monthList[monthIndex].week[weekIndex].selected = true; //选中状态
+
         for(let i in this.freeTimeWeekColumns) { //非本月数据禁止点击，取消选择
           if(this.freeTimeWeekColumns[i].disable) {
+            this.freeTimeWeekColumns[i].allSelect = false;
             for(let time of this.weekList[i]){
               time.disable = true;
               time.selected = false;
             }
           }
         }
+
         if(monthIndex == 0) { //如果是首月，判断选中个数
           let weekList = this.monthList[0].week; //首月星期
           let selectNum = 0; //选中个数
-          for(let item of weekList){
-            if(item.selected) {
-              selectNum++;
-              if(selectNum >= weekList.length){ //判断提交按钮能否点击
-                this.submitDisabled = false;
-              } else {
-                this.submitDisabled = true;
+          if(this.submitDisabled) {
+            for(let item of weekList){
+              if(item.selected) {
+                selectNum++;
+                if(selectNum >= weekList.length){ //判断提交按钮能否点击
+                  this.submitDisabled = false;
+                }
               }
             }
           }
@@ -365,8 +368,21 @@
           }
         }
       },
-      selected (val) { //空闲时间选择
+      selected (val,index) { //空闲时间选择
         if(!val.disable)val.selected=!val.selected;
+
+        let temp = 0;
+        for(let item of this.weekList[index]) {
+          if(item.selected) {
+            temp++;
+          }
+        }
+        if(temp>=18) {
+          this.freeTimeWeekColumns[index].allSelect = true;
+        } else {
+          this.freeTimeWeekColumns[index].allSelect = false;
+        }
+
       },
       mouseDown (selected) {
         let that = this;
@@ -380,7 +396,7 @@
               itemIndex = i.value;
             }
           }
-          if(timeIndex!=undefined && itemIndex!=undefined){
+          if(timeIndex && itemIndex){
             that.weekList[itemIndex][timeIndex].selected = true;
           }
         }
@@ -391,6 +407,7 @@
       editTemplate () {  //编辑模板
         this.editMode = true;
         this.monthChange(0); //到首月
+        this.submitDisabled = true;
         for(let i of this.monthList[0].week){ //清空周选择状态
           i.selected = false;
         }
@@ -402,6 +419,12 @@
             for(let hour of day){
               hour.selected = false;
             }
+          }
+        }
+
+        for(let weekColumn of this.freeTimeAllColumns[0]) { //清空首月全选状态
+          for(let dayColumn of weekColumn) {
+            dayColumn.allSelect = false;
           }
         }
       },
@@ -416,8 +439,8 @@
       },
       useTemplate () {  //应用模板
         this.$axios.get(this.getFreeTimeTemplateUrl + this.dateTimeList)
-          .then( res => {
-            this.dataHandle(res);
+          .then( ({ data }) => {
+            this.dataHandle(data);
             this.submitDisabled = false;
             for(let month of this.monthList){
               for(let week of month.week){
@@ -438,7 +461,20 @@
 
       },
       saveFreeTime () {  //保存空闲时间
+        let selectedMonth = [];
+        for(let month of this.monthList){
+          let temp = 0;
+          for(let week of month.week){
+            if(week.selected) temp++;
+
+            if(temp == 6) {
+              selectedMonth.push(month.dateISO);
+            }
+          }
+        }
+
         this.$axios.post(this.saveFreeTimeUrl,{
+          "freeDateTimeList":selectedMonth,
           "freeTimeSaveList":this.saveDataHandle(this.freeTimeAllList,this.freeTimeAll)
         }).then( res => {
           this.$Message.success('保存成功');
@@ -501,9 +537,6 @@
           this.tip.text = '是否使用模板？';
         }
       }
-    },
-    components:{
-
     },
     destroyed () {
       window.onresize = null;

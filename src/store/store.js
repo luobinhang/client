@@ -13,6 +13,7 @@ const state = {
   fetchError: 'false',
   fetchChangePsw: 'false',
   fetchBulletinBoard: 'false',
+  fetchNoChangePsw: 'false',
   subjectList : types.SUBJEXT_LIST,
   classTab : types.CLASS_TAB,
   helpMainTeacher : types.HELP_MAIN_TEACHER,
@@ -58,6 +59,9 @@ const mutations = {
   },
   NETWORK_ERROR(state, res) {
     state.fetchError = res;
+  },
+  NO_CHANGED(state, res) {
+    state.fetchNoChangePsw = res;
   },
 };
 export default new Vuex.Store({

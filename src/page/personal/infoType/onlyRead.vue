@@ -5,8 +5,9 @@
         <div class="info-left-main">
           <div class="info-left-top">
             <div class="info-header">
-              <div v-if="headerUrl!=''">
-                <img :src="headerUrl">
+              <div
+                :style="headerBackground"
+                v-if="headerUrl!=''">
               </div>
             </div>
             <div class="info-name">
@@ -36,10 +37,10 @@
                   <td>邮箱：{{ infoData.email || "无" }}</td>
                   <td>QQ：{{ infoData.qq || "无" }}</td>
                 </tr>
-                <tr>
-                  <td>紧急联系人：{{ infoData.emergencyPhone || "无" }}</td>
-                  <td>紧急联系人关系：{{ infoData.emergencyRelation || "无" }}</td>
-                </tr>
+                <!--<tr>-->
+                  <!--<td>紧急联系人：{{ infoData.emergencyPhone || "无" }}</td>-->
+                  <!--<td>紧急联系人关系：{{ infoData.emergencyRelation || "无" }}</td>-->
+                <!--</tr>-->
               </table>
             </div>
           </div>
@@ -106,7 +107,7 @@
               </div>
               <table cellspacing="0" cellpadding="0" border="0">
                 <tr>
-                  <td>银行：招商银行</td>
+                  <td>银行：工商银行</td>
                   <td>银行卡号：{{ replace(infoData.cardNumber,5,14) || "无" }}</td>
                   <td>开户行：{{ infoData.bankAddress || "无" }}</td>
                 </tr>
@@ -158,12 +159,12 @@
         </div>
       </div>
     </div>
-    <Modal v-model="tipWindow" width="460">
+    <Modal v-model="tipWindow" width="460" class="infoTipWindow" :mask-closable="false">
       <p slot="header">
         <span>个人信息填写说明</span>
       </p>
       <p slot="close" @click="$router.go(-1)">
-        <img src="../../../assets/images/close2.png" alt="关闭">
+        <Icon type="close-round"></Icon>
       </p>
       <div class="infoMoudel">
         <p>由于系统检测您未在客户端填写过个人信息，
@@ -182,8 +183,8 @@
         <p><span class="orange">*</span>信息一旦填写，<span class="orange">无法在此客户端更改</span>，请认真填写确保信息准确。</p>
       </div>
       <div slot="footer">
-        <Button type="primary" style="margin-right: 30px;" @click="$router.go(-1)">返回</Button>
-        <Button type="primary" @click="chageType">开始填写</Button>
+        <Button type="primary" style="margin-right: 30px;" @click="chageType">开始填写</Button>
+        <Button type="primary" @click="$router.go(-1)">返回</Button>
       </div>
     </Modal>
   </div>
@@ -211,12 +212,13 @@
         studentCardUrl:'',
       }
     },
-    beforeMount () {
-    },
     mounted () {
       this.getInfo()
     },
-    created: function () {
+    computed: {
+      headerBackground () {
+        return this.headerUrl?`background:#fff url(${this.headerUrl}) center / cover no-repeat;`:'';
+      },
     },
     methods: {
       replace(data,start,end) {
@@ -238,8 +240,15 @@
       },
       getInfo () {
         this.$axios.get(this.infoUrl)
-          .then( res => {
-            this.infoData = res.data.data;
+          .then( ({ data }) => {
+            this.infoData = data.data;
+//            if(this.infoData.completeFlag){
+//              this.tipWindow = false;
+//            } else {
+//              this.tipWindow = true;
+//            }
+
+
             let imgList = this.infoData.teacherFileList;
             for(let i of imgList) {
               if(i.purpose == 1) { //头像

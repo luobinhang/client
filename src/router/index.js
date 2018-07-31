@@ -20,6 +20,9 @@ import courseWait from '@/page/courseManage/courseWait'; //待上课程
 import freeTime from '@/page/courseManage/freeTime'; //空闲时间
 import mySchedule from '@/page/courseManage/mySchedule'; //我的课表
 import courseRecord from '@/page/courseManage/courseRecord'; //课程记录
+import temOpening from '@/page/courseManage/temOpening'; //临时开课
+import openClass from '@/page/courseManage/openClass'; //我要排课
+import changeClass from '@/page/courseManage/changeClass'; //我要调课
 
 
 /*
@@ -83,6 +86,21 @@ export default new Router({
       path: '/courseManage/courseRecord',
       name: '课程记录',
       component: courseRecord,
+    },
+    {
+      path: '/courseManage/temOpening',
+      name: '临时开课',
+      component: temOpening,
+    },
+    {
+      path: '/courseManage/openClass',
+      name: '我要排课',
+      component: openClass,
+    },
+    {
+      path: '/courseManage/changeClass',
+      name: '我要调课',
+      component: changeClass,
     },
     // ----------------------课件管理
     {

@@ -35,7 +35,7 @@
 </template>
 <script>
   import sha512 from '../../../static/js/sha512'
-  const phoneReg=/^[1][3,4,5,7,8][0-9]{9}$/;
+  const phoneReg= /^1\d{10}$/;
   const pwdReg = /^(?![\d]+$)(?![a-zA-Z]+$)(?![^\da-zA-Z]+$).{6,20}$/;
   const isFirst = sessionStorage.getItem('isFirst');
   export default {

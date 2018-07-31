@@ -87,7 +87,7 @@
   left: 40px;
   top: 0;
   width: 110px;
-  z-index: 1;
+  z-index: 2;
 }
 .schedule-content .schedule-date .schedule-date-month {
   display: -webkit-box;
@@ -229,8 +229,8 @@
   height: 1px;
   width: 9px;
 }
-.schedule-content .schedule-week-main .schedule-table .card .schedule-table-main .ivu-table .ivu-table-row:last-child td {
-  border-bottom: none;
+.schedule-content .schedule-week-main .schedule-table .card .schedule-table-main .ivu-table .ivu-table-row:last-child td:after {
+  display: none;
 }
 .schedule-content .schedule-week-main .schedule-table .card .schedule-table-main .ivu-table th,
 .schedule-content .schedule-week-main .schedule-table .card .schedule-table-main .ivu-table td {
@@ -249,16 +249,28 @@
 }
 .schedule-content .schedule-week-main .schedule-table .card .schedule-table-main .ivu-table td {
   height: 45px;
+  border-bottom: none;
+  position: relative;
+}
+.schedule-content .schedule-week-main .schedule-table .card .schedule-table-main .ivu-table td:after {
+  height: 1px;
+  width: 100%;
+  content: '';
+  background: #e9eaec;
+  position: absolute;
+  bottom: 0;
+  left: 0;
 }
 .schedule-content .schedule-week-main .schedule-table .card .schedule-table-main .ivu-table td .ivu-table-cell {
-  height: 45px;
+  height: 100%;
   position: relative;
   overflow: visible;
   padding: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 .schedule-content .schedule-week-main .schedule-table .card .schedule-table-main .ivu-table td .ivu-table-cell h3 {
-  line-height: 45px;
-  text-align: center;
   font-size: 12px;
 }
 .schedule-content .schedule-week-main .schedule-table .card .schedule-table-main .ivu-table td .item {
@@ -267,7 +279,7 @@
   left: 0;
   width: 100%;
   color: #fff;
-  padding: 2px;
+  padding: 2px 2px 3px;
   z-index: 3;
 }
 .schedule-content .schedule-week-main .schedule-table .card .schedule-table-main .ivu-table td .item > div {
@@ -313,6 +325,8 @@
   padding-left: 120px;
   width: 100%;
   display: flex;
+  position: relative;
+  z-index: 1;
 }
 .schedule-content .schedule-month-main .schedule-table .card {
   display: flex;
@@ -328,11 +342,10 @@
   display: flex;
 }
 .schedule-content .schedule-month-main .schedule-table .card .schedule-table-main .schedule-table-detail {
-  overflow: hidden;
   display: flex;
 }
 .schedule-content .schedule-month-main .schedule-table .card .schedule-table-main .schedule-table-detail table {
-  min-height: 100%;
+  height: 100%;
   width: 100%;
   table-layout: fixed;
 }
@@ -458,4 +471,32 @@
 }
 .schedule-content .schedule-month-main .schedule-table .card .schedule-table-main .schedule-table-detail table tr td:last-child {
   border-right: 0;
+}
+.schedule-content .schedule-month-main .schedule-table-hidden {
+  left: -9999px;
+  top: -9999px;
+  z-index: -1;
+  position: absolute;
+}
+.schedule-content .schedule-month-main .schedule-table-hidden .schedule-table {
+  padding-left: 0;
+}
+.schedule-content .schedule-month-main .schedule-table-hidden .schedule-table .schedule-table-detail table {
+  table-layout: auto !important;
+}
+.schedule-content .schedule-month-main .schedule-table-hidden .schedule-table .table-cell {
+  min-height: 64px;
+  min-width: 160px;
+  position: static !important;
+}
+.schedule-content .schedule-month-main .schedule-table-hidden .schedule-table .table-day {
+  position: absolute;
+  top: 0;
+  right: 0;
+}
+@media screen and (min-height: 950px) {
+  .schedule-table-detail td,
+  .schedule-table-detail .ivu-table-cell {
+    height: 53px !important;
+  }
 }

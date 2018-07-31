@@ -2,9 +2,9 @@
  *
  * 《嗨课堂客户端公共方法》
  *
- * 版本 v1.0
+ * 版本 v2.0
  * 作者 Binhang Luo
- * 时间 2017.12.16
+ * 时间 2018.2
  *
  */
 import Vue from 'vue';
@@ -51,7 +51,7 @@ let AJAX_NUM = 0;
 const token = sessionStorage.getItem('token');
 const Axios = axios.create({
   baseURL: apiBase('api'),
-  timeout: 10000,
+  timeout: 30000,
   responseType: "json",
   withCredentials: true, // 允许带cookie
   headers: {
@@ -63,7 +63,6 @@ const Axios = axios.create({
 //POST传参序列化(添加请求拦截器)
 Axios.interceptors.request.use(
   config => {
-
     // 未登录(本地测试使用)
     if ( !token ) {
 
@@ -118,7 +117,6 @@ Axios.interceptors.response.use(
     if(AJAX_NUM <= 0){
       AJAX_NUM = 0;
       stores.dispatch('FETCH_LOADING', 'false');
-      stores.commit('NETWORK_ERROR', 'false');
     }
 
     if (res.data.code !== 0) {
@@ -142,7 +140,6 @@ Axios.interceptors.response.use(
     AJAX_NUM = 0;
 
     stores.dispatch('FETCH_LOADING', 'false');
-    stores.commit('NETWORK_ERROR', 'true');
 
     Notice.error({
       title: '网络异常 '+ error,
@@ -150,6 +147,9 @@ Axios.interceptors.response.use(
       duration:5,
     });
 
+    //调用C++404页面
+    let args = '{"requesttype":33,"data" : {}}';
+    sendData(args);
 
     return Promise.reject(error);
   }
@@ -167,10 +167,10 @@ window._client_user_web_methods_ = {
   uploadProgess (res) {   //c++调用上传课件回调
     let as = JSON.parse(res["args"]).state;
     if (as == 0) {            //c++调用上传中
-      Message.loading({
-        content: '正在上传中...',
-        duration: 0
-      });
+      // Message.loading({
+      //   content: '正在上传中...',
+      //   duration: 0
+      // });
     } else if ( as == 1 ) {  //c++调用上传成功
       Message.destroy();
       Message.success('上传成功');
@@ -179,27 +179,21 @@ window._client_user_web_methods_ = {
       Notice.error({
         title: '课件上传失败',
         desc: '请手动转换pdf格式再上传，或检查网络后重试！转换地址：' +
-        '<span onclick="copyText()" style="cursor: pointer">https://smallpdf.com/cn</span>' +
+        '<span onclick="copyText()" style="cursor: pointer;color: #2D8cF0;">https://smallpdf.com/cn</span>' +
+        '<input id="copyText" type="text" value="https://smallpdf.com/cn" style="opacity: 0;position: absolute;z-index: -99;top: -9999px;">',
+        duration:0,
+      });
+    } else if ( as == 3 ) {  //c++调用上传失败
+      Message.destroy();
+      Notice.error({
+        title: '课件过大',
+        desc: '您的课件超过30M，请手动转换pdf格式再上传！转换地址：' +
+        '<span onclick="copyText()" style="cursor: pointer;color: #2D8cF0;">https://smallpdf.com/cn</span>' +
         '<input id="copyText" type="text" value="https://smallpdf.com/cn" style="opacity: 0;position: absolute;z-index: -99;top: -9999px;">',
         duration:0,
       });
     }
   },
-  // enterProgess (res) {
-    // let as = JSON.parse(res["args"]).state;
-    // if (as == 0) {            //c++调用进入中
-    //   Modal.info({
-    //     title: '进入教室',
-    //     content: '<img src="../../assets/teacher/loadingMain.gif" />',
-    //   });
-    // } else if ( as == 1 ) {  //c++调用进入成功
-    //   Message.destroy();
-    //   Message.success('进入房间成功');
-    // } else if ( as == 2 ) {  //c++调用进入失败
-    //   Message.destroy();
-    //   Message.error('进入房间失败');
-    // }
-  // },
   refresh () {
     window.location.reload();
   },
@@ -209,7 +203,7 @@ window._client_user_web_methods_ = {
     document.execCommand("Copy");
     Message.destroy();
     Message.info('链接复制成功');
-  }
+  },
 };
 
 
@@ -222,9 +216,10 @@ window._client_user_web_methods_ = {
 
 export function timestamp(){
 
-  let getTimestap =  new Promise(function(resolve, reject){
-    Axios.get(stores.state.timestamp).then( res => {
-      let timestamp = res.data.data.serverTime;
+  return new Promise((resolve, reject) => {
+    Axios.get(stores.state.timestamp,{ loading:false }).then( res => {
+      let timeDifference = (new Date().getTimezoneOffset() + 480) * 60000;
+      let timestamp = res.data.data.serverTime + timeDifference;
       let date = Moment(timestamp);
       let time = {
         timestamp : timestamp,
@@ -243,55 +238,7 @@ export function timestamp(){
     });
   });
 
-  return getTimestap;
-
 }
-
-
-
-/*
- *
- * 添加Class
- *
- * */
-
-export function addClass(element, new_name) {
-  if (!element || !new_name) return false;
-  if (element.className) {
-    let old_class_name = element.className;
-    element.className = old_class_name + " " + new_name;
-  } else{
-    element.className = new_name;
-  }
-  return true;
-}
-
-
-
-/*
- *
- * 删除Class
- *
- * */
-
-export function removeClass(element, class_name) {
-  if(!element || !class_name) return false;
-  if (!element.className) return false;
-  let all_names = element.className.split(" ");
-  for (var i = 0; i < all_names.length; i++) {
-    if (all_names[i] === class_name) {
-      all_names.splice(i, 1);
-      element.className = "";
-      for (let j = 0; j < all_names.length; j++) {
-        element.className += " ";
-        element.className += all_names[j];
-      }
-      return true;
-    }
-  }
-}
-
-
 
 /*
  *
@@ -305,9 +252,6 @@ export function forMatTime(j) {
     d = Math.floor(ex / 60) % 60,
     f = ex % 60,
     k = (d > 9 ? d : "0" + d) + ":" + (f > 9 ? f : "0" + f),
-    // if (g > 0) {
-    //   k = g + ":" + k;
-    // }
     q = (g > 9 ? g : "0" + g) + ":" + k;
 
   return q;

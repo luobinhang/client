@@ -31,13 +31,13 @@
                       :class="{gray:month!=moment(day.courseDate).month()+1}"
                     >{{ moment(day.courseDate).format('D') }}</div>
                     <div class="table-cell">
-                      <div class="day-class-detail" v-if="day.courseScheduleList.length != 0">
+                      <div class="day-class-detail" v-if="day.courseScheduleList.length">
                         <div class="day-class-total">
                           共{{ day.courseScheduleList.length }} 节课
                         </div>
                         <div class="day-class-list" :class="{open:open == weekIndex+'-'+dayIndex}">
                           <ul>
-                            <li v-for="(item,$index) in day.courseScheduleList" :class="{show:$index<num}">
+                            <li v-for="(item,$index) in day.courseScheduleList" :title="item.studentName" :class="{show:$index<num}">
                               <span>{{ item.startTime }}-{{ item.endTime }}</span>
                               <span>{{ item.studentName }}</span>
                             </li>
@@ -62,6 +62,50 @@
         </div>
       </div>
     </div>
+    <!-- 隐藏的课表 用于截图 -->
+    <div class="schedule-table-hidden">
+      <div class="schedule-table">
+        <div class="card">
+          <div class="schedule-table-main">
+            <div class="schedule-table-detail" ref="scheduleTableDetail">
+              <table cellspacing="0" cellpadding="0" border="0">
+                <thead>
+                <tr>
+                  <th v-for="item in scheduleColumns">
+                    {{ item }}
+                  </th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr v-for="(week,weekIndex) in scheduleData" :key="weekIndex">
+                  <td v-for="(day,dayIndex) in week" :key="dayIndex">
+                    <div class="table-day"
+                         :class="{gray:month!=moment(day.courseDate).month()+1}"
+                    >{{ moment(day.courseDate).format('D') }}</div>
+                    <div class="table-cell">
+                      <div class="day-class-detail" v-if="day.courseScheduleList.length">
+                        <div class="day-class-total">
+                          共{{ day.courseScheduleList.length }} 节课
+                        </div>
+                        <div class="day-class-list">
+                          <ul>
+                            <li v-for="(item,$index) in day.courseScheduleList" :title="item.studentName" class="show">
+                              <span>{{ item.startTime }}-{{ item.endTime }}</span>
+                              <span>{{ item.studentName }}</span>
+                            </li>
+                          </ul>
+                        </div>
+                      </div>
+                    </div>
+                  </td>
+                </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
 </template>
 
@@ -77,16 +121,13 @@
         month:new Date().getMonth() + 1,
         date:0, //YYYY-MM
         scheduleData:[], //月课表（全部数据）
-        scheduleColumns:['WON','TUE','WED','THU','FRI','SAT','SUN'],
+        scheduleColumns:['MON','TUE','WED','THU','FRI','SAT','SUN'],
         scheduleUrl:this.$store.state.courseSchedule,
         num: '', //展示数据条数
         scheduleTableDetail:'', //表格dom
         timer:false, //计时器
         open:0,
       }
-    },
-    beforeMount () {
-
     },
     mounted () {
       this.timeSet();
@@ -97,8 +138,9 @@
           that.listNum();
         })()
       }
-    },
-    created: function () {
+
+      let ele = document.querySelectorAll('.schedule-table-hidden .schedule-table')[0];
+      this.$emit('childDom',ele);
     },
     watch : {
       num (val) {  //优化窗口变动监听
@@ -146,6 +188,9 @@
           }
         }).then( res => {
           this.scheduleData = res.data.data;
+
+          let imgName = `${this.year}年${this.month}月课表`;
+          this.$emit('imgName',imgName);
         })
       },
       listNum () {  //显示数据量计算（表格高度 - 表头 / 6周 / 数据高度 - 课程数和查看全部）PS最小值为1

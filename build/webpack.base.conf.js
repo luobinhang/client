@@ -29,15 +29,18 @@ module.exports = {
     rules: [
       {
         test: /\.vue$/,
-        loader: 'vue-loader',
-        options: vueLoaderConfig
-      },
-      {
-        test: /\.vue$/,
-        loader: 'iview-loader',
-        options: {
-          prefix: false
-        }
+        use: [
+          {
+            loader: 'vue-loader',
+            options: vueLoaderConfig
+          },
+          {
+            loader: 'iview-loader',
+            options: {
+              prefix: false
+            }
+          },
+        ],
       },
       {
         test: /\.js$/,

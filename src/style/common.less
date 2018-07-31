@@ -53,6 +53,7 @@ li{
     width: 100%;
     height: 100%;
     box-shadow: 3px 3px 15px rgba(255, 255, 255, .35);
+    z-index: -1;
   }
 }
 .commonTitle{
@@ -67,7 +68,7 @@ li{
     border-bottom: 1px solid #eee;
     padding-bottom: 5px;
     h2{
-      font-size: 18px;
+      font-size: 16px;
       color: #fc5c41;
     }
   }
@@ -96,6 +97,15 @@ li{
     box-shadow: 0 7px 7px rgba(160,131,137,.35);
     height: 50px;
     z-index: 5;
+    &.webHeader{
+      height: 60px;
+      .header-logo{
+        padding-top: 10px;
+      }
+      .header-nav{
+        padding-top: 8px;
+      }
+    }
     .header-main {
       position: relative;
       z-index: 2;
@@ -179,6 +189,8 @@ li{
               a{
                 display: block;
                 transition: all .2s;
+                padding-left: 22.5px;
+                text-align: left;
                 &:hover{
                   background: @primary-color ;
                 }
@@ -187,6 +199,16 @@ li{
                 }
               }
             }
+          }
+        }
+        &.navBan{
+          &:after{
+            content: '';
+            width: 100%;
+            height: 100%;
+            position: absolute;
+            left: 0;
+            top: 0;
           }
         }
       }
@@ -204,9 +226,9 @@ li{
   .container {
     position: relative;
     overflow: hidden;
-    height: 100%;
     width: 100%;
     display: flex;
+    flex: 5;
     .nav-left {
       width: 48px;
       background: #54637f;
@@ -297,13 +319,18 @@ li{
               font-size: 10px;
               color: #54637f;
               display: none;
+              border: 1px solid #b2b2b2;
               .setting-list-main{
                 overflow: hidden;
-                border-radius: 4px;
                 background: #f0f0f0;
                 box-shadow: 0 1px 6px rgba(0, 0, 0, 0.2);
+                position: relative;
+                z-index: 1;
                 &>div{
-                  padding: 0 7px;
+                  padding: 8px 15px;
+                  &:first-child{
+                    border-bottom: 1px solid #b2b2b2;
+                  }
                   &:hover{
                     background: @primary-color;
                     color: #fff;
@@ -319,7 +346,8 @@ li{
               border-top: 4px solid transparent;
               border-bottom: 4px solid transparent;
               left: -7px;
-              top:3px;
+              top:8px;
+              z-index: 0;
             }
             &:hover{
               .setting-list{
@@ -399,12 +427,19 @@ li{
         }
         .close{
           position: absolute;
-          font-size: 12px;
           right: 16px;
           top: 12px;
-          line-height: 1;
           overflow: hidden;
           cursor: pointer;
+          font-size: 15px;
+          color: #fff;
+          line-height: 1;
+          &:hover{
+            color: #d4d4d4;
+          }
+          &:active{
+            color: #cccccc;
+          }
         }
       }
     }
@@ -442,6 +477,17 @@ li{
     }
     .ivu-modal-close {
       top: 12px;
+      i{
+        font-size: 15px;
+        color: #fff;
+        line-height: 1;
+        &:hover{
+          color: #d4d4d4;
+        }
+        &:active{
+          color: #cccccc;
+        }
+      }
     }
     .ivu-modal-body{
       padding: 15px 20px;
@@ -576,7 +622,7 @@ loading
   margin: 0 auto;
 }
 .ivu-spin-fix{
-  z-index: 33;
+  z-index: 4;
 }
 .circular {
   -webkit-animation: rotate 2s linear infinite;
@@ -732,4 +778,65 @@ help
   //}
 }
 
+.enterWindow{
+  text-align: center;
+  .enterWindowError{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 10px 0;
+    p{
+      background: url("../assets/teacher/error2.png") no-repeat left center;
+      padding-left: 14px;
+      font-size: 12px;
+      margin-bottom: 20px;
+    }
+    div{
+      color: #919aab;
+      margin-top: 20px;
+      font-size: 10px;
+      a{
+        color: @primary-color;
+        text-decoration: underline;
+      }
+    }
+  }
+  .enterWindowText{
+    padding: 10px 0;
+    i{
+      color: @success-color;
+      margin-right: 5px;
+    }
+  }
+  .ivu-modal-footer{
+    display: none;
+  }
+}
 
+
+.scrollHide{
+  &::-webkit-scrollbar {
+    display: none;
+  }
+  &::-webkit-scrollbar-thumb {
+    display: none;
+  }
+  &:hover{
+    &::-webkit-scrollbar-thumb {
+      display: block;
+    }
+    &::-webkit-scrollbar {
+      display: block;
+    }
+  }
+}
+
+.ivu-date-picker {
+  .ivu-date-picker-rel{
+    cursor: pointer;
+  }
+  .ivu-input{
+    cursor: inherit;
+  }
+}

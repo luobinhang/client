@@ -1,6 +1,6 @@
 
 /**
- * Created by Binhang Luo on 2016/12/3.
+ * Created by Binhang Luo on 2018/2/3.
  * API接口地址
  */
 
@@ -20,28 +20,28 @@ export default function apiBase(type) {
   let host = window.location.host,
     API = 'http://clienttest.haiketang.net',
     webAPI = "clienttest.haiketang.net";
-  if(host === 'frontend.onlyhi.cn') {  //正式环境
+  if(host === 'clteacher.onlyhi.cn' || host === 'clstudent.onlyhi.cn') {  //正式环境
     API = 'http://client.onlyhi.cn';
     webAPI = "client.onlyhi.cn";
-  } else if(host === 'frontend.haiketang.net') {//搬迁环境
-    API = 'http://clienttest.haiketang.net';
-    webAPI = "clienttest.haiketang.net";
-  } else if(host === 'frontendtest.haiketang.net') {//公网测试环境
-    API = 'http://clienttest.haiketang.net';
-    webAPI = "clienttest.haiketang.net";
-  } else if(host === 'localhost:8085') {//本地测试环境
-    // API = 'http://192.168.0.15:20003';
-    API = 'http://clienttest.haiketang.net';
-    webAPI = "clienttest.haiketang.net";
-  } else if (host === 'localhost:8086') {//本地测试环境
-    // API = 'http://192.168.0.15:20003';
+  } else if(host === 'localhost:8085' || host === 'localhost:8086') {  //正式环境
     API = 'http://clienttest.haiketang.net';
     webAPI = "clienttest.haiketang.net";
   }
-
   let API_BASE_URL = type == 'webAPI'? webAPI : API;
 
   return API_BASE_URL;
+}
+
+export function apiBase2() {
+  let host = window.location.host,
+    API = 'https://getaway.onlyeduhi.cn';
+  if(host === 'clteacher.onlyhi.cn' || host === 'clstudent.onlyhi.cn') {  //正式环境
+    API = 'https://hkt.onlyhi.cn';
+  } else if(host === 'localhost:8085' || host === 'localhost:8086') {  //正式环境
+    API = 'https://getaway.onlyeduhi.cn';
+  }
+
+  return API;
 }
 
 
@@ -51,7 +51,7 @@ store.state.socket = 'ws://'+ apiBase('webAPI') +':20027/ws'; //上传课件长�
 store.state.socket2 = 'ws://'+ apiBase('webAPI') +':20035/ws'; //上传课件长连接
 
 //公共API
-store.state.timestamp = '/teacher/serverTime'; //获取服务器时间戳
+store.state.timestamp = '/common/serverTime'; //获取服务器时间戳
 store.state.getCourseRoom = '/client/course/iosGetCourseRoom'; //进入房间
 store.state.getUserPhone = '/client/user/getUserPhone'; //获取用户手机
 store.state.getAuthCode = '/client/user/sendAuthCode'; //获取验证码
@@ -110,6 +110,20 @@ store.state.coursewareUploadFile="/courseware/uploadFile";// 上传文件
 store.state.findByName="/courseware/findByName";// 课件搜索
 store.state.viewTeacherAppraise = '/teacher/viewTeacherAppraise'; //教师查看反馈
 
+store.state.getTrainingVideo = '/teacher/getTrainingVideo'; //教师查看反馈
 
 
+//我要排课
+store.state.getStudents = '/crm/course/course/client/getStudents'; //查询该老师的学生列表
+store.state.arrangeCourse = '/crm/course/course/client/arrangeCourse'; //老师排课
+
+// store.state.getStudents = '/course/getStudents'; //查询该老师的学生列表
+// store.state.arrangeCourse = '/course/arrangeCourse'; //老师排课
+//我要调课
+
+store.state.getChangeRecord = '/crm/course/orderChangeRecord/client/getChangeRecord'; //获取调课次数
+store.state.getStudentInfo = '/crm/course/course/client/getStudentInfo'; //查询该老师所对应的学生
+store.state.getSubject = '/crm/course/course/client/getStudentSubject'; //根据学生获取对应老师所教科目
+store.state.getCourseTime = '/crm/course/course/client/getCourseTime'; //根据学生电话科目获取该学生课程时间列表
+store.state.adjustCourse = '/crm/course/course/client/adjustCourse'; //确认调课
 

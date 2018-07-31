@@ -3,8 +3,9 @@
     <div class="info-title commonTitle">
       <div class="info-title-main commonTitleMain">
         <h2>个人信息</h2>
-        <a href="javascript:;" @click="typeClick" v-if="onlyReadType">编辑</a>
-        <div v-else>
+        <!--<a href="javascript:;" @click="typeClick" v-if="onlyReadType">编辑</a>-->
+        <!--<div v-else>-->
+        <div v-if="!onlyReadType">
           <a href="javascript:;" @click="typeClick">退出</a>
           <Button type="primary" size="small" @click="next" v-if="!saveShow">下一步</Button>
           <Button type="primary" size="small" @click="save" v-else>保存</Button>

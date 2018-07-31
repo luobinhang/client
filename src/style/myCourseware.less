@@ -24,6 +24,44 @@
       .ivu-upload{
         display: inline-block;
       }
+      .downloadBtn{
+        display: inline-block;
+        vertical-align: middle;
+        cursor: pointer;
+        margin-left: 10px;
+        position: relative;
+        .icon{
+          font-size: 20px;
+          line-height: 26px;
+          color: @primary-color;
+          &:hover{
+            color: tint(@primary-color,20%);
+          }
+          &:active{
+            color: shade(@primary-color,20%);
+          }
+        }
+        &.noHave{
+          .icon{
+            color: @btn-disable-color;
+            cursor: not-allowed;
+          }
+        }
+        span{
+          position: absolute;
+          height: 16px;
+          line-height: 16px;
+          width: 16px;
+          color: #fff;
+          font-size: 10px;
+          text-align: center;
+          top: -7px;
+          right: -7px;
+          background: @orange-color;
+          border-radius: 50%;
+        }
+
+      }
     }
   }
   .myCourseware-main{
@@ -31,6 +69,7 @@
     display: flex;
     position: relative;
     padding: 30px 40px;
+    overflow: hidden;
     .card{
       width: 100%;
       display: flex;
@@ -109,7 +148,7 @@
                 display: flex;
                 flex-wrap: nowrap;
                 flex: 5;
-                width: 80%;
+                width: 75%;
                 cursor: pointer;
                 .item-arrow{
                   border-left: 8px solid #c5c5c5;
@@ -152,21 +191,26 @@
                   line-height: 28px;
                 }
               }
-              .item-button,.item-loading,.item-error{
+              .item-button,.item-loading,.item-error,.item-uploading{
                 padding: 7px 0;
                 display: flex;
-                width: 20%;
+                width: 25%;
                 flex-direction: row-reverse;
                 height: 42px;
                 overflow: hidden;
                 min-width: 140px;
                 line-height: 28px;
-                i{
+                .ivu-progress-show-info .ivu-progress-outer {
+                  padding-right: 35px;
+                  margin-right: -35px;
+                }
+                i,a{
                   cursor: pointer;
                   display: block;
                   font-size: 18px;
                   margin-left: 20px;
                   transition:transform .1s;
+                  position: relative;
                   &:last-child{
                     margin-left: 0;
                   }
@@ -185,15 +229,7 @@
                     background: url("../assets/teacher/courseware/rename2.png") no-repeat center;
                   }
                 }
-                .item-remove{
-                  background: url("../assets/teacher/courseware/remove1.png") no-repeat center;
-                  height: 28px;
-                  width: 17px;
-                  &:hover{
-                    background: url("../assets/teacher/courseware/remove2.png") no-repeat center;
-                  }
-                }
-                .item-preview,.item-download{
+                .item-preview,.item-download,.item-remove{
                   font-size: 21px;
                   margin-top: 2px;
                 }
@@ -288,10 +324,11 @@
 .previewWarpper{
   width: 100%;
   height: 100%;
-  position: fixed;
-  z-index: 22;
+  position: absolute;
+  z-index: 3;
   left: 0;
   top:0;
+  overflow: hidden;
 }
 .previewContent{
   width: 100%;

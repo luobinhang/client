@@ -3,7 +3,7 @@
     <p slot="header">
       <span>我的消息</span>
       <i class="close" @click="close">
-        <img src="../assets/images/close2.png" alt="关闭">
+        <Icon type="close-round"></Icon>
       </i>
     </p>
     <div class="bulletinBoardMoudel">
@@ -156,9 +156,6 @@
     mounted () {
       this.bulletinBoard = true;
     },
-    created: function () {
-
-    },
     methods: {
       close(){
         this.$store.commit("BULLETIN_BOARD","false");
@@ -171,10 +168,6 @@
         this.bbListActive = index;
       },
     },
-    destroyed () {
-
-    }
-
   }
 </script>
 <style lang="less">
