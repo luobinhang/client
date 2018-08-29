@@ -57,7 +57,7 @@ function canvasBegin(){	 //参数转数组
   $.ajax({
     type:'get',
     dataType:'json',
-    url: API + '/client/course/getTrackData',
+    url: API + '/client/course/getTrackDataNew',
     header:{
       token:token,
     },

@@ -572,7 +572,7 @@
           return false;
         }
       },
-      uploadContinue() {
+      uploadContinue() {  //继续上传
         this.continueWindow = false;
         let formData = new FormData();
         formData.append('originalFile',this.file);
@@ -581,6 +581,7 @@
         this.$axios({
           url: this.uploadFileUrl,
           method:'post',
+          timeout: 600000,
           data: formData,
           loading: false,
           onUploadProgress: progressEvent => { //原生获取上传进度的事件
@@ -595,7 +596,7 @@
           this.getCourseware();
         })
       },
-      closeContinueWindow() {
+      closeContinueWindow() {  //取消上传
         this.continueWindow = false;
       },
       uploadProgress (event, file, fileList) { //文件上传中
@@ -603,14 +604,16 @@
         this.percent = Math.min(99,Math.floor(event.percent))
 
         if(this.coursewareList.length) {
-          if(this.coursewareList[0].converStatus !== 0) {
-            this.coursewareList.unshift({
-              converStatus: 0,
-              coursewareName: file.name,
-              updateTime: new Date().getTime(),
-            });
+          if(this.coursewareList[0].converStatus === 0) {
+            return false
           }
         }
+        this.coursewareList.unshift({
+          converStatus: 0,
+          coursewareName: file.name,
+          updateTime: new Date().getTime(),
+        });
+
       },
       uploadSuccess (response, file, fileList) { //文件上传成功
         this.$Message.destroy();

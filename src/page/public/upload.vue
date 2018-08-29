@@ -371,6 +371,7 @@
           url: this.uploadFileUrl,
           method:'post',
           data: formData,
+          timeout: 600000,
           loading: false,
           onUploadProgress: progressEvent => { //原生获取上传进度的事件
             if(progressEvent.lengthComputable){
@@ -392,14 +393,16 @@
         this.percent = Math.min(99,Math.floor(event.percent))
 
         if(this.coursewareList.length) {
-          if(this.coursewareList[0].converStatus !== 0) {
-            this.coursewareList.unshift({
-              converStatus: 0,
-              coursewareName: file.name,
-              updateTime: new Date().getTime(),
-            });
+          if(this.coursewareList[0].converStatus === 0) {
+            return false
           }
         }
+        this.coursewareList.unshift({
+          converStatus: 0,
+          coursewareName: file.name,
+          updateTime: new Date().getTime(),
+        });
+
       },
       uploadSuccess (response, file, fileList) { //文件上传成功
         this.$Message.destroy();

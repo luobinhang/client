@@ -592,7 +592,7 @@ loading
   margin: 0 auto;
 }
 .ivu-spin-fix {
-  z-index: 33;
+  z-index: 4;
 }
 .circular {
   -webkit-animation: rotate 2s linear infinite;

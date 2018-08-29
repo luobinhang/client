@@ -12,8 +12,8 @@
             </div>
             <div class="info-name">
               <span>{{ infoData.teacherName }}</span>
-              <i class="icon iconfont icon-nvsheng" v-if="infoData.sex == 0"></i>
-              <i class="icon iconfont icon-nan" v-else-if="infoData.sex == 1"></i>
+              <i class="icon iconfont icon-nvsheng" v-if="infoData.sex == 1"></i>
+              <i class="icon iconfont icon-nan" v-else-if="infoData.sex == 0"></i>
             </div>
             <div class="info-phone">
               <p>{{ infoData.phone }}</p>
